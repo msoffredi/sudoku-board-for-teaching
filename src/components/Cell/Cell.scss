@@ -1,0 +1,26 @@
+@import '../../styles/colors';
+
+.cell {
+    width: 1.5rem;
+    height: 1.5rem;
+    text-align: center;
+    background-color: $color-light;
+
+    &:hover {
+        background-color: $color-light-hover;
+        cursor: pointer;
+    }
+
+    &.annotations {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        .annotation {
+            width: 0.5rem;
+            height: 0.5rem;
+            font-size: 0.3rem;
+            line-height: 1.7;
+            color: $color-dark-gray;
+        }
+    }
+}

@@ -1,0 +1,8 @@
+@import '../../styles/colors';
+
+.cell-group {
+    background-color: $color-light-gray;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1px;
+}

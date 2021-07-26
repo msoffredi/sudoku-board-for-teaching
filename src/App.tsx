@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Annotations } from './components/Cell/Cell';
+import './App.scss';
+import { CellGroupValues } from './components/CellGroup/CellGroup';
+import { Sudoku, SudokuValues } from './components/Sudoku/Sudoku';
 
 function App() {
+  const annotations: Annotations = [1, 2, null, null, null, 6, 7, 8, 9];
+  const group = [
+    1,2,3,4,5,6,7,8,annotations
+  ] as CellGroupValues;
+  const groups = [
+    group,
+    group,
+    group,
+    group,
+    group,
+    group,
+    group,
+    group,
+    group,
+  ] as SudokuValues;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+      <div className="container-center">
+        <Sudoku values={groups} />
+      </div>
+    </main>
   );
 }
 
