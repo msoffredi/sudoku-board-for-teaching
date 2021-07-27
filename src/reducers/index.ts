@@ -8,3 +8,5 @@ export interface StoreState {
 export const reducers = combineReducers<StoreState>({
     game: gameReducer
 });
+
+export * from './game';

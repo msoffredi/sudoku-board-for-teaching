@@ -2,7 +2,7 @@ import React from "react";
 import { CellCoordinates, SudokuNumbers } from "../Cell/Cell";
 import { CellGroup, CellGroupValues } from "../CellGroup/CellGroup";
 import './Sudoku.scss';
-import { StoreState } from "../../reducers";
+import { SelectedCell, StoreState } from "../../reducers";
 import { connect } from "react-redux";
 import { setSelectedCell } from "../../actions";
 
@@ -27,7 +27,7 @@ interface SudokuState {
     values: SudokuValues;
 }
 
-class _Sudoku extends React.Component<SudokuProps, SudokuState> {
+class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
     constructor(props: SudokuProps) {
         super(props);
 
@@ -59,7 +59,7 @@ class _Sudoku extends React.Component<SudokuProps, SudokuState> {
 }
 
 interface SudokuStateToProps {
-    selectedCellCoordinates: CellCoordinates | null;
+    selectedCellCoordinates: SelectedCell;
 }
 
 const mapStateToProps = (store: StoreState): SudokuStateToProps => {
@@ -70,4 +70,4 @@ const mapStateToProps = (store: StoreState): SudokuStateToProps => {
 
 export const Sudoku = connect(
     mapStateToProps, { setSelectedCell }
-)(_Sudoku);
+)(SudokuComponent);

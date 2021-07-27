@@ -2,18 +2,21 @@ import { combineReducers } from "redux";
 import { ActionTypes, SetSelectedCellAction } from "../actions";
 import { CellCoordinates} from "../components/Cell/Cell";
 
+export type SelectedCell = CellCoordinates | null;
+
 export const selectedCellReducer = 
-    (state: CellCoordinates | null = null, action: SetSelectedCellAction): CellCoordinates | null => {
-        switch (action.type) {
-            case ActionTypes.SetSelectedCell:
-                return action.payload;
-            default:
-                return state;
+    (_state: SelectedCell | undefined, action: SetSelectedCellAction): SelectedCell => {
+        if (action.type === ActionTypes.SetSelectedCell) {
+            return { 
+                group: action.payload.group,
+                cell: action.payload.cell,
+            };
         }
+        return null;
     };
 
 export interface GameState {
-    selectedCell: CellCoordinates | null;
+    selectedCell: SelectedCell;
 }
 
 export const gameReducer = combineReducers<GameState>({
