@@ -6,6 +6,11 @@ export enum CellMode {
     Annotate
 }
 
+export interface CellCoordinates {
+    group: SudokuNumbers,
+    cell: SudokuNumbers,
+}
+
 // 9 numbers = all possible annotations for a cell (1-9), 0 = no annotation
 export type Annotations = [
     1 | null, 
@@ -26,13 +31,14 @@ interface CellProps {
     mode: CellMode;
     value?: CellValue;
     annotations?: Annotations | null;
-    setValue: (group: SudokuNumbers, cell: SudokuNumbers) => void;
+    // setValue: (group: SudokuNumbers, cell: SudokuNumbers) => void;
     group: SudokuNumbers;
     cell: SudokuNumbers;
+    cellOnClick: (coordinates: CellCoordinates) => void;
 }
 
 interface CellState {
-    mode: CellMode;
+    startingValue: CellValue;
 }
 
 export class Cell extends React.Component<CellProps, CellState> {
@@ -40,7 +46,7 @@ export class Cell extends React.Component<CellProps, CellState> {
         super(props);
 
         this.state = {
-            mode: props.mode ? props.mode : CellMode.Edit,
+            startingValue: this.props.value ? this.props.value : null,
         }
     }
 
@@ -54,22 +60,43 @@ export class Cell extends React.Component<CellProps, CellState> {
         return null;
     }
 
-    render() {
-        let content;
-        let annotationClass;
+    // getOnClickFunction() {
+    //     if (this.state.startingValue) {
+    //         return null;
+    //     } else {
+    //         return this.props.setValue(this.props.group, this.props.cell);
+    //     }
+    // }
 
-        if (this.state.mode === CellMode.Annotate) {
-            content = this.renderAnnotations();
-            annotationClass = ' annotations';
-        } else {
-            content = this.props.value;
-            annotationClass = '';
+    // @todo Add some type to return value
+    getConditionalContent() {
+        if (this.props.mode === CellMode.Annotate) {
+            return {
+                content: this.renderAnnotations(),
+                annotationClass: 'annotations',
+                colorClass: '',
+            };
         }
+
+        const colorClass = this.state.startingValue === null ? 'edit' : '';
+
+        return {
+            content: this.props.value,
+            annotationClass: '',
+            colorClass,
+        };
+    }
+
+    render() {
+        const { content, annotationClass, colorClass} = this.getConditionalContent();
 
         return (
             <div 
-                className={`cell${annotationClass}`} 
-                onClick={() => this.props.setValue(this.props.group, this.props.cell)}
+                className={`cell ${annotationClass} ${colorClass}`} 
+                onClick={() => this.props.cellOnClick({ 
+                    group: this.props.group, 
+                    cell: this.props.cell,
+                })}
             >
                 {content}
             </div>

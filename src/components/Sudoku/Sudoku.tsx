@@ -1,9 +1,10 @@
 import React from "react";
-import { SudokuNumbers } from "../Cell/Cell";
+import { CellCoordinates, SudokuNumbers } from "../Cell/Cell";
 import { CellGroup, CellGroupValues } from "../CellGroup/CellGroup";
 import './Sudoku.scss';
 import { StoreState } from "../../reducers";
 import { connect } from "react-redux";
+import { setSelectedCell } from "../../actions";
 
 export type SudokuValues = [
     CellGroupValues,
@@ -20,6 +21,7 @@ export type SudokuValues = [
 interface SudokuProps {
     values: SudokuValues;
     selectedNumber: SudokuNumbers;
+    setSelectedCell: typeof setSelectedCell;
 }
 
 interface SudokuState {
@@ -35,11 +37,15 @@ class _Sudoku extends React.Component<SudokuProps, SudokuState> {
         }
     }
 
-    updateCell = (group: SudokuNumbers, cell: SudokuNumbers): void => {
-        let values = this.state.values ;
-        values[group-1][cell-1] = this.props.selectedNumber;
-        this.setState({ values });
-    };
+    // updateCell = (group: SudokuNumbers, cell: SudokuNumbers): void => {
+    //     let values = this.state.values ;
+    //     values[group-1][cell-1] = this.props.selectedNumber;
+    //     this.setState({ values });
+    // };
+
+    selectCell = (coordinates: CellCoordinates): void => {
+        this.props.setSelectedCell(coordinates);
+    }
 
     renderSudoku() {
         return this.props.values.map(
@@ -47,7 +53,7 @@ class _Sudoku extends React.Component<SudokuProps, SudokuState> {
                 return <CellGroup 
                     key={index} 
                     values={element} 
-                    setValue={this.updateCell} 
+                    cellOnClick={this.selectCell} 
                     group={index+1 as SudokuNumbers}
                     />;
             }
@@ -64,5 +70,5 @@ const mapStateToProps = ({ game }: StoreState): { selectedNumber: SudokuNumbers 
 };
 
 export const Sudoku = connect(
-    mapStateToProps
+    mapStateToProps, { setSelectedCell }
 )(_Sudoku);

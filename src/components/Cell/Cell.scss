@@ -23,4 +23,12 @@
             color: $color-dark-gray;
         }
     }
+
+    &.edit {
+        color: $color-edit;
+    }
+
+    &.wrong {
+        color: $color-wrong;
+    }
 }
