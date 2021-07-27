@@ -1,6 +1,4 @@
-// import { Annotations } from './components/Cell/Cell';
 import './App.scss';
-// import { CellGroupValues } from './components/CellGroup/CellGroup';
 import { Sudoku, SudokuValues } from './components/Sudoku/Sudoku';
 
 function App() {

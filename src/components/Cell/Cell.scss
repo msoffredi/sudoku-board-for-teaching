@@ -6,11 +6,6 @@
     text-align: center;
     background-color: $color-light;
 
-    &:hover {
-        background-color: $color-light-hover;
-        cursor: pointer;
-    }
-
     &.annotations {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -30,5 +25,18 @@
 
     &.wrong {
         color: $color-wrong;
+    }
+
+    &.highlighted {
+        background-color: $color-light-highlight;
+    }
+
+    &.selected {
+        background-color: $color-cell-selected;
+    }
+
+    &:hover {
+        background-color: $color-light-hover;
+        cursor: pointer;
     }
 }

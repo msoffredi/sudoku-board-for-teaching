@@ -1,5 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+import { SelectedCell, StoreState } from "../../reducers";
+import { SudokuHelper } from "../../utils";
 import './Cell.scss';
+import { setSelectedCell } from "../../actions";
 
 export enum CellMode {
     Edit,
@@ -27,7 +31,7 @@ export type Annotations = [
 export type SudokuNumbers = 1|2|3|4|5|6|7|8|9;
 export type CellValue = SudokuNumbers | null;
 
-interface CellProps {
+interface CellProps extends CellStateToProps {
     mode: CellMode;
     value?: CellValue;
     annotations?: Annotations | null;
@@ -40,7 +44,7 @@ interface CellState {
     startingValue: CellValue;
 }
 
-export class Cell extends React.Component<CellProps, CellState> {
+class CellComponent extends React.Component<CellProps, CellState> {
     constructor(props: CellProps) {
         super(props);
 
@@ -61,11 +65,24 @@ export class Cell extends React.Component<CellProps, CellState> {
 
     // @todo Add some type to return value
     getConditionalContent() {
+        const { cell, group, selectedCellCoordinates } = this.props;
+
+        const highlightClass = 
+            (cell === selectedCellCoordinates?.cell && group === selectedCellCoordinates?.group)
+            ? 'selected' 
+            : SudokuHelper.isCellHighlighted(
+                    { cell: this.props.cell, group: this.props.group },
+                    selectedCellCoordinates
+                ) 
+                ? 'highlighted' 
+                : '';
+
         if (this.props.mode === CellMode.Annotate) {
             return {
                 content: this.renderAnnotations(),
                 annotationClass: 'annotations',
                 colorClass: '',
+                highlightClass,
             };
         }
 
@@ -75,15 +92,16 @@ export class Cell extends React.Component<CellProps, CellState> {
             content: this.props.value,
             annotationClass: '',
             colorClass,
+            highlightClass,
         };
     }
 
     render() {
-        const { content, annotationClass, colorClass} = this.getConditionalContent();
+        const { content, annotationClass, colorClass, highlightClass } = this.getConditionalContent();
 
         return (
             <div 
-                className={`cell ${annotationClass} ${colorClass}`} 
+                className={`cell ${annotationClass} ${colorClass} ${highlightClass}`} 
                 onClick={() => this.props.cellOnClick({ 
                     group: this.props.group, 
                     cell: this.props.cell,
@@ -94,3 +112,17 @@ export class Cell extends React.Component<CellProps, CellState> {
             );
     }
 }
+
+interface CellStateToProps {
+    selectedCellCoordinates: SelectedCell;
+}
+
+const mapStateToProps = (store: StoreState): CellStateToProps => {
+    return { 
+        selectedCellCoordinates: store.game.selectedCell 
+    };
+};
+
+export const Cell = connect(
+    mapStateToProps, { setSelectedCell }
+)(CellComponent);
