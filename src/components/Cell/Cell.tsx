@@ -8,23 +8,27 @@ export enum CellMode {
 
 // 9 numbers = all possible annotations for a cell (1-9), 0 = no annotation
 export type Annotations = [
-    1|null, 
-    2|null, 
-    3|null, 
-    4|null, 
-    5|null, 
-    6|null, 
-    7|null, 
-    8|null, 
-    9|null
+    1 | null, 
+    2 | null, 
+    3 | null, 
+    4 | null, 
+    5 | null, 
+    6 | null, 
+    7 | null, 
+    8 | null, 
+    9 | null
 ];
 
-export type CellValue = 1|2|3|4|5|6|7|8|9|null;
+export type SudokuNumbers = 1|2|3|4|5|6|7|8|9;
+export type CellValue = SudokuNumbers | null;
 
 interface CellProps {
-    mode?: CellMode;
+    mode: CellMode;
     value?: CellValue;
-    annotations?: Annotations|null;
+    annotations?: Annotations | null;
+    setValue: (group: SudokuNumbers, cell: SudokuNumbers) => void;
+    group: SudokuNumbers;
+    cell: SudokuNumbers;
 }
 
 interface CellState {
@@ -62,6 +66,13 @@ export class Cell extends React.Component<CellProps, CellState> {
             annotationClass = '';
         }
 
-        return <div className={`cell${annotationClass}`}>{content}</div>;
+        return (
+            <div 
+                className={`cell${annotationClass}`} 
+                onClick={() => this.props.setValue(this.props.group, this.props.cell)}
+            >
+                {content}
+            </div>
+            );
     }
 }
