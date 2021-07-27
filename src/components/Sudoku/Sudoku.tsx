@@ -1,7 +1,9 @@
 import React from "react";
-import { CellValue, SudokuNumbers } from "../Cell/Cell";
+import { SudokuNumbers } from "../Cell/Cell";
 import { CellGroup, CellGroupValues } from "../CellGroup/CellGroup";
 import './Sudoku.scss';
+import { StoreState } from "../../reducers";
+import { connect } from "react-redux";
 
 export type SudokuValues = [
     CellGroupValues,
@@ -17,13 +19,14 @@ export type SudokuValues = [
 
 interface SudokuProps {
     values: SudokuValues;
+    selectedNumber: SudokuNumbers;
 }
 
 interface SudokuState {
     values: SudokuValues;
 }
 
-export class Sudoku extends React.Component<SudokuProps, SudokuState> {
+class _Sudoku extends React.Component<SudokuProps, SudokuState> {
     constructor(props: SudokuProps) {
         super(props);
 
@@ -34,7 +37,7 @@ export class Sudoku extends React.Component<SudokuProps, SudokuState> {
 
     updateCell = (group: SudokuNumbers, cell: SudokuNumbers): void => {
         let values = this.state.values ;
-        values[group-1][cell-1] = 5;
+        values[group-1][cell-1] = this.props.selectedNumber;
         this.setState({ values });
     };
 
@@ -55,3 +58,11 @@ export class Sudoku extends React.Component<SudokuProps, SudokuState> {
         return <div className="sudoku">{this.renderSudoku()}</div>;
     }
 }
+
+const mapStateToProps = ({ game }: StoreState): { selectedNumber: SudokuNumbers } => {
+    return { selectedNumber: game.selectedNumber };
+};
+
+export const Sudoku = connect(
+    mapStateToProps
+)(_Sudoku);

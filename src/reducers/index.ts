@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { gameReducer, GameState } from "./game";
 
-interface StoreState {
+export interface StoreState {
     game: GameState;
 }
 

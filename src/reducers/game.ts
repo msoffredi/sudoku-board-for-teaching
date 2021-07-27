@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 import { ActionTypes, SetSelectedNumberAction } from "../actions";
-import { CellValue } from "../components/Cell/Cell";
+import { SudokuNumbers } from "../components/Cell/Cell";
 
 export const selectedNumberReducer = 
-    (state: CellValue = 5, action: SetSelectedNumberAction): CellValue => {
+    (state: SudokuNumbers = 5, action: SetSelectedNumberAction): SudokuNumbers => {
         switch (action.type) {
             case ActionTypes.SetSelectedNumber:
                 return action.payload;
@@ -13,7 +13,7 @@ export const selectedNumberReducer =
     };
 
 export interface GameState {
-    selectedNumber: CellValue;
+    selectedNumber: SudokuNumbers;
 }
 
 export const gameReducer = combineReducers<GameState>({

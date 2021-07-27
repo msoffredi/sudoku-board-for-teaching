@@ -1,12 +1,12 @@
-import { CellValue } from "../components/Cell/Cell";
+import { SudokuNumbers } from "../components/Cell/Cell";
 import { ActionTypes } from "./types";
 
 export interface SetSelectedNumberAction {
     type: ActionTypes.SetSelectedNumber;
-    payload: CellValue;
+    payload: SudokuNumbers;
 }
 
-export const setSelectedNumber = (selectedNumber: CellValue): SetSelectedNumberAction => {
+export const setSelectedNumber = (selectedNumber: SudokuNumbers): SetSelectedNumberAction => {
     return {
         type: ActionTypes.SetSelectedNumber,
         payload: selectedNumber
