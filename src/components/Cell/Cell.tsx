@@ -66,16 +66,19 @@ class CellComponent extends React.Component<CellProps, CellState> {
     // @todo Add some type to return value
     getConditionalContent() {
         const { cell, group, selectedCellCoordinates } = this.props;
+        let highlightClass = '';
 
-        const highlightClass = 
-            (cell === selectedCellCoordinates?.cell && group === selectedCellCoordinates?.group)
-            ? 'selected' 
-            : SudokuHelper.isCellHighlighted(
-                    { cell: this.props.cell, group: this.props.group },
-                    selectedCellCoordinates
-                ) 
-                ? 'highlighted' 
-                : '';
+        // If this is the selected cell...
+        if (cell === selectedCellCoordinates?.cell && group === selectedCellCoordinates?.group) {
+            highlightClass = 'selected';
+        } 
+        // If this is a cell within the highlight zones...
+        else if (SudokuHelper.isCellHighlighted(
+            { cell: this.props.cell, group: this.props.group },
+            selectedCellCoordinates)) {
+
+            highlightClass = 'highlighted';
+        }
 
         if (this.props.mode === CellMode.Annotate) {
             return {
