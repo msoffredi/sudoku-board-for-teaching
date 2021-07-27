@@ -20,7 +20,6 @@ export type SudokuValues = [
 
 interface SudokuProps {
     values: SudokuValues;
-    selectedNumber: SudokuNumbers;
     setSelectedCell: typeof setSelectedCell;
 }
 
@@ -36,12 +35,6 @@ class _Sudoku extends React.Component<SudokuProps, SudokuState> {
             values: props.values
         }
     }
-
-    // updateCell = (group: SudokuNumbers, cell: SudokuNumbers): void => {
-    //     let values = this.state.values ;
-    //     values[group-1][cell-1] = this.props.selectedNumber;
-    //     this.setState({ values });
-    // };
 
     selectCell = (coordinates: CellCoordinates): void => {
         this.props.setSelectedCell(coordinates);
@@ -65,8 +58,14 @@ class _Sudoku extends React.Component<SudokuProps, SudokuState> {
     }
 }
 
-const mapStateToProps = ({ game }: StoreState): { selectedNumber: SudokuNumbers } => {
-    return { selectedNumber: game.selectedNumber };
+interface SudokuStateToProps {
+    selectedCellCoordinates: CellCoordinates | null;
+}
+
+const mapStateToProps = (store: StoreState): SudokuStateToProps => {
+    return { 
+        selectedCellCoordinates: store.game.selectedCell 
+    };
 };
 
 export const Sudoku = connect(

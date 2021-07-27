@@ -31,7 +31,6 @@ interface CellProps {
     mode: CellMode;
     value?: CellValue;
     annotations?: Annotations | null;
-    // setValue: (group: SudokuNumbers, cell: SudokuNumbers) => void;
     group: SudokuNumbers;
     cell: SudokuNumbers;
     cellOnClick: (coordinates: CellCoordinates) => void;
@@ -59,14 +58,6 @@ export class Cell extends React.Component<CellProps, CellState> {
 
         return null;
     }
-
-    // getOnClickFunction() {
-    //     if (this.state.startingValue) {
-    //         return null;
-    //     } else {
-    //         return this.props.setValue(this.props.group, this.props.cell);
-    //     }
-    // }
 
     // @todo Add some type to return value
     getConditionalContent() {
