@@ -1,15 +1,14 @@
 @import '../../styles/colors';
 
+%cell-highlight {
+    background-color: $color-light-hover;
+}
+
 .cell {
     width: 1.5rem;
     height: 1.5rem;
     text-align: center;
     background-color: $color-light;
-
-    &:hover {
-        background-color: $color-light-hover;
-        cursor: pointer;
-    }
 
     &.annotations {
         display: grid;
@@ -22,5 +21,30 @@
             line-height: 1.7;
             color: $color-dark-gray;
         }
+    }
+
+    &.edit {
+        color: $color-edit;
+    }
+
+    &.wrong {
+        color: $color-wrong;
+    }
+
+    &.highlighted {
+        background-color: $color-light-highlight;
+    }
+
+    &.selected {
+        background-color: $color-cell-selected;
+    }
+
+    &.same-number {
+        @extend %cell-highlight;
+    }
+
+    &:hover {
+        @extend %cell-highlight;
+        cursor: pointer;
     }
 }
