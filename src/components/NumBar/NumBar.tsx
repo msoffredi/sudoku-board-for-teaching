@@ -19,7 +19,7 @@ export class NumBar extends React.Component<NumBarProps> {
         });
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div id="numbar">
                 {this.generateNumbers()}

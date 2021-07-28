@@ -1,7 +1,7 @@
 import './App.scss';
 import { Sudoku, SudokuValues } from './components/Sudoku/Sudoku';
 
-function App() {
+function App(): JSX.Element {
   // const annotations: Annotations = [1, 2, null, null, null, 6, 7, 8, 9];
   // const group = [
   //   1,2,3,4,5,6,7,8,annotations

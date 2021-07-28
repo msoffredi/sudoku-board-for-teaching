@@ -35,7 +35,7 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
 
         this.state = {
             values: props.values
-        }
+        };
     }
 
     selectCell = (coordinates: CellCoordinates): void => {
@@ -57,7 +57,7 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
             return;
         }
 
-        let newValues = JSON.parse(JSON.stringify(this.state.values));
+        const newValues = JSON.parse(JSON.stringify(this.state.values));
         newValues[selectedCell.coordinates?.group-1][selectedCell.coordinates.cell-1] = num;
 
         this.setState({ values: newValues });

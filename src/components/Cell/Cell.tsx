@@ -50,7 +50,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
         this.state = {
             startingValue: this.props.value ? this.props.value : null,
-        }
+        };
     }
 
     renderAnnotations() {
