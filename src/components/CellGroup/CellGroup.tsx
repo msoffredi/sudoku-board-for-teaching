@@ -38,7 +38,12 @@ export class CellGroup extends React.Component<CellGroupProps> {
                     value = element;
                 }
             
-                return <Cell key={index} mode={mode} value={value} annotations={annotations} />
+                return <Cell 
+                            key={index} 
+                            mode={mode} 
+                            value={value} 
+                            annotations={annotations} 
+                        />;
             });
     }
 

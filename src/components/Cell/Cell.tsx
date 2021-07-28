@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import './Cell.scss';
 
 export enum CellMode {
@@ -37,7 +37,7 @@ export class Cell extends React.Component<CellProps, CellState> {
 
         this.state = {
             mode: props.mode ? props.mode : CellMode.Edit,
-        }
+        };
     }
 
     renderAnnotations() {
