@@ -1,5 +1,5 @@
 import React from "react";
-import { Annotations, Cell, CellMode, CellValue } from "../Cell/Cell";
+import { Annotations, Cell, CellCoordinates, CellMode, CellValue, SudokuNumbers } from "../Cell/Cell";
 import './CellGroup.scss';
 
 export type CellGroupValues = [
@@ -16,12 +16,11 @@ export type CellGroupValues = [
 
 interface CellGroupProps {
     values: CellGroupValues;
+    group: SudokuNumbers;
+    cellOnClick: (coordinates: CellCoordinates) => void;
 }
 
 export class CellGroup extends React.Component<CellGroupProps> {
-    // constructor(props: CellGroupProps) {
-    //     super(props);
-    // }
 
     renderGroup() {
         return this.props.values.map(
@@ -38,7 +37,15 @@ export class CellGroup extends React.Component<CellGroupProps> {
                     value = element;
                 }
             
-                return <Cell key={index} mode={mode} value={value} annotations={annotations} />
+                return <Cell 
+                    key={index} 
+                    mode={mode} 
+                    value={value} 
+                    annotations={annotations} 
+                    group={this.props.group}
+                    cell={index+1 as SudokuNumbers}
+                    cellOnClick={this.props.cellOnClick}
+                    />
             });
     }
 
