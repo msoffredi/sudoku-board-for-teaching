@@ -1,11 +1,7 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
 import React from "react";
 import { connect } from "react-redux";
 import { SelectedCell, StoreState } from "../../reducers";
 import { SudokuHelper } from "../../utils";
->>>>>>> main
 import './Cell.scss';
 import { setSelectedCellCoordinates } from "../../actions";
 
@@ -53,13 +49,8 @@ class CellComponent extends React.Component<CellProps, CellState> {
         super(props);
 
         this.state = {
-<<<<<<< HEAD
-            mode: props.mode ? props.mode : CellMode.Edit,
-        };
-=======
             startingValue: this.props.value ? this.props.value : null,
         }
->>>>>>> main
     }
 
     renderAnnotations() {

@@ -38,13 +38,6 @@ export class CellGroup extends React.Component<CellGroupProps> {
                 }
             
                 return <Cell 
-<<<<<<< HEAD
-                            key={index} 
-                            mode={mode} 
-                            value={value} 
-                            annotations={annotations} 
-                        />;
-=======
                     key={index} 
                     mode={mode} 
                     value={value} 
@@ -53,7 +46,6 @@ export class CellGroup extends React.Component<CellGroupProps> {
                     cell={index+1 as SudokuNumbers}
                     cellOnClick={this.props.cellOnClick}
                     />
->>>>>>> main
             });
     }
 
