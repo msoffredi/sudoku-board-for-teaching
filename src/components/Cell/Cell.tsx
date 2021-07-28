@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { SelectedCell, StoreState } from "../../reducers";
 import { SudokuHelper } from "../../utils";
 import './Cell.scss';
-import { setSelectedCell } from "../../actions";
+import { setSelectedCellCoordinates } from "../../actions";
 
 export enum CellMode {
     Edit,
@@ -122,10 +122,10 @@ interface CellStateToProps {
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
     return { 
-        selectedCellCoordinates: store.game.selectedCell 
+        selectedCellCoordinates: store.game.selectedCell.coordinates 
     };
 };
 
 export const Cell = connect(
-    mapStateToProps, { setSelectedCell }
+    mapStateToProps, { setSelectedCellCoordinates }
 )(CellComponent);

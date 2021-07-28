@@ -1,8 +1,9 @@
-import { SetSelectedCellAction } from "./game";
+// import { SetSelectedCellCoordinatesAction } from "./game";
 
 export enum ActionTypes {
-    SetSelectedCell = 'SET_SELECTED_CELL',
+    SetSelectedCellCoordinates = 'SET_SELECTED_CELL_COORDINATES',
+    SetSelectedCellValue = 'SET_SELECTED_CELL_VALUE',
 }
 
-// Add actions with | 
-export type AllActions = SetSelectedCellAction;
+// // Add actions with | 
+// export type AllActions = SetSelectedCellCoordinatesAction | ;
