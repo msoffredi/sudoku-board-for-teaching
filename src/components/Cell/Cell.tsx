@@ -65,17 +65,23 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
     // @todo Add some type to return value
     getConditionalContent() {
-        const { cell, group, selectedCellCoordinates } = this.props;
+        const { cell, group, selectedCell } = this.props;
         let highlightClass = '';
 
         // If this is the selected cell...
-        if (cell === selectedCellCoordinates?.cell && group === selectedCellCoordinates?.group) {
+        if (cell === selectedCell.coordinates?.cell 
+            && group === selectedCell.coordinates?.group) {
+
             highlightClass = 'selected';
         } 
+        // If this is a cell with same number as the selected one...
+        else if (this.props.value && this.props.value === this.props.selectedCell.value) {
+            highlightClass = 'same-number';
+        }
         // If this is a cell within the highlight zones...
         else if (SudokuHelper.isCellHighlighted(
             { cell: this.props.cell, group: this.props.group },
-            selectedCellCoordinates)) {
+            selectedCell.coordinates)) {
 
             highlightClass = 'highlighted';
         }
@@ -117,12 +123,15 @@ class CellComponent extends React.Component<CellProps, CellState> {
 }
 
 interface CellStateToProps {
-    selectedCellCoordinates: SelectedCell;
+    selectedCell: {
+        coordinates: SelectedCell;
+        value: CellValue;
+    };
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
     return { 
-        selectedCellCoordinates: store.game.selectedCell.coordinates 
+        selectedCell: store.game.selectedCell 
     };
 };
 

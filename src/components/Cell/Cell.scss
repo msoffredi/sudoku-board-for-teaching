@@ -1,5 +1,9 @@
 @import '../../styles/colors';
 
+%cell-highlight {
+    background-color: $color-light-hover;
+}
+
 .cell {
     width: 1.5rem;
     height: 1.5rem;
@@ -35,8 +39,12 @@
         background-color: $color-cell-selected;
     }
 
+    &.same-number {
+        @extend %cell-highlight;
+    }
+
     &:hover {
-        background-color: $color-light-hover;
+        @extend %cell-highlight;
         cursor: pointer;
     }
 }
