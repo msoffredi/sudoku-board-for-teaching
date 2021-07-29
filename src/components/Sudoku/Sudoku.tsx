@@ -30,17 +30,9 @@ interface SudokuProps extends SudokuStateToProps {
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
 }
 
-interface SudokuState {
-    values: SudokuValues;
-}
-
-class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
+class SudokuComponent extends React.Component<SudokuProps> {
     constructor(props: SudokuProps) {
         super(props);
-
-        this.state = {
-            values: props.values
-        };
 
         this.props.setGameUpdatedBoard(props.values);
     }
@@ -48,7 +40,7 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
     selectCell = (coordinates: CellCoordinates): void => {
         this.props.setSelectedCellCoordinates(coordinates);
 
-        const value = this.state.values[coordinates.group-1][coordinates.cell-1];
+        const value = this.props.updatedBoard[coordinates.group-1][coordinates.cell-1];
 
         if (value === null || typeof value !== 'object') {
             this.props.setSelectedCellValue(value);
@@ -66,24 +58,18 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
 
         this.props.setSelectedCellValue(num);
 
-        const newValues = JSON.parse(JSON.stringify(this.state.values));
+        const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
         newValues[selectedCell.coordinates?.group-1][selectedCell.coordinates.cell-1] = num;
 
-        this.updateState({ values: newValues });
-    };
-
-    /**
-     * Safe replacement fo this.setState() to keep the store updated before rerendering
-     * 
-     * @param newState New state to update to
-     */
-    updateState = (newState: SudokuState): void => {
-        this.props.setGameUpdatedBoard(newState.values);
-        this.setState(newState);
+        this.props.setGameUpdatedBoard(newValues);
     };
 
     renderSudoku = () => {
-        return this.state.values.map(
+        const board = this.props.selectedCell.coordinates === null 
+            ? this.props.values
+            : this.props.updatedBoard;
+
+        return board.map(
             (element: CellGroupValues, index: number) => {
                 return <CellGroup 
                     key={index} 
@@ -113,11 +99,13 @@ interface SudokuStateToProps {
         coordinates: SelectedCell;
         value: CellValue;
     };
+    updatedBoard: SudokuValues;   
 }
 
 const mapStateToProps = (store: StoreState): SudokuStateToProps => {
     return {
         selectedCell: store.game.selectedCell,
+        updatedBoard: store.game.updatedBoard
     };
 };
 
