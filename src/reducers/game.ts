@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
 import { 
     ActionTypes, 
+    SetGameUpdatedBoardAction, 
     SetSelectedCellCoordinatesAction, 
     SetSelectedCellValueAction 
 } from "../actions";
 import { CellCoordinates, CellValue} from "../components/Cell/Cell";
+import { SudokuValues } from "../components/Sudoku/Sudoku";
 
 export type SelectedCell = CellCoordinates | null;
 
@@ -33,6 +35,29 @@ export const selectedCellValueReducer =
         return null;
     };
 
+const emptySudoku: SudokuValues = [
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+];
+
+const updatedBoardReducer = 
+    (state: SudokuValues | undefined, action: SetGameUpdatedBoardAction): SudokuValues => {
+        if (action.type === ActionTypes.SetGameUpdatedBoard) {
+            return action.payload;
+        } else if (state) {
+            return state;
+        }
+
+        return emptySudoku;
+    };
+
 export interface SelectedCellState {
     coordinates: SelectedCell;
     value: CellValue;
@@ -45,8 +70,10 @@ const selectedCellReducer = combineReducers<SelectedCellState>({
 
 export interface GameState {
     selectedCell: SelectedCellState;
+    updatedBoard: SudokuValues;
 }
 
 export const gameReducer = combineReducers<GameState>({
     selectedCell: selectedCellReducer,
+    updatedBoard: updatedBoardReducer,
 });

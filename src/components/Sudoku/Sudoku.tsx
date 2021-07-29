@@ -4,7 +4,11 @@ import { CellGroup, CellGroupValues } from "../CellGroup/CellGroup";
 import './Sudoku.scss';
 import { SelectedCell, StoreState } from "../../reducers";
 import { connect } from "react-redux";
-import { setSelectedCellCoordinates, setSelectedCellValue } from "../../actions";
+import { 
+    setSelectedCellCoordinates, 
+    setSelectedCellValue, 
+    setGameUpdatedBoard 
+} from "../../actions";
 import { NumBar } from "../NumBar/NumBar";
 
 export type SudokuValues = [
@@ -23,6 +27,7 @@ interface SudokuProps extends SudokuStateToProps {
     values: SudokuValues;
     setSelectedCellCoordinates: typeof setSelectedCellCoordinates;
     setSelectedCellValue: typeof setSelectedCellValue;
+    setGameUpdatedBoard: typeof setGameUpdatedBoard;
 }
 
 interface SudokuState {
@@ -36,6 +41,8 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
         this.state = {
             values: props.values
         };
+
+        this.props.setGameUpdatedBoard(props.values);
     }
 
     selectCell = (coordinates: CellCoordinates): void => {
@@ -57,11 +64,22 @@ class SudokuComponent extends React.Component<SudokuProps, SudokuState> {
             return;
         }
 
+        this.props.setSelectedCellValue(num);
+
         const newValues = JSON.parse(JSON.stringify(this.state.values));
         newValues[selectedCell.coordinates?.group-1][selectedCell.coordinates.cell-1] = num;
 
-        this.setState({ values: newValues });
-        this.props.setSelectedCellValue(num);
+        this.updateState({ values: newValues });
+    };
+
+    /**
+     * Safe replacement fo this.setState() to keep the store updated before rerendering
+     * 
+     * @param newState New state to update to
+     */
+    updateState = (newState: SudokuState): void => {
+        this.props.setGameUpdatedBoard(newState.values);
+        this.setState(newState);
     };
 
     renderSudoku = () => {
@@ -104,5 +122,10 @@ const mapStateToProps = (store: StoreState): SudokuStateToProps => {
 };
 
 export const Sudoku = connect(
-    mapStateToProps, { setSelectedCellCoordinates, setSelectedCellValue }
+    mapStateToProps, 
+    { 
+        setSelectedCellCoordinates, 
+        setSelectedCellValue,
+        setGameUpdatedBoard
+    }
 )(SudokuComponent);

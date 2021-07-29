@@ -1,4 +1,5 @@
 import { CellCoordinates, CellValue } from "../components/Cell/Cell";
+import { SudokuValues } from "../components/Sudoku/Sudoku";
 import { ActionTypes } from "./types";
 
 export interface SetSelectedCellCoordinatesAction {
@@ -9,6 +10,11 @@ export interface SetSelectedCellCoordinatesAction {
 export interface SetSelectedCellValueAction {
     type: ActionTypes.SetSelectedCellValue;
     payload: CellValue;
+}
+
+export interface SetGameUpdatedBoardAction {
+    type: ActionTypes.SetGameUpdatedBoard;
+    payload: SudokuValues;
 }
 
 export const setSelectedCellCoordinates = 
@@ -24,5 +30,12 @@ export const setSelectedCellValue = (value: CellValue): SetSelectedCellValueActi
     return {
         type: ActionTypes.SetSelectedCellValue,
         payload: value
+    };
+};
+
+export const setGameUpdatedBoard = (sudoku: SudokuValues): SetGameUpdatedBoardAction => {
+    return {
+        type: ActionTypes.SetGameUpdatedBoard,
+        payload: sudoku
     };
 };
