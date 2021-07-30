@@ -4,7 +4,12 @@ import { SelectedCell, StoreState } from "../../reducers";
 import { CellValue, SudokuNumbers } from "../Cell/Cell";
 import { NumBar } from "../NumBar/NumBar";
 import { Sudoku, SudokuValues } from "../Sudoku/Sudoku";
-import { setSelectedCellValue, setGameUpdatedBoard, setGameSolution } from "../../actions";
+import {
+    setSelectedCellValue,
+    setGameUpdatedBoard,
+    setGameSolution,
+    setGameErrorCounter
+} from "../../actions";
 
 type CellGroupSolution = [
     SudokuNumbers,
@@ -40,6 +45,7 @@ interface GameProps extends GameStateToProps {
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
+    setGameErrorCounter: typeof setGameErrorCounter;
 }
 
 class GameComponent extends React.Component<GameProps> {
@@ -59,6 +65,11 @@ class GameComponent extends React.Component<GameProps> {
 
         this.props.setSelectedCellValue(num);
 
+        if (this.props.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num) {
+            this.props.setGameErrorCounter(this.props.errorCounter + 1);
+        }
+
+        // Update board state in store
         const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
         newValues[coordinates.group - 1][coordinates.cell - 1] = num;
 
@@ -81,12 +92,14 @@ interface GameStateToProps {
         value: CellValue;
     };
     updatedBoard: SudokuValues;
+    errorCounter: number;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
     return {
         selectedCell: store.game.selectedCell,
-        updatedBoard: store.game.updatedBoard
+        updatedBoard: store.game.updatedBoard,
+        errorCounter: store.game.errorCounter
     };
 };
 
@@ -95,6 +108,7 @@ export const Game = connect(
     {
         setSelectedCellValue,
         setGameUpdatedBoard,
-        setGameSolution
+        setGameSolution,
+        setGameErrorCounter
     }
 )(GameComponent);
