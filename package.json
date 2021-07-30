@@ -30,8 +30,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "coverage": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js"
   },
   "eslintConfig": {
     "extends": [
