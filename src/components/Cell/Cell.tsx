@@ -4,6 +4,7 @@ import { SelectedCell, StoreState } from "../../reducers";
 import { SudokuHelper } from "../../utils";
 import './Cell.scss';
 import { setSelectedCellCoordinates } from "../../actions";
+import { SudokuSolution } from "../Game/Game";
 
 export enum CellMode {
     Edit,
@@ -15,20 +16,29 @@ export interface CellCoordinates {
     cell: SudokuNumbers,
 }
 
+type HighlightClassType = '' | 'same-number' | 'selected' | 'highlighted';
+type ColorClassType = '' | 'wrong' | 'edit';
+interface ConditionalContent {
+    content?: JSX.Element[] | CellValue;
+    annotationClass: 'annotations' | '';
+    colorClass: ColorClassType;
+    highlightClass: HighlightClassType;
+}
+
 // 9 numbers = all possible annotations for a cell (1-9), 0 = no annotation
 export type Annotations = [
-    1 | null, 
-    2 | null, 
-    3 | null, 
-    4 | null, 
-    5 | null, 
-    6 | null, 
-    7 | null, 
-    8 | null, 
+    1 | null,
+    2 | null,
+    3 | null,
+    4 | null,
+    5 | null,
+    6 | null,
+    7 | null,
+    8 | null,
     9 | null
 ];
 
-export type SudokuNumbers = 1|2|3|4|5|6|7|8|9;
+export type SudokuNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 export type CellValue = SudokuNumbers | null;
 
 interface CellProps extends CellStateToProps {
@@ -50,30 +60,30 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
         this.state = {
             startingValue: this.props.value ? this.props.value : null,
-        }
+        };
     }
 
-    renderAnnotations() {
+    renderAnnotations(): JSX.Element[] {
         if (this.props.annotations) {
             return this.props.annotations.map((element: CellValue, index: number) => {
                 return <div key={index} className="annotation">{element}</div>;
             });
         }
 
-        return null;
+        return [];
     }
 
-    // @todo Add some type to return value
-    getConditionalContent() {
+    getConditionalContent(): ConditionalContent {
         const { cell, group, selectedCell } = this.props;
-        let highlightClass = '';
+        let highlightClass: HighlightClassType = '';
+        let colorClass: ColorClassType = '';
 
         // If this is the selected cell...
-        if (cell === selectedCell.coordinates?.cell 
+        if (cell === selectedCell.coordinates?.cell
             && group === selectedCell.coordinates?.group) {
 
             highlightClass = 'selected';
-        } 
+        }
         // If this is a cell with same number as the selected one...
         else if (this.props.value && this.props.value === this.props.selectedCell.value) {
             highlightClass = 'same-number';
@@ -91,34 +101,40 @@ class CellComponent extends React.Component<CellProps, CellState> {
                 content: this.renderAnnotations(),
                 annotationClass: 'annotations',
                 colorClass: '',
-                highlightClass,
+                highlightClass
             };
         }
 
-        const colorClass = this.state.startingValue === null ? 'edit' : '';
+        if (this.props.solution
+            && this.props.solution[this.props.group - 1][this.props.cell - 1] !== this.props.value) {
+
+            colorClass = 'wrong';
+        } else if (this.state.startingValue === null) {
+            colorClass = 'edit';
+        }
 
         return {
             content: this.props.value,
             annotationClass: '',
             colorClass,
-            highlightClass,
+            highlightClass
         };
     }
 
-    render() {
+    render(): JSX.Element {
         const { content, annotationClass, colorClass, highlightClass } = this.getConditionalContent();
 
         return (
-            <div 
-                className={`cell ${annotationClass} ${colorClass} ${highlightClass}`} 
-                onClick={() => this.props.cellOnClick({ 
-                    group: this.props.group, 
+            <div
+                className={`cell ${annotationClass} ${colorClass} ${highlightClass}`}
+                onClick={() => this.props.cellOnClick({
+                    group: this.props.group,
                     cell: this.props.cell,
                 })}
             >
                 {content}
             </div>
-            );
+        );
     }
 }
 
@@ -127,11 +143,13 @@ interface CellStateToProps {
         coordinates: SelectedCell;
         value: CellValue;
     };
+    solution: SudokuSolution | null;
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
-    return { 
-        selectedCell: store.game.selectedCell 
+    return {
+        selectedCell: store.game.selectedCell,
+        solution: store.game.solution
     };
 };
 

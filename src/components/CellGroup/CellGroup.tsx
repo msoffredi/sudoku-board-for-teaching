@@ -22,7 +22,7 @@ interface CellGroupProps {
 
 export class CellGroup extends React.Component<CellGroupProps> {
 
-    renderGroup() {
+    renderGroup(): JSX.Element[] {
         return this.props.values.map(
             (element: Annotations|CellValue, index: number) => {
                 let mode;
@@ -45,11 +45,11 @@ export class CellGroup extends React.Component<CellGroupProps> {
                     group={this.props.group}
                     cell={index+1 as SudokuNumbers}
                     cellOnClick={this.props.cellOnClick}
-                    />
+                    />;
             });
     }
 
-    render() {
+    render(): JSX.Element {
         return <div className="cell-group">{this.renderGroup()}</div>;
     }
 }
