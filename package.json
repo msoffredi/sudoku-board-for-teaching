@@ -23,6 +23,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.31.0",
+    "jest-sonar-reporter": "^2.0.0",
     "node-sass": "^6.0.1",
     "redux-devtools-extension": "^2.13.9"
   },
@@ -30,7 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "coverage": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js"
   },
   "eslintConfig": {
     "extends": [

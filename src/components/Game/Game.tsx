@@ -78,7 +78,7 @@ class GameComponent extends React.Component<GameProps> {
 
     render(): JSX.Element {
         return (
-            <div>
+            <div id="game-container">
                 <Sudoku values={this.props.game.start} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
