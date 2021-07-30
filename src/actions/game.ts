@@ -23,6 +23,11 @@ export interface SetGameSolution {
     payload: SudokuSolution;
 }
 
+export interface SetGameErrorCounter {
+    type: ActionTypes.SetGameErrorCounter;
+    payload: number;
+}
+
 export const setSelectedCellCoordinates = 
     (coordinates: CellCoordinates): SetSelectedCellCoordinatesAction => {
 
@@ -50,5 +55,12 @@ export const setGameSolution = (sudoku: SudokuSolution): SetGameSolution => {
     return {
         type: ActionTypes.SetGameSolution,
         payload: sudoku
+    };
+};
+
+export const setGameErrorCounter = (counter: number): SetGameErrorCounter => {
+    return {
+        type: ActionTypes.SetGameErrorCounter,
+        payload: counter
     };
 };

@@ -121,7 +121,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
         };
     }
 
-    render() {
+    render(): JSX.Element {
         const { content, annotationClass, colorClass, highlightClass } = this.getConditionalContent();
 
         return (

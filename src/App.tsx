@@ -1,7 +1,5 @@
 import './App.scss';
 import { Game, GameData } from './components/Game/Game';
-// import { NumBar } from './components/NumBar/NumBar';
-// import { Sudoku, SudokuValues } from './components/Sudoku/Sudoku';
 
 function App(): JSX.Element {
   // const annotations: Annotations = [1, 2, null, null, null, 6, 7, 8, 9];
