@@ -4,7 +4,7 @@ import { SelectedCell, StoreState } from "../../reducers";
 import { CellValue, SudokuNumbers } from "../Cell/Cell";
 import { NumBar } from "../NumBar/NumBar";
 import { Sudoku, SudokuValues } from "../Sudoku/Sudoku";
-import { setSelectedCellValue, setGameUpdatedBoard } from "../../actions";
+import { setSelectedCellValue, setGameUpdatedBoard, setGameSolution } from "../../actions";
 
 type CellGroupSolution = [
     SudokuNumbers,
@@ -39,6 +39,7 @@ interface GameProps extends GameStateToProps {
     game: GameData;
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
+    setGameSolution: typeof setGameSolution;
 }
 
 class GameComponent extends React.Component<GameProps> {
@@ -46,21 +47,20 @@ class GameComponent extends React.Component<GameProps> {
         super(props);
 
         this.props.setGameUpdatedBoard(props.game.start);
+        this.props.setGameSolution(props.game.solution);
     }
 
     selectNumber = (num: SudokuNumbers): void => {
-        const selectedCell = this.props.selectedCell;
+        const coordinates = this.props.selectedCell.coordinates;
 
-        if (!selectedCell.coordinates
-            || this.props.game.start[selectedCell.coordinates.group - 1][selectedCell.coordinates.cell - 1]) {
-
+        if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
         this.props.setSelectedCellValue(num);
 
         const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
-        newValues[selectedCell.coordinates?.group - 1][selectedCell.coordinates.cell - 1] = num;
+        newValues[coordinates.group - 1][coordinates.cell - 1] = num;
 
         this.props.setGameUpdatedBoard(newValues);
     };
@@ -94,6 +94,7 @@ export const Game = connect(
     mapStateToProps,
     {
         setSelectedCellValue,
-        setGameUpdatedBoard
+        setGameUpdatedBoard,
+        setGameSolution
     }
 )(GameComponent);

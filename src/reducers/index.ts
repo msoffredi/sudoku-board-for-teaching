@@ -10,3 +10,4 @@ export const reducers = combineReducers<StoreState>({
 });
 
 export * from './game';
+export * from './selectedCell';

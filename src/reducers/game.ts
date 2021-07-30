@@ -1,50 +1,17 @@
 import { combineReducers } from "redux";
-import { 
-    ActionTypes, 
-    SetGameUpdatedBoardAction, 
-    SetSelectedCellCoordinatesAction, 
-    SetSelectedCellValueAction 
-} from "../actions";
-import { CellCoordinates, CellValue} from "../components/Cell/Cell";
+import { ActionTypes, SetGameSolution, SetGameUpdatedBoardAction } from "../actions";
+import { CellGroupValues } from "../components/CellGroup/CellGroup";
+import { SudokuSolution } from "../components/Game/Game";
 import { SudokuValues } from "../components/Sudoku/Sudoku";
+import { selectedCellReducer, SelectedCellState } from "./selectedCell";
 
-export type SelectedCell = CellCoordinates | null;
-
-export const selectedCellCoordinatesReducer = 
-    (state: SelectedCell | undefined, action: SetSelectedCellCoordinatesAction): SelectedCell => {
-        if (action.type === ActionTypes.SetSelectedCellCoordinates) {
-            return { 
-                group: action.payload.group,
-                cell: action.payload.cell,
-            };
-        } else if (state) {
-            return state;
-        }
-
-        return null;
-    };
-
-export const selectedCellValueReducer = 
-    (state: CellValue | undefined, action: SetSelectedCellValueAction): CellValue => {
-        if (action.type === ActionTypes.SetSelectedCellValue) {
-            return action.payload;
-        } else if (state) {
-            return state;
-        }
-
-        return null;
-    };
+const emptyGroup = [
+        null, null, null, null, null, null, null, null, null
+    ] as CellGroupValues;
 
 const emptySudoku: SudokuValues = [
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null],
+    emptyGroup, emptyGroup, emptyGroup, emptyGroup, emptyGroup,
+    emptyGroup, emptyGroup, emptyGroup, emptyGroup
 ];
 
 const updatedBoardReducer = 
@@ -58,22 +25,25 @@ const updatedBoardReducer =
         return emptySudoku;
     };
 
-export interface SelectedCellState {
-    coordinates: SelectedCell;
-    value: CellValue;
-}
+const solutionReducer = 
+    (state: SudokuSolution | null | undefined, action: SetGameSolution): SudokuSolution | null => {
+        if (action.type === ActionTypes.SetGameSolution) {
+            return action.payload;
+        } else if (state) {
+            return state;
+        }
 
-const selectedCellReducer = combineReducers<SelectedCellState>({
-    coordinates: selectedCellCoordinatesReducer,
-    value: selectedCellValueReducer,
-});
+        return null;
+    };
 
 export interface GameState {
     selectedCell: SelectedCellState;
     updatedBoard: SudokuValues;
+    solution: SudokuSolution | null;
 }
 
 export const gameReducer = combineReducers<GameState>({
     selectedCell: selectedCellReducer,
     updatedBoard: updatedBoardReducer,
+    solution: solutionReducer
 });
