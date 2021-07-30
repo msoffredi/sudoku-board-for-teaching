@@ -52,7 +52,6 @@ function App(): JSX.Element {
   return (
     <main>
       <div className="container-center">
-        {/* <Sudoku values={groups} /> */}
         <Game game={game} />
       </div>
     </main>
