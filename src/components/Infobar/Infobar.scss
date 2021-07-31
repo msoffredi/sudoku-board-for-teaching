@@ -8,11 +8,20 @@
     font-size: 0.6rem;
     color: $color-dark;
 
+    & > div {
+        width: 4.5rem;
+    }
+
     #settings {
+        text-align: right;
         font-size: 0.8rem;
         &:hover {
             color: $color-edit;
             cursor: pointer;
         }
+    }
+
+    #errors {
+        text-align: center;
     }
 }

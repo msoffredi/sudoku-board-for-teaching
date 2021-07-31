@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Timer } from "..";
 import { StoreState } from "../../reducers";
 import './Infobar.scss';
 
@@ -11,7 +12,10 @@ export class InfobarComponent extends React.Component<InfobarProps> {
     render(): JSX.Element {
         return (
             <div id="info">
-                <div id="timer"><i className="far fa-clock"></i> 2:35</div>
+                <div id="timer">
+                    <i className="far fa-clock"></i>
+                    <Timer />
+                </div>
                 <div id="errors">Errors: {this.props.errors}</div>
                 <div id="settings"><i className="fas fa-cog"></i></div>
             </div>

@@ -6,3 +6,4 @@ export * from './NumBar/NumBar';
 export * from './Sudoku/Sudoku';
 export * from './Toolbar/Toolbar';
 export * from './Infobar/Infobar';
+export * from './Timer/Timer';
