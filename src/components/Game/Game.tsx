@@ -57,12 +57,37 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameUpdatedBoard(newValues);
     };
 
+    eraseCell = (): void => {
+        console.log('Erase button clicked');
+        const coordinates = this.props.selectedCell.coordinates;
+
+        /**
+         * We do nothing is:
+         * 
+         * - No cell selected
+         * - No value in current selected cell (can't erase if there's nothing)
+         * - There's a value in the starting board at the selected cell 
+         *   coordinates (not editable)
+         */
+        if (!coordinates
+            || !this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1]
+            || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+
+            return;
+        }
+
+        const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
+        newValues[coordinates.group - 1][coordinates.cell - 1] = null;
+
+        this.props.setGameUpdatedBoard(newValues);
+    };
+
     render(): JSX.Element {
         return (
             <div id="game-container">
                 <Infobar />
                 <Sudoku values={this.props.game.start} />
-                <Toolbar />
+                <Toolbar onEraseClick={this.eraseCell} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
