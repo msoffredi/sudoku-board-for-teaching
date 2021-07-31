@@ -5,7 +5,8 @@ export enum ActionTypes {
     SetSelectedCellValue = 'SET_SELECTED_CELL_VALUE',
     SetGameUpdatedBoard = 'SET_GAME_UPDATED_BOARD',
     SetGameSolution = 'SET_GAME_SOLUTION',
-    SetGameErrorCounter = 'SET_GAME_ERROR_COUNTER'
+    SetGameErrorCounter = 'SET_GAME_ERROR_COUNTER',
+    SetSettings = 'SET_SETTINGS'
 }
 
 // // Add actions with | 

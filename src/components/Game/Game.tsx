@@ -1,47 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SelectedCell, StoreState } from "../../reducers";
-import { CellValue, SudokuNumbers } from "../Cell/Cell";
+import { StoreState } from "../../reducers";
 import { NumBar } from "../NumBar/NumBar";
-import { Sudoku, SudokuValues } from "../Sudoku/Sudoku";
+import { Sudoku } from "../Sudoku/Sudoku";
 import {
     setSelectedCellValue,
     setGameUpdatedBoard,
     setGameSolution,
     setGameErrorCounter
 } from "../../actions";
-
-type CellGroupSolution = [
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers,
-    SudokuNumbers
-];
-
-export type SudokuSolution = [
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution,
-    CellGroupSolution
-];
-
-export interface GameData {
-    start: SudokuValues;
-    solution: SudokuSolution;
-}
+import { CellValueType, GameDataType, SelectedCellType, SudokuNumbersType, SudokuValuesType } from "../../types";
 
 interface GameProps extends GameStateToProps {
-    game: GameData;
+    game: GameDataType;
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
@@ -56,7 +27,7 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameSolution(props.game.solution);
     }
 
-    selectNumber = (num: SudokuNumbers): void => {
+    selectNumber = (num: SudokuNumbersType): void => {
         const coordinates = this.props.selectedCell.coordinates;
 
         if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
@@ -88,10 +59,10 @@ class GameComponent extends React.Component<GameProps> {
 
 interface GameStateToProps {
     selectedCell: {
-        coordinates: SelectedCell;
-        value: CellValue;
+        coordinates: SelectedCellType;
+        value: CellValueType;
     };
-    updatedBoard: SudokuValues;
+    updatedBoard: SudokuValuesType;
     errorCounter: number;
 }
 
