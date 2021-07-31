@@ -1,5 +1,5 @@
 import React from "react";
-import { CellGroup } from "../CellGroup/CellGroup";
+import { CellGroup } from "../.";
 import './Sudoku.scss';
 import { StoreState } from "../../reducers";
 import { connect } from "react-redux";

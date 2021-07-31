@@ -1,0 +1,18 @@
+@import '../../styles/colors';
+
+#info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0 1rem;
+    font-size: 0.6rem;
+    color: $color-dark;
+
+    #settings {
+        font-size: 0.8rem;
+        &:hover {
+            color: $color-edit;
+            cursor: pointer;
+        }
+    }
+}
