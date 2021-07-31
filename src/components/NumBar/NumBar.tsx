@@ -8,14 +8,15 @@ interface NumBarProps {
 
 export class NumBar extends React.Component<NumBarProps> {
     generateNumbers = (): JSX.Element[] => {
-        const numbers: SudokuNumbers[] = [1,2,3,4,5,6,7,8,9];
+        const numbers: SudokuNumbers[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         return numbers.map((num: SudokuNumbers, index: number) => {
             return (
-                <div 
-                    key={index} 
-                    className="num-cell" 
+                <div
+                    key={index}
+                    className="num-cell"
                     onClick={() => this.props.cellOnClick(num)}
-                >{num}</div>);
+                >{num}</div>
+            );
         });
     };
 

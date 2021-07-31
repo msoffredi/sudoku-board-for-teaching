@@ -1,0 +1,146 @@
+$color-light: #f4f4f4;
+$color-light-hover: #e0e0e0;
+$color-dark: #333;
+$color-light-gray: #ccc;
+$color-gray: #999;
+$color-dark-gray: #666;
+
+$color-light-highlight: #e4e4e4;
+$color-edit: #1446a8;
+$color-cell-selected: #d1dffa;
+$color-wrong: #c9384d;
+
+.sudoku {
+    * {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    background-color: $color-gray;
+    padding: 2px;
+    margin: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2px;
+
+    .square-group {
+        background-color: $color-light-gray;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 1px;
+
+        .square {
+            width: 1.5rem;
+            height: 1.5rem;
+            text-align: center;
+            background-color: $color-light;
+        }
+
+        .square:hover {
+            background-color: $color-light-hover;
+            cursor: pointer;
+        }
+
+        .square.annotations {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+            .annotation {
+                width: 0.5rem;
+                height: 0.5rem;
+                font-size: 0.3rem;
+                line-height: 1.7;
+                color: $color-dark-gray;
+            }
+        }
+    }
+}
+
+#numbar {
+    * {
+        font-size: 1.2rem;
+        line-height: 1.3;
+    }
+
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    margin: auto;
+
+    .num-cell {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1px;
+        text-align: center;
+    }
+
+    .num-cell:last-child {
+        margin-right: 0;
+    }
+
+    .num-cell:hover {
+        cursor: pointer;
+        background-color: $color-light;
+        color: $color-cell-selected;
+        color: $color-edit;
+    }
+}
+
+#info {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 0 1rem;
+    font-size: 0.6rem;
+    color: $color-dark;
+
+    #settings {
+        font-size: 0.8rem;
+        &:hover {
+            color: $color-edit;
+            cursor: pointer;
+        }
+    }
+}
+
+#toolbar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.5rem;
+    text-transform: uppercase;
+    margin: 0.2rem 0;
+
+    div {
+        margin: 0.1rem 1rem;
+        padding: 0.2rem;
+        border-radius: 0.2rem;
+
+        &:hover {
+            // background-color: $color-light-gray;
+            color: $color-edit;
+            cursor: pointer;
+        }
+    }
+
+    i {
+        display: block;
+        text-align: center;
+        margin-bottom: 0.1rem;
+
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.4rem;
+            display: inline;
+            padding-left: 0.1rem;
+        }
+    }
+}
+
+#title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+        'Lucida Sans', Arial, sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
