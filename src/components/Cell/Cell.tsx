@@ -1,57 +1,39 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SelectedCell, StoreState } from "../../reducers";
+import { StoreState } from "../../reducers";
 import { SudokuHelper } from "../../utils";
 import './Cell.scss';
 import { setSelectedCellCoordinates } from "../../actions";
-import { SudokuSolution } from "../Game/Game";
-
-export enum CellMode {
-    Edit,
-    Annotate
-}
-
-export interface CellCoordinates {
-    group: SudokuNumbers,
-    cell: SudokuNumbers,
-}
+import {
+    AnnotationsType,
+    CellCoordinatesType,
+    CellModeType,
+    CellValueType,
+    SelectedCellType,
+    SudokuNumbersType,
+    SudokuSolutionType
+} from "../../types";
 
 type HighlightClassType = '' | 'same-number' | 'selected' | 'highlighted';
 type ColorClassType = '' | 'wrong' | 'edit';
 interface ConditionalContent {
-    content?: JSX.Element[] | CellValue;
+    content?: JSX.Element[] | CellValueType;
     annotationClass: 'annotations' | '';
     colorClass: ColorClassType;
     highlightClass: HighlightClassType;
 }
 
-// 9 numbers = all possible annotations for a cell (1-9), 0 = no annotation
-export type Annotations = [
-    1 | null,
-    2 | null,
-    3 | null,
-    4 | null,
-    5 | null,
-    6 | null,
-    7 | null,
-    8 | null,
-    9 | null
-];
-
-export type SudokuNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-export type CellValue = SudokuNumbers | null;
-
 interface CellProps extends CellStateToProps {
-    mode: CellMode;
-    value?: CellValue;
-    annotations?: Annotations | null;
-    group: SudokuNumbers;
-    cell: SudokuNumbers;
-    cellOnClick: (coordinates: CellCoordinates) => void;
+    mode: CellModeType;
+    value?: CellValueType;
+    annotations?: AnnotationsType | null;
+    group: SudokuNumbersType;
+    cell: SudokuNumbersType;
+    cellOnClick: (coordinates: CellCoordinatesType) => void;
 }
 
 interface CellState {
-    startingValue: CellValue;
+    startingValue: CellValueType;
 }
 
 class CellComponent extends React.Component<CellProps, CellState> {
@@ -65,7 +47,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
     renderAnnotations(): JSX.Element[] {
         if (this.props.annotations) {
-            return this.props.annotations.map((element: CellValue, index: number) => {
+            return this.props.annotations.map((element: CellValueType, index: number) => {
                 return <div key={index} className="annotation">{element}</div>;
             });
         }
@@ -96,7 +78,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
             highlightClass = 'highlighted';
         }
 
-        if (this.props.mode === CellMode.Annotate) {
+        if (this.props.mode === CellModeType.Annotate) {
             return {
                 content: this.renderAnnotations(),
                 annotationClass: 'annotations',
@@ -140,10 +122,10 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
 interface CellStateToProps {
     selectedCell: {
-        coordinates: SelectedCell;
-        value: CellValue;
+        coordinates: SelectedCellType;
+        value: CellValueType;
     };
-    solution: SudokuSolution | null;
+    solution: SudokuSolutionType | null;
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {

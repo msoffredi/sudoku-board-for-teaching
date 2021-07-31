@@ -1,31 +1,25 @@
 import React from "react";
-import { CellCoordinates, CellValue, SudokuNumbers } from "../Cell/Cell";
-import { CellGroup, CellGroupValues } from "../CellGroup/CellGroup";
+import { CellGroup } from "../CellGroup/CellGroup";
 import './Sudoku.scss';
-import { SelectedCell, StoreState } from "../../reducers";
+import { StoreState } from "../../reducers";
 import { connect } from "react-redux";
 import { setSelectedCellCoordinates, setSelectedCellValue } from "../../actions";
-
-export type SudokuValues = [
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues,
-    CellGroupValues
-];
+import {
+    CellCoordinatesType,
+    CellGroupValuesType,
+    SelectedCellType,
+    SudokuNumbersType,
+    SudokuValuesType
+} from "../../types";
 
 interface SudokuProps extends SudokuStateToProps {
-    values: SudokuValues;
+    values: SudokuValuesType;
     setSelectedCellCoordinates: typeof setSelectedCellCoordinates;
     setSelectedCellValue: typeof setSelectedCellValue;
 }
 
 class SudokuComponent extends React.Component<SudokuProps> {
-    selectCell = (coordinates: CellCoordinates): void => {
+    selectCell = (coordinates: CellCoordinatesType): void => {
         this.props.setSelectedCellCoordinates(coordinates);
 
         const value = this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1];
@@ -36,17 +30,17 @@ class SudokuComponent extends React.Component<SudokuProps> {
     };
 
     renderSudoku = () => {
-        const board = this.props.selectedCell.coordinates === null
+        const board = this.props.coordinates === null
             ? this.props.values
             : this.props.updatedBoard;
 
         return board.map(
-            (element: CellGroupValues, index: number) => {
+            (element: CellGroupValuesType, index: number) => {
                 return <CellGroup
                     key={index}
                     values={element}
                     cellOnClick={this.selectCell}
-                    group={index + 1 as SudokuNumbers}
+                    group={index + 1 as SudokuNumbersType}
                 />;
             }
         );
@@ -61,18 +55,14 @@ class SudokuComponent extends React.Component<SudokuProps> {
     }
 }
 
-// @todo review if we really need these states added
 interface SudokuStateToProps {
-    selectedCell: {
-        coordinates: SelectedCell;
-        value: CellValue;
-    };
-    updatedBoard: SudokuValues;
+    coordinates: SelectedCellType;
+    updatedBoard: SudokuValuesType;
 }
 
 const mapStateToProps = (store: StoreState): SudokuStateToProps => {
     return {
-        selectedCell: store.game.selectedCell,
+        coordinates: store.game.selectedCell.coordinates,
         updatedBoard: store.game.updatedBoard
     };
 };

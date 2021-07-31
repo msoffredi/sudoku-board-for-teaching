@@ -4,12 +4,13 @@ import {
     SetSelectedCellCoordinatesAction, 
     SetSelectedCellValueAction 
 } from "../actions";
-import { CellCoordinates, CellValue } from "../components/Cell/Cell";
+import { CellValueType, SelectedCellType } from "../types";
 
-export type SelectedCell = CellCoordinates | null;
+const selectedCellCoordinatesReducer = (
+        state: SelectedCellType | undefined, 
+        action: SetSelectedCellCoordinatesAction
+    ): SelectedCellType => {
 
-const selectedCellCoordinatesReducer = 
-    (state: SelectedCell | undefined, action: SetSelectedCellCoordinatesAction): SelectedCell => {
         if (action.type === ActionTypes.SetSelectedCellCoordinates) {
             return { 
                 group: action.payload.group,
@@ -23,7 +24,7 @@ const selectedCellCoordinatesReducer =
     };
 
 const selectedCellValueReducer = 
-    (state: CellValue | undefined, action: SetSelectedCellValueAction): CellValue => {
+    (state: CellValueType | undefined, action: SetSelectedCellValueAction): CellValueType => {
         if (action.type === ActionTypes.SetSelectedCellValue) {
             return action.payload;
         } else if (state) {
@@ -34,8 +35,8 @@ const selectedCellValueReducer =
     };
 
 export interface SelectedCellState {
-    coordinates: SelectedCell;
-    value: CellValue;
+    coordinates: SelectedCellType;
+    value: CellValueType;
 }
 
 export const selectedCellReducer = combineReducers<SelectedCellState>({

@@ -1,35 +1,38 @@
-import { CellCoordinates, CellValue } from "../components/Cell/Cell";
-import { SudokuSolution } from "../components/Game/Game";
-import { SudokuValues } from "../components/Sudoku/Sudoku";
+import { 
+    CellCoordinatesType, 
+    CellValueType, 
+    SudokuSolutionType, 
+    SudokuValuesType
+} from "../types";
 import { ActionTypes } from "./types";
 
 export interface SetSelectedCellCoordinatesAction {
     type: ActionTypes.SetSelectedCellCoordinates;
-    payload: CellCoordinates;
+    payload: CellCoordinatesType;
 }
 
 export interface SetSelectedCellValueAction {
     type: ActionTypes.SetSelectedCellValue;
-    payload: CellValue;
+    payload: CellValueType;
 }
 
 export interface SetGameUpdatedBoardAction {
     type: ActionTypes.SetGameUpdatedBoard;
-    payload: SudokuValues;
+    payload: SudokuValuesType;
 }
 
-export interface SetGameSolution {
+export interface SetGameSolutionAction {
     type: ActionTypes.SetGameSolution;
-    payload: SudokuSolution;
+    payload: SudokuSolutionType;
 }
 
-export interface SetGameErrorCounter {
+export interface SetGameErrorCounterAction {
     type: ActionTypes.SetGameErrorCounter;
     payload: number;
 }
 
 export const setSelectedCellCoordinates = 
-    (coordinates: CellCoordinates): SetSelectedCellCoordinatesAction => {
+    (coordinates: CellCoordinatesType): SetSelectedCellCoordinatesAction => {
 
     return {
         type: ActionTypes.SetSelectedCellCoordinates,
@@ -37,28 +40,28 @@ export const setSelectedCellCoordinates =
     };
 };
 
-export const setSelectedCellValue = (value: CellValue): SetSelectedCellValueAction => {
+export const setSelectedCellValue = (value: CellValueType): SetSelectedCellValueAction => {
     return {
         type: ActionTypes.SetSelectedCellValue,
         payload: value
     };
 };
 
-export const setGameUpdatedBoard = (sudoku: SudokuValues): SetGameUpdatedBoardAction => {
+export const setGameUpdatedBoard = (sudoku: SudokuValuesType): SetGameUpdatedBoardAction => {
     return {
         type: ActionTypes.SetGameUpdatedBoard,
         payload: sudoku
     };
 };
 
-export const setGameSolution = (sudoku: SudokuSolution): SetGameSolution => {
+export const setGameSolution = (sudoku: SudokuSolutionType): SetGameSolutionAction => {
     return {
         type: ActionTypes.SetGameSolution,
         payload: sudoku
     };
 };
 
-export const setGameErrorCounter = (counter: number): SetGameErrorCounter => {
+export const setGameErrorCounter = (counter: number): SetGameErrorCounterAction => {
     return {
         type: ActionTypes.SetGameErrorCounter,
         payload: counter

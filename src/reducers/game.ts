@@ -1,21 +1,27 @@
 import { combineReducers } from "redux";
-import { ActionTypes, SetGameErrorCounter, SetGameSolution, SetGameUpdatedBoardAction } from "../actions";
-import { CellGroupValues } from "../components/CellGroup/CellGroup";
-import { SudokuSolution } from "../components/Game/Game";
-import { SudokuValues } from "../components/Sudoku/Sudoku";
+import { 
+    ActionTypes, 
+    SetGameErrorCounterAction, 
+    SetGameSolutionAction, 
+    SetGameUpdatedBoardAction 
+} from "../actions";
+import { CellGroupValuesType, SudokuSolutionType, SudokuValuesType } from "../types";
 import { selectedCellReducer, SelectedCellState } from "./selectedCell";
 
 const emptyGroup = [
         null, null, null, null, null, null, null, null, null
-    ] as CellGroupValues;
+    ] as CellGroupValuesType;
 
-const emptySudoku: SudokuValues = [
+const emptySudoku: SudokuValuesType = [
     emptyGroup, emptyGroup, emptyGroup, emptyGroup, emptyGroup,
     emptyGroup, emptyGroup, emptyGroup, emptyGroup
 ];
 
-const updatedBoardReducer = 
-    (state: SudokuValues | undefined, action: SetGameUpdatedBoardAction): SudokuValues => {
+const updatedBoardReducer = (
+    state: SudokuValuesType | undefined, 
+    action: SetGameUpdatedBoardAction
+    ): SudokuValuesType => {
+
         if (action.type === ActionTypes.SetGameUpdatedBoard) {
             return action.payload;
         } else if (state) {
@@ -25,8 +31,11 @@ const updatedBoardReducer =
         return emptySudoku;
     };
 
-const solutionReducer = 
-    (state: SudokuSolution | null | undefined, action: SetGameSolution): SudokuSolution | null => {
+const solutionReducer = (
+    state: SudokuSolutionType | null | undefined, 
+    action: SetGameSolutionAction
+    ): SudokuSolutionType | null => {
+
         if (action.type === ActionTypes.SetGameSolution) {
             return action.payload;
         } else if (state) {
@@ -37,7 +46,7 @@ const solutionReducer =
     };
 
 const errorCounterReducer =
-    (state: number | undefined, action: SetGameErrorCounter): number => {
+    (state: number | undefined, action: SetGameErrorCounterAction): number => {
         if (action.type === ActionTypes.SetGameErrorCounter) {
             return action.payload;
         } else if (state) {
@@ -49,8 +58,8 @@ const errorCounterReducer =
 
 export interface GameState {
     selectedCell: SelectedCellState;
-    updatedBoard: SudokuValues;
-    solution: SudokuSolution | null;
+    updatedBoard: SudokuValuesType;
+    solution: SudokuSolutionType | null;
     errorCounter: number;
 }
 

@@ -1,15 +1,15 @@
 import React from "react";
-import { SudokuNumbers } from "../Cell/Cell";
+import { SudokuNumbersType } from "../../types";
 import './NumBar.scss';
 
 interface NumBarProps {
-    cellOnClick: (num: SudokuNumbers) => void;
+    cellOnClick: (num: SudokuNumbersType) => void;
 }
 
 export class NumBar extends React.Component<NumBarProps> {
     generateNumbers = (): JSX.Element[] => {
-        const numbers: SudokuNumbers[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        return numbers.map((num: SudokuNumbers, index: number) => {
+        const numbers: SudokuNumbersType[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        return numbers.map((num: SudokuNumbersType, index: number) => {
             return (
                 <div
                     key={index}
