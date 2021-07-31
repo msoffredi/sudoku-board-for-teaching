@@ -7,7 +7,7 @@ import {
     CellValueType,
     SudokuNumbersType
 } from "../../types";
-import { Cell } from "../Cell/Cell";
+import { Cell } from "../.";
 import './CellGroup.scss';
 
 interface CellGroupProps {

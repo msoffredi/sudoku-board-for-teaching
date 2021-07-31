@@ -1,15 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
 import { StoreState } from "../../reducers";
-import { NumBar } from "../NumBar/NumBar";
-import { Sudoku } from "../Sudoku/Sudoku";
 import {
     setSelectedCellValue,
     setGameUpdatedBoard,
     setGameSolution,
     setGameErrorCounter
 } from "../../actions";
-import { CellValueType, GameDataType, SelectedCellType, SudokuNumbersType, SudokuValuesType } from "../../types";
+import {
+    CellValueType,
+    GameDataType,
+    SelectedCellType,
+    SudokuNumbersType,
+    SudokuValuesType
+} from "../../types";
+import {
+    Infobar,
+    NumBar,
+    Sudoku,
+    Toolbar
+} from "../.";
 
 interface GameProps extends GameStateToProps {
     game: GameDataType;
@@ -50,7 +60,9 @@ class GameComponent extends React.Component<GameProps> {
     render(): JSX.Element {
         return (
             <div id="game-container">
+                <Infobar />
                 <Sudoku values={this.props.game.start} />
+                <Toolbar />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
