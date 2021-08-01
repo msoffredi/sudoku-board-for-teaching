@@ -1,14 +1,17 @@
 import React from "react";
+import { connect } from "react-redux";
+import { StoreState } from "../../reducers";
+import { GameStatusType } from "../../types";
 import './Timer.scss';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TimerProps { }
+interface TimerProps extends TimerStateToProps { }
 
 interface TimerState {
     timer: Date;
 }
 
-export class Timer extends React.Component<TimerProps, TimerState> {
+class TimerComponent extends React.Component<TimerProps, TimerState> {
     timerId: NodeJS.Timeout | null = null;
 
     constructor(props: TimerProps) {
@@ -31,12 +34,14 @@ export class Timer extends React.Component<TimerProps, TimerState> {
     }
 
     tick = (): void => {
-        const timer = new Date(this.state.timer);
-        timer.setSeconds(timer.getSeconds() + 1);
+        if (this.props.gameStatus === 'on') {
+            const timer = new Date(this.state.timer);
+            timer.setSeconds(timer.getSeconds() + 1);
 
-        this.setState({
-            timer
-        });
+            this.setState({
+                timer
+            });
+        }
     };
 
     renderTime(): string {
@@ -61,3 +66,17 @@ export class Timer extends React.Component<TimerProps, TimerState> {
         return <span id="timer">{this.renderTime()}</span>;
     }
 }
+
+interface TimerStateToProps {
+    gameStatus: GameStatusType;
+}
+
+const mapStateToProps = (store: StoreState): TimerStateToProps => {
+    return {
+        gameStatus: store.game.status
+    };
+};
+
+export const Timer = connect(
+    mapStateToProps
+)(TimerComponent);

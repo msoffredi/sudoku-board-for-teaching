@@ -4,6 +4,7 @@ import './Toolbar.scss';
 
 interface ToolbarProps {
     onEraseClick: () => void;
+    onPauseClick: () => void;
 }
 
 export class Toolbar extends React.Component<ToolbarProps> {
@@ -18,7 +19,7 @@ export class Toolbar extends React.Component<ToolbarProps> {
                 />
                 <ToolbarButton
                     id="pause-button"
-                    onClick={() => { return; }}
+                    onClick={() => this.props.onPauseClick()}
                     fontAwesomeClass="far fa-pause-circle"
                     text="Pause"
                 />

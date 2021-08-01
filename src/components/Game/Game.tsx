@@ -5,11 +5,13 @@ import {
     setSelectedCellValue,
     setGameUpdatedBoard,
     setGameSolution,
-    setGameErrorCounter
+    setGameErrorCounter,
+    setGameStatus
 } from "../../actions";
 import {
     CellValueType,
     GameDataType,
+    GameStatusType,
     SelectedCellType,
     SudokuNumbersType,
     SudokuValuesType
@@ -27,6 +29,7 @@ interface GameProps extends GameStateToProps {
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
     setGameErrorCounter: typeof setGameErrorCounter;
+    setGameStatus: typeof setGameStatus;
 }
 
 class GameComponent extends React.Component<GameProps> {
@@ -35,6 +38,7 @@ class GameComponent extends React.Component<GameProps> {
 
         this.props.setGameUpdatedBoard(props.game.start);
         this.props.setGameSolution(props.game.solution);
+        this.props.setGameStatus('on');
     }
 
     selectNumber = (num: SudokuNumbersType): void => {
@@ -82,12 +86,26 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameUpdatedBoard(newValues);
     };
 
+    pauseGame = (): void => {
+        let newStatus = this.props.status;
+
+        if (newStatus === 'paused') {
+            newStatus = 'on';
+        } else if (newStatus === 'on') {
+            newStatus = 'paused';
+        }
+
+        if (newStatus !== this.props.status) {
+            this.props.setGameStatus(newStatus);
+        }
+    };
+
     render(): JSX.Element {
         return (
             <div id="game-container">
                 <Infobar />
                 <Sudoku values={this.props.game.start} />
-                <Toolbar onEraseClick={this.eraseCell} />
+                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.pauseGame} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
@@ -101,13 +119,15 @@ interface GameStateToProps {
     };
     updatedBoard: SudokuValuesType;
     errorCounter: number;
+    status: GameStatusType;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
     return {
         selectedCell: store.game.selectedCell,
         updatedBoard: store.game.updatedBoard,
-        errorCounter: store.game.errorCounter
+        errorCounter: store.game.errorCounter,
+        status: store.game.status
     };
 };
 
@@ -117,6 +137,7 @@ export const Game = connect(
         setSelectedCellValue,
         setGameUpdatedBoard,
         setGameSolution,
-        setGameErrorCounter
+        setGameErrorCounter,
+        setGameStatus
     }
 )(GameComponent);

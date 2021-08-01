@@ -58,3 +58,5 @@ export interface GameDataType {
     start: SudokuValuesType;
     solution: SudokuSolutionType;
 }
+
+export type GameStatusType = 'on' | 'off' | 'paused' | 'teaching';
