@@ -1,0 +1,24 @@
+@import '../../styles/colors';
+
+div.toolbar-button {
+    padding: 0.2rem;
+    border-radius: 0.2rem;
+
+    &:hover {
+        color: $color-edit;
+        cursor: pointer;
+    }
+
+    i {
+        display: block;
+        text-align: center;
+        margin-bottom: 0.1rem;
+
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.4rem;
+            display: inline;
+            padding-left: 0.1rem;
+        }
+    }
+}

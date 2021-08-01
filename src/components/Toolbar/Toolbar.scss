@@ -5,29 +5,6 @@
     justify-content: space-between;
     font-size: 0.5rem;
     text-transform: uppercase;
-    margin: 0.2rem 0;
-
-    div {
-        margin: 0.1rem 1rem;
-        padding: 0.2rem;
-        border-radius: 0.2rem;
-
-        &:hover {
-            color: $color-edit;
-            cursor: pointer;
-        }
-    }
-
-    i {
-        display: block;
-        text-align: center;
-        margin-bottom: 0.1rem;
-
-        p {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 0.4rem;
-            display: inline;
-            padding-left: 0.1rem;
-        }
-    }
+    margin: 0.3rem 0;
+    padding: 0 1rem;
 }

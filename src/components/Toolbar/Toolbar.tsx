@@ -1,4 +1,5 @@
 import React from "react";
+import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
 import './Toolbar.scss';
 
 interface ToolbarProps {
@@ -9,9 +10,25 @@ export class Toolbar extends React.Component<ToolbarProps> {
     render(): JSX.Element {
         return (
             <div id="toolbar">
-                <div id="eraser-button" onClick={() => this.props.onEraseClick()}><i className="fas fa-eraser"></i><p>Erase</p></div>
-                <div id="pause-button"><i className="far fa-pause-circle"></i><p>Pause</p></div>
-                <div id="annotations"><i className="fas fa-pencil-alt"><p>Off</p></i><p>Notes</p></div>
+                <ToolbarButton
+                    id="eraser-button"
+                    onClick={() => this.props.onEraseClick()}
+                    fontAwesomeClass="fas fa-eraser"
+                    text="Erase"
+                />
+                <ToolbarButton
+                    id="pause-button"
+                    onClick={() => { return; }}
+                    fontAwesomeClass="far fa-pause-circle"
+                    text="Pause"
+                />
+                <ToolbarButton
+                    id="annotations"
+                    onClick={() => { return; }}
+                    fontAwesomeClass="fas fa-pencil-alt"
+                    text="Notes"
+                    iconStatus="off"
+                />
             </div>
         );
     }
