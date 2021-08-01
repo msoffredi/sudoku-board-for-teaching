@@ -1,6 +1,7 @@
 import { 
     CellCoordinatesType, 
     CellValueType, 
+    GameStatusType, 
     SudokuSolutionType, 
     SudokuValuesType
 } from "../types";
@@ -29,6 +30,11 @@ export interface SetGameSolutionAction {
 export interface SetGameErrorCounterAction {
     type: ActionTypes.SetGameErrorCounter;
     payload: number;
+}
+
+export interface SetGameStatusAction {
+    type: ActionTypes.SetGameStatus;
+    payload: GameStatusType;
 }
 
 export const setSelectedCellCoordinates = 
@@ -65,5 +71,12 @@ export const setGameErrorCounter = (counter: number): SetGameErrorCounterAction 
     return {
         type: ActionTypes.SetGameErrorCounter,
         payload: counter
+    };
+};
+
+export const setGameStatus = (status: GameStatusType): SetGameStatusAction => {
+    return {
+        type: ActionTypes.SetGameStatus,
+        payload: status
     };
 };

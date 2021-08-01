@@ -1,7 +1,10 @@
 import React from 'react';
 import './App.scss';
 import { Game } from '../.';
-import { GameDataType } from '../../types';
+import { GameDataType, GameStatusType } from '../../types';
+import { StoreState } from '../../reducers';
+import { connect } from 'react-redux';
+import { setGameStatus } from '../../actions';
 
 const easy1 = [
     [null, null, null, null, 9, null, 8, 7, 2],
@@ -32,11 +35,36 @@ const game = {
     solution: solutionEasy1
 } as GameDataType;
 
-export class App extends React.Component {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface AppProps extends AppStateToProps {
+    setGameStatus: typeof setGameStatus;
+}
+
+class AppComponent extends React.Component<AppProps> {
+    unpauseGame = (): void => {
+        let newStatus = this.props.gameStatus;
+
+        if (newStatus === GameStatusType.Paused) {
+            newStatus = GameStatusType.On;
+        }
+
+        if (newStatus !== this.props.gameStatus) {
+            this.props.setGameStatus(newStatus);
+        }
+    };
 
     render(): JSX.Element {
+        const overlay = this.props.gameStatus === GameStatusType.Paused
+            ? (
+                <div id="pause-overlay" onClick={() => this.unpauseGame()}>
+                    <h1>Click anywhere to get back to the game</h1>
+                </div>
+            )
+            : null;
+
         return (
             <main className="container-center">
+                {overlay}
                 <div >
                     <h1 id="title">Sudoku board for teaching</h1>
                     <Game game={game} />
@@ -45,3 +73,18 @@ export class App extends React.Component {
         );
     }
 }
+
+interface AppStateToProps {
+    gameStatus: GameStatusType;
+}
+
+const mapStateToProps = (store: StoreState,): AppStateToProps => {
+    return {
+        gameStatus: store.game.status
+    };
+};
+
+export const App = connect(
+    mapStateToProps,
+    { setGameStatus }
+)(AppComponent);
