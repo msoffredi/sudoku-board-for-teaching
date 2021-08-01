@@ -38,7 +38,7 @@ class GameComponent extends React.Component<GameProps> {
 
         this.props.setGameUpdatedBoard(props.game.start);
         this.props.setGameSolution(props.game.solution);
-        this.props.setGameStatus('on');
+        this.props.setGameStatus(GameStatusType.On);
     }
 
     selectNumber = (num: SudokuNumbersType): void => {
@@ -89,10 +89,8 @@ class GameComponent extends React.Component<GameProps> {
     pauseGame = (): void => {
         let newStatus = this.props.status;
 
-        if (newStatus === 'paused') {
-            newStatus = 'on';
-        } else if (newStatus === 'on') {
-            newStatus = 'paused';
+        if (newStatus === GameStatusType.On) {
+            newStatus = GameStatusType.Paused;
         }
 
         if (newStatus !== this.props.status) {

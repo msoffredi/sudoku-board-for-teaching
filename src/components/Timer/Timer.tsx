@@ -34,7 +34,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
     }
 
     tick = (): void => {
-        if (this.props.gameStatus === 'on') {
+        if (this.props.gameStatus === GameStatusType.On) {
             const timer = new Date(this.state.timer);
             timer.setSeconds(timer.getSeconds() + 1);
 

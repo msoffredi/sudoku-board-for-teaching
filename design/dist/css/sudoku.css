@@ -94,3 +94,20 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 1rem; }
+
+#pause-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px); }
+  #pause-overlay h1 {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    cursor: pointer; }

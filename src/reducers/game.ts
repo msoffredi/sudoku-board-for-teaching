@@ -65,7 +65,7 @@ const statusReducer =
             return state;
         }
 
-        return 'off';
+        return GameStatusType.Off;
     };
 
 export interface GameState {
