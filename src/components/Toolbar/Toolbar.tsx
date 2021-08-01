@@ -1,5 +1,5 @@
 import React from "react";
-import { ToolbarButton } from "../ToolbarButton/ToolbarButton";
+import { ToolbarButton } from "..";
 import './Toolbar.scss';
 
 interface ToolbarProps {

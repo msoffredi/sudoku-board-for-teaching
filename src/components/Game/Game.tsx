@@ -33,11 +33,9 @@ interface GameProps extends GameStateToProps {
 }
 
 class GameComponent extends React.Component<GameProps> {
-    constructor(props: GameProps) {
-        super(props);
-
-        this.props.setGameUpdatedBoard(props.game.start);
-        this.props.setGameSolution(props.game.solution);
+    componentDidMount() {
+        this.props.setGameUpdatedBoard(this.props.game.start);
+        this.props.setGameSolution(this.props.game.solution);
         this.props.setGameStatus(GameStatusType.On);
     }
 
@@ -51,7 +49,12 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setSelectedCellValue(num);
 
         if (this.props.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num) {
-            this.props.setGameErrorCounter(this.props.errorCounter + 1);
+            const errors = this.props.errorCounter + 1;
+            this.props.setGameErrorCounter(errors);
+
+            if (this.props.maxErrors && errors >= this.props.maxErrors) {
+                this.props.setGameStatus(GameStatusType.Lost);
+            }
         }
 
         // Update board state in store
@@ -118,6 +121,7 @@ interface GameStateToProps {
     updatedBoard: SudokuValuesType;
     errorCounter: number;
     status: GameStatusType;
+    maxErrors: number;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
@@ -125,7 +129,8 @@ const mapStateToProps = (store: StoreState): GameStateToProps => {
         selectedCell: store.game.selectedCell,
         updatedBoard: store.game.updatedBoard,
         errorCounter: store.game.errorCounter,
-        status: store.game.status
+        status: store.game.status,
+        maxErrors: store.settings.maxErrors
     };
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { Game } from '../.';
+import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
@@ -53,18 +53,37 @@ class AppComponent extends React.Component<AppProps> {
         }
     };
 
-    render(): JSX.Element {
-        const overlay = this.props.gameStatus === GameStatusType.Paused
-            ? (
-                <div id="pause-overlay" onClick={() => this.unpauseGame()}>
-                    <h1>Click anywhere to get back to the game</h1>
-                </div>
-            )
-            : null;
+    renderPauseOverlay(): JSX.Element {
+        if (this.props.gameStatus === GameStatusType.Paused) {
+            return (
+                <Overlay
+                    text="Click anywhere to get back to the game"
+                    onClick={this.unpauseGame}
+                />
+            );
+        }
 
+        return <></>;
+    }
+
+    renderLostOverlay(): JSX.Element {
+        if (this.props.gameStatus === GameStatusType.Lost) {
+            return (
+                <Overlay
+                    text="You Lost! But don't worry, click anywhere for another chance"
+                    onClick={() => window.location.reload()}
+                />
+            );
+        }
+
+        return <></>;
+    }
+
+    render(): JSX.Element {
         return (
             <main className="container-center">
-                {overlay}
+                {this.renderPauseOverlay()}
+                {this.renderLostOverlay()}
                 <div >
                     <h1 id="title">Sudoku board for teaching</h1>
                     <Game game={game} />

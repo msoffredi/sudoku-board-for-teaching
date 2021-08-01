@@ -20,4 +20,12 @@ export interface SettingsType {
      * also highlighted.
      */
     highlightAreas: boolean;
+
+    /**
+     * Maximum number of errors allowed
+     * 
+     * Range: 0..255 because 1 means you lose on 1st error, then 0 means 
+     * no limit.
+     */
+    maxErrors: number;
 }
