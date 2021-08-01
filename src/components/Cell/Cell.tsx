@@ -37,13 +37,9 @@ interface CellState {
 }
 
 class CellComponent extends React.Component<CellProps, CellState> {
-    constructor(props: CellProps) {
-        super(props);
-
-        this.state = {
-            startingValue: this.props.value ? this.props.value : null,
-        };
-    }
+    state = {
+        startingValue: this.props.value ? this.props.value : null,
+    };
 
     renderAnnotations(): JSX.Element[] {
         if (this.props.annotations) {

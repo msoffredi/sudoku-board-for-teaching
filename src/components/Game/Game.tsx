@@ -33,11 +33,9 @@ interface GameProps extends GameStateToProps {
 }
 
 class GameComponent extends React.Component<GameProps> {
-    constructor(props: GameProps) {
-        super(props);
-
-        this.props.setGameUpdatedBoard(props.game.start);
-        this.props.setGameSolution(props.game.solution);
+    componentDidMount() {
+        this.props.setGameUpdatedBoard(this.props.game.start);
+        this.props.setGameSolution(this.props.game.solution);
         this.props.setGameStatus(GameStatusType.On);
     }
 

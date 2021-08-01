@@ -17,7 +17,6 @@ interface CellGroupProps {
 }
 
 export class CellGroup extends React.Component<CellGroupProps> {
-
     renderGroup(): JSX.Element[] {
         return this.props.values.map(
             (element: AnnotationsType | CellValueType, index: number) => {

@@ -12,13 +12,8 @@ interface TimerState {
 }
 
 class TimerComponent extends React.Component<TimerProps, TimerState> {
+    state = { timer: new Date(new Date().setHours(0, 0, 0, 0)) };
     timerId: NodeJS.Timeout | null = null;
-
-    constructor(props: TimerProps) {
-        super(props);
-
-        this.state = { timer: new Date(new Date().setHours(0, 0, 0, 0)) };
-    }
 
     componentDidMount(): void {
         this.timerId = setInterval(

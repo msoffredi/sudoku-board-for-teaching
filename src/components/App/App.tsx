@@ -53,18 +53,22 @@ class AppComponent extends React.Component<AppProps> {
         }
     };
 
-    render(): JSX.Element {
-        const overlay = this.props.gameStatus === GameStatusType.Paused
-            ? (
+    renderOverlay(): JSX.Element {
+        if (this.props.gameStatus === GameStatusType.Paused) {
+            return (
                 <div id="pause-overlay" onClick={() => this.unpauseGame()}>
                     <h1>Click anywhere to get back to the game</h1>
                 </div>
-            )
-            : null;
+            );
+        }
 
+        return <></>;
+    }
+
+    render(): JSX.Element {
         return (
             <main className="container-center">
-                {overlay}
+                {this.renderOverlay()}
                 <div >
                     <h1 id="title">Sudoku board for teaching</h1>
                     <Game game={game} />
