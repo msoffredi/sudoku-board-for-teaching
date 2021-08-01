@@ -9,13 +9,24 @@ import { SettingsType } from "../types";
 export const defaultSettings: SettingsType = {
     hideUsedNumbers: false,
     highlightIdenticalNumbers: true,
-    highlightAreas: true
+    highlightAreas: true,
+    maxErrors: 3
 };
 
 export const settingsReducer = 
     (state: SettingsType | undefined, action: SetSettingsAction): SettingsType => {
         if (action.type === ActionTypes.SetSettings) {
-            return action.payload;
+            let settings = Object.assign({}, action.payload);
+
+            if (settings.maxErrors < 0 || settings.maxErrors > 255) {
+                if (state) {
+                    settings = Object.assign(settings, { maxErrors: state.maxErrors });
+                } else {
+                    settings = Object.assign(settings, { maxErrors: defaultSettings.maxErrors });
+                }
+            }
+
+            return settings;
         } else if (state) {
             return state;
         }
