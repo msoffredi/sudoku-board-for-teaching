@@ -8,6 +8,14 @@ import './Infobar.scss';
 interface InfobarProps extends InfobarStateToProps { }
 
 export class InfobarComponent extends React.Component<InfobarProps> {
+    renderErrors(): string {
+        if (this.props.maxErrors) {
+            return this.props.errors.toString() + '/' + this.props.maxErrors;
+        }
+
+        return this.props.errors.toString();
+    }
+
     render(): JSX.Element {
         return (
             <div id="info">
@@ -15,7 +23,7 @@ export class InfobarComponent extends React.Component<InfobarProps> {
                     <i className="far fa-clock"></i>
                     <Timer />
                 </div>
-                <div id="errors">Errors: {this.props.errors}/{this.props.maxErrors}</div>
+                <div id="errors">Errors: {this.renderErrors()}</div>
                 <div id="settings"><i className="fas fa-cog"></i></div>
             </div>
         );
