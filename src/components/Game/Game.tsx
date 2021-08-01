@@ -62,6 +62,11 @@ class GameComponent extends React.Component<GameProps> {
         newValues[coordinates.group - 1][coordinates.cell - 1] = num;
 
         this.props.setGameUpdatedBoard(newValues);
+
+        // Validate if the game is completed successfully
+        if (JSON.stringify(newValues) === JSON.stringify(this.props.game.solution)) {
+            this.props.setGameStatus(GameStatusType.Finished);
+        }
     };
 
     eraseCell = (): void => {
