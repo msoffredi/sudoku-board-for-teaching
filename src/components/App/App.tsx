@@ -70,7 +70,22 @@ class AppComponent extends React.Component<AppProps> {
         if (this.props.gameStatus === GameStatusType.Lost) {
             return (
                 <Overlay
-                    text="You Lost! But don't worry, click anywhere for another chance"
+                    text="You Lost :(, but don't worry, click anywhere for another chance!"
+                    onClick={() => window.location.reload()}
+                />
+            );
+        }
+
+        return <></>;
+    }
+
+    renderWinningOverlay(): JSX.Element {
+        if (this.props.gameStatus === GameStatusType.Finished) {
+            return (
+                <Overlay
+                    text={`You Won! 
+                        You completed the sudoku with ${this.props.gameErrors} errors! 
+                        Click anywhere to start a new game.`}
                     onClick={() => window.location.reload()}
                 />
             );
@@ -84,6 +99,7 @@ class AppComponent extends React.Component<AppProps> {
             <main className="container-center">
                 {this.renderPauseOverlay()}
                 {this.renderLostOverlay()}
+                {this.renderWinningOverlay()}
                 <div >
                     <h1 id="title">Sudoku board for teaching</h1>
                     <Game game={game} />
@@ -95,11 +111,13 @@ class AppComponent extends React.Component<AppProps> {
 
 interface AppStateToProps {
     gameStatus: GameStatusType;
+    gameErrors: number;
 }
 
 const mapStateToProps = (store: StoreState,): AppStateToProps => {
     return {
-        gameStatus: store.game.status
+        gameStatus: store.game.status,
+        gameErrors: store.game.errorCounter
     };
 };
 
