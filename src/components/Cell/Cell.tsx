@@ -44,7 +44,10 @@ class CellComponent extends React.Component<CellProps, CellState> {
     renderAnnotations(): JSX.Element[] {
         if (this.props.annotations) {
             return this.props.annotations.map((element: CellValueType, index: number) => {
-                return <div key={index} className="annotation">{element}</div>;
+                const cellContent = element === this.props.selectedCell.value
+                    ? <b>{element}</b> : element;
+
+                return <div key={index} className="annotation">{cellContent}</div>;
             });
         }
 

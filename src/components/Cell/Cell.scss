@@ -20,6 +20,10 @@
             font-size: 0.3rem;
             line-height: 1.7;
             color: $color-dark-gray;
+
+            b {
+                font-size: inherit;
+            }
         }
     }
 
