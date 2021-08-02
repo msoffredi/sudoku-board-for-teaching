@@ -10,6 +10,7 @@ import {
 } from "../../actions";
 import {
     AnnotationsType,
+    CellGroupValuesType,
     CellValueType,
     GameDataType,
     GameModeType,
@@ -24,6 +25,7 @@ import {
     Sudoku,
     Toolbar
 } from "../.";
+import { SudokuHelper } from "../../utils";
 
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
@@ -80,13 +82,50 @@ class GameComponent extends React.Component<GameProps> {
         const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
         newValues[coordinates.group - 1][coordinates.cell - 1] = num;
 
-        this.props.setGameUpdatedBoard(newValues);
+        // this.props.setGameUpdatedBoard(newValues);
+        // Clear annotations of the same vale/number in highlight zones, then update board
+        this.props.setGameUpdatedBoard(this.removeRelevantAnnotations(num, newValues));
 
         // Validate if the game is completed successfully
         if (JSON.stringify(newValues) === JSON.stringify(this.props.game.solution)) {
             this.props.setGameStatus(GameStatusType.Finished);
         }
     };
+
+    private removeRelevantAnnotations = (
+        num: SudokuNumbersType,
+        updatedBoard: SudokuValuesType
+    ): SudokuValuesType => {
+
+        const coordinates = this.props.selectedCell.coordinates;
+        const newValues = updatedBoard.map(
+            (group: CellGroupValuesType, groupIndex: number): CellGroupValuesType => {
+
+                return group.map(
+                    (cell: AnnotationsType | CellValueType, cellIndex: number): (AnnotationsType | CellValueType) => {
+
+                        if (SudokuHelper.isCellHighlighted(
+                            {
+                                group: (groupIndex + 1) as SudokuNumbersType,
+                                cell: (cellIndex + 1) as SudokuNumbersType
+                            },
+                            coordinates
+                        ) && Array.isArray(cell)) {
+
+                            return cell.map((value: CellValueType, index: number): CellValueType => {
+
+                                return index === num - 1 ? null : value;
+                            }) as AnnotationsType;
+                        } else {
+                            return cell;
+                        }
+                    }
+                ) as CellGroupValuesType;
+            }
+        ) as SudokuValuesType;
+
+        return newValues;
+    }
 
     private selectNumberInAnnotateMode = (num: SudokuNumbersType): void => {
         const coordinates = this.props.selectedCell.coordinates;
@@ -101,7 +140,6 @@ class GameComponent extends React.Component<GameProps> {
 
         if (Array.isArray(cell)) {
             annotations = JSON.parse(JSON.stringify(cell));
-            console.log('Previous anotations');
         } else if (cell !== null) {
             return;
         }
@@ -119,7 +157,6 @@ class GameComponent extends React.Component<GameProps> {
     };
 
     eraseCell = (): void => {
-        console.log('Erase button clicked');
         const coordinates = this.props.selectedCell.coordinates;
 
         /**
