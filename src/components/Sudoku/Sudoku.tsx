@@ -26,6 +26,8 @@ class SudokuComponent extends React.Component<SudokuProps> {
 
         if (value === null || typeof value !== 'object') {
             this.props.setSelectedCellValue(value);
+        } else if (Array.isArray(value)) {
+            this.props.setSelectedCellValue(null);
         }
     };
 
