@@ -4,11 +4,6 @@ div.toolbar-button {
     padding: 0.2rem;
     border-radius: 0.2rem;
 
-    &:hover {
-        color: $color-edit;
-        cursor: pointer;
-    }
-
     i {
         display: block;
         text-align: center;
@@ -20,5 +15,18 @@ div.toolbar-button {
             display: inline;
             padding-left: 0.1rem;
         }
+    }
+
+    &.off {
+        color: $color-disabled;
+    }
+
+    &.on {
+        color: $color-wrong;
+    }
+
+    &:hover {
+        color: $color-edit;
+        cursor: pointer;
     }
 }

@@ -6,22 +6,14 @@ interface ToolbarProps {
     text: string;
     id: string;
     fontAwesomeClass: string;
-    iconStatus?: string;
+    color?: 'off' | 'on';
 }
 
 export class ToolbarButton extends React.Component<ToolbarProps> {
-    renderIconStatus(): JSX.Element {
-        if (this.props.iconStatus) {
-            return <p>{this.props.iconStatus}</p>;
-        }
-
-        return <></>;
-    }
-
     render(): JSX.Element {
         return (
-            <div id={this.props.id} className="toolbar-button" onClick={() => this.props.onClick()}>
-                <i className={this.props.fontAwesomeClass}>{this.renderIconStatus()}</i>
+            <div id={this.props.id} className={`toolbar-button ${this.props.color}`} onClick={() => this.props.onClick()}>
+                <i className={this.props.fontAwesomeClass}></i>
                 <p>{this.props.text}</p>
             </div>
         );

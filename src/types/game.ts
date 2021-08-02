@@ -21,13 +21,6 @@ export enum GameStatusType {
     Paused = 'paused',
 
     /**
-     * Means board/game is in teachign mode. This mode disables game-related
-     * features and enables teaching-related ones.
-     * (unused)
-     */
-    Teaching = 'teaching',
-
-    /**
      * Means the game is over due to too many errors.
      */
     Lost = 'lost',
@@ -36,4 +29,23 @@ export enum GameStatusType {
      * Means the game is over and you won.
      */
     Finished = 'finished'
+}
+
+export enum GameModeType {
+    /**
+     * Normal game mode
+     */
+    Edit = 'edit',
+
+    /**
+     * Means your input on empty cells will count as annotations
+     */
+    Annotate = 'annotate',
+
+    /**
+     * Means board/game is in teachign mode. This mode disables game-related
+     * features and enables teaching-related ones.
+     * (unused)
+     */
+    Teaching = 'teaching'
 }

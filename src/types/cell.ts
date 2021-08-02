@@ -25,11 +25,6 @@ export interface CellCoordinatesType {
     cell: SudokuNumbersType,
 }
 
-export enum CellModeType {
-    Edit,
-    Annotate
-}
-
 type CellGroupSolution = [
     SudokuNumbersType,
     SudokuNumbersType,

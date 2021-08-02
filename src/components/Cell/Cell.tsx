@@ -7,8 +7,8 @@ import { setSelectedCellCoordinates } from "../../actions";
 import {
     AnnotationsType,
     CellCoordinatesType,
-    CellModeType,
     CellValueType,
+    GameModeType,
     SelectedCellType,
     SudokuNumbersType,
     SudokuSolutionType
@@ -16,6 +16,7 @@ import {
 
 type HighlightClassType = '' | 'same-number' | 'selected' | 'highlighted';
 type ColorClassType = '' | 'wrong' | 'edit';
+
 interface ConditionalContent {
     content?: JSX.Element[] | CellValueType;
     annotationClass: 'annotations' | '';
@@ -24,7 +25,6 @@ interface ConditionalContent {
 }
 
 interface CellProps extends CellStateToProps {
-    mode: CellModeType;
     value?: CellValueType;
     annotations?: AnnotationsType | null;
     group: SudokuNumbersType;
@@ -44,7 +44,10 @@ class CellComponent extends React.Component<CellProps, CellState> {
     renderAnnotations(): JSX.Element[] {
         if (this.props.annotations) {
             return this.props.annotations.map((element: CellValueType, index: number) => {
-                return <div key={index} className="annotation">{element}</div>;
+                const cellContent = element === this.props.selectedCell.value
+                    ? <b>{element}</b> : element;
+
+                return <div key={index} className="annotation">{cellContent}</div>;
             });
         }
 
@@ -74,7 +77,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
             highlightClass = 'highlighted';
         }
 
-        if (this.props.mode === CellModeType.Annotate) {
+        if (this.props.annotations && !this.props.value) {
             return {
                 content: this.renderAnnotations(),
                 annotationClass: 'annotations',
@@ -122,12 +125,14 @@ interface CellStateToProps {
         value: CellValueType;
     };
     solution: SudokuSolutionType | null;
+    mode: GameModeType;
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
     return {
         selectedCell: store.game.selectedCell,
-        solution: store.game.solution
+        solution: store.game.solution,
+        mode: store.game.mode
     };
 };
 

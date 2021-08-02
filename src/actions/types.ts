@@ -5,5 +5,6 @@ export enum ActionTypes {
     SetGameSolution = 'SET_GAME_SOLUTION',
     SetGameErrorCounter = 'SET_GAME_ERROR_COUNTER',
     SetSettings = 'SET_SETTINGS',
-    SetGameStatus = 'SET_GAME_STATUS'
+    SetGameStatus = 'SET_GAME_STATUS',
+    SetGameMode = 'SET_GAME_MODE'
 }

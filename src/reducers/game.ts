@@ -2,11 +2,12 @@ import { combineReducers } from "redux";
 import { 
     ActionTypes, 
     SetGameErrorCounterAction, 
+    SetGameModeAction, 
     SetGameSolutionAction, 
     SetGameStatusAction, 
     SetGameUpdatedBoardAction 
 } from "../actions";
-import { CellGroupValuesType, GameStatusType, SudokuSolutionType, SudokuValuesType } from "../types";
+import { CellGroupValuesType, GameModeType, GameStatusType, SudokuSolutionType, SudokuValuesType } from "../types";
 import { selectedCellReducer, SelectedCellState } from "./selectedCell";
 
 const emptyGroup = [
@@ -68,12 +69,24 @@ const statusReducer =
         return GameStatusType.Off;
     };
 
+const modeReducer = 
+    (state: GameModeType | undefined, action: SetGameModeAction): GameModeType => {
+        if (action.type === ActionTypes.SetGameMode) {
+            return action.payload;
+        } else if (state) {
+            return state;
+        }
+
+        return GameModeType.Edit;
+    };
+
 export interface GameState {
     selectedCell: SelectedCellState;
     updatedBoard: SudokuValuesType;
     solution: SudokuSolutionType | null;
     errorCounter: number;
     status: GameStatusType;
+    mode: GameModeType;
 }
 
 export const gameReducer = combineReducers<GameState>({
@@ -81,5 +94,6 @@ export const gameReducer = combineReducers<GameState>({
     updatedBoard: updatedBoardReducer,
     solution: solutionReducer,
     errorCounter: errorCounterReducer,
-    status: statusReducer
+    status: statusReducer,
+    mode: modeReducer
 });

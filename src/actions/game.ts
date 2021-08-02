@@ -1,6 +1,7 @@
 import { 
     CellCoordinatesType, 
     CellValueType, 
+    GameModeType, 
     GameStatusType, 
     SudokuSolutionType, 
     SudokuValuesType
@@ -12,31 +13,6 @@ export interface SetSelectedCellCoordinatesAction {
     payload: CellCoordinatesType;
 }
 
-export interface SetSelectedCellValueAction {
-    type: ActionTypes.SetSelectedCellValue;
-    payload: CellValueType;
-}
-
-export interface SetGameUpdatedBoardAction {
-    type: ActionTypes.SetGameUpdatedBoard;
-    payload: SudokuValuesType;
-}
-
-export interface SetGameSolutionAction {
-    type: ActionTypes.SetGameSolution;
-    payload: SudokuSolutionType;
-}
-
-export interface SetGameErrorCounterAction {
-    type: ActionTypes.SetGameErrorCounter;
-    payload: number;
-}
-
-export interface SetGameStatusAction {
-    type: ActionTypes.SetGameStatus;
-    payload: GameStatusType;
-}
-
 export const setSelectedCellCoordinates = 
     (coordinates: CellCoordinatesType): SetSelectedCellCoordinatesAction => {
 
@@ -46,12 +22,22 @@ export const setSelectedCellCoordinates =
     };
 };
 
+export interface SetSelectedCellValueAction {
+    type: ActionTypes.SetSelectedCellValue;
+    payload: CellValueType;
+}
+
 export const setSelectedCellValue = (value: CellValueType): SetSelectedCellValueAction => {
     return {
         type: ActionTypes.SetSelectedCellValue,
         payload: value
     };
 };
+
+export interface SetGameUpdatedBoardAction {
+    type: ActionTypes.SetGameUpdatedBoard;
+    payload: SudokuValuesType;
+}
 
 export const setGameUpdatedBoard = (sudoku: SudokuValuesType): SetGameUpdatedBoardAction => {
     return {
@@ -60,12 +46,22 @@ export const setGameUpdatedBoard = (sudoku: SudokuValuesType): SetGameUpdatedBoa
     };
 };
 
+export interface SetGameSolutionAction {
+    type: ActionTypes.SetGameSolution;
+    payload: SudokuSolutionType;
+}
+
 export const setGameSolution = (sudoku: SudokuSolutionType): SetGameSolutionAction => {
     return {
         type: ActionTypes.SetGameSolution,
         payload: sudoku
     };
 };
+
+export interface SetGameErrorCounterAction {
+    type: ActionTypes.SetGameErrorCounter;
+    payload: number;
+}
 
 export const setGameErrorCounter = (counter: number): SetGameErrorCounterAction => {
     return {
@@ -74,9 +70,26 @@ export const setGameErrorCounter = (counter: number): SetGameErrorCounterAction 
     };
 };
 
+export interface SetGameStatusAction {
+    type: ActionTypes.SetGameStatus;
+    payload: GameStatusType;
+}
+
 export const setGameStatus = (status: GameStatusType): SetGameStatusAction => {
     return {
         type: ActionTypes.SetGameStatus,
         payload: status
+    };
+};
+
+export interface SetGameModeAction {
+    type: ActionTypes.SetGameMode;
+    payload: GameModeType;
+}
+
+export const setGameMode = (mode: GameModeType): SetGameModeAction => {
+    return {
+        type: ActionTypes.SetGameMode,
+        payload: mode
     };
 };

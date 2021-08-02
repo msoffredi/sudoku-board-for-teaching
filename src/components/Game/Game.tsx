@@ -9,8 +9,11 @@ import {
     setGameStatus
 } from "../../actions";
 import {
+    AnnotationsType,
+    CellGroupValuesType,
     CellValueType,
     GameDataType,
+    GameModeType,
     GameStatusType,
     SelectedCellType,
     SudokuNumbersType,
@@ -22,6 +25,9 @@ import {
     Sudoku,
     Toolbar
 } from "../.";
+import { SudokuHelper } from "../../utils";
+
+const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
 interface GameProps extends GameStateToProps {
     game: GameDataType;
@@ -40,18 +46,33 @@ class GameComponent extends React.Component<GameProps> {
     }
 
     selectNumber = (num: SudokuNumbersType): void => {
+        if (this.props.mode !== GameModeType.Annotate) {
+            this.selectNumberInNormalMode(num);
+        } else {
+            this.selectNumberInAnnotateMode(num);
+        }
+    };
+
+    private selectNumberInNormalMode = (num: SudokuNumbersType): void => {
         const coordinates = this.props.selectedCell.coordinates;
 
+        // If no selected cell, or not an editable cell
         if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
+        // Update selected cell value in store
         this.props.setSelectedCellValue(num);
 
-        if (this.props.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num) {
+        // If new value does not match solution, and new value is different than previous...
+        if (this.props.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num
+            && this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1] !== num) {
+
+            // Update error count
             const errors = this.props.errorCounter + 1;
             this.props.setGameErrorCounter(errors);
 
+            // If we reached max errors limit, change game status to lost
             if (this.props.maxErrors && errors >= this.props.maxErrors) {
                 this.props.setGameStatus(GameStatusType.Lost);
             }
@@ -61,7 +82,9 @@ class GameComponent extends React.Component<GameProps> {
         const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
         newValues[coordinates.group - 1][coordinates.cell - 1] = num;
 
-        this.props.setGameUpdatedBoard(newValues);
+        // this.props.setGameUpdatedBoard(newValues);
+        // Clear annotations of the same vale/number in highlight zones, then update board
+        this.props.setGameUpdatedBoard(this.removeRelevantAnnotations(num, newValues));
 
         // Validate if the game is completed successfully
         if (JSON.stringify(newValues) === JSON.stringify(this.props.game.solution)) {
@@ -69,8 +92,69 @@ class GameComponent extends React.Component<GameProps> {
         }
     };
 
+    private removeRelevantAnnotations = (
+        num: SudokuNumbersType,
+        updatedBoard: SudokuValuesType
+    ): SudokuValuesType => {
+        const coordinates = this.props.selectedCell.coordinates;
+
+        return updatedBoard.map(
+            (group: CellGroupValuesType, groupIndex: number): CellGroupValuesType => {
+
+                return group.map(
+                    (cell: AnnotationsType | CellValueType, cellIndex: number): (AnnotationsType | CellValueType) => {
+
+                        if (SudokuHelper.isCellHighlighted(
+                            {
+                                group: (groupIndex + 1) as SudokuNumbersType,
+                                cell: (cellIndex + 1) as SudokuNumbersType
+                            },
+                            coordinates
+                        ) && Array.isArray(cell)) {
+
+                            return cell.map((value: CellValueType, index: number): CellValueType => {
+
+                                return index === num - 1 ? null : value;
+                            }) as AnnotationsType;
+                        } else {
+                            return cell;
+                        }
+                    }
+                ) as CellGroupValuesType;
+            }
+        ) as SudokuValuesType;
+    }
+
+    private selectNumberInAnnotateMode = (num: SudokuNumbersType): void => {
+        const coordinates = this.props.selectedCell.coordinates;
+
+        // If no selected cell, or not an editable cell
+        if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+            return;
+        }
+
+        const cell = this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1];
+        let annotations: AnnotationsType = JSON.parse(JSON.stringify(emptyAnnotations));
+
+        if (Array.isArray(cell)) {
+            annotations = JSON.parse(JSON.stringify(cell));
+        } else if (cell !== null) {
+            return;
+        }
+
+        if (annotations[num - 1] === num) {
+            annotations[num - 1] = null;
+        } else {
+            annotations[num - 1] = num;
+        }
+
+        const newValues = JSON.parse(JSON.stringify(this.props.updatedBoard));
+        newValues[coordinates.group - 1][coordinates.cell - 1] = annotations;
+
+        this.props.setGameUpdatedBoard(newValues);
+    };
+
     eraseCell = (): void => {
-        console.log('Erase button clicked');
         const coordinates = this.props.selectedCell.coordinates;
 
         /**
@@ -127,6 +211,7 @@ interface GameStateToProps {
     errorCounter: number;
     status: GameStatusType;
     maxErrors: number;
+    mode: GameModeType;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
@@ -135,7 +220,8 @@ const mapStateToProps = (store: StoreState): GameStateToProps => {
         updatedBoard: store.game.updatedBoard,
         errorCounter: store.game.errorCounter,
         status: store.game.status,
-        maxErrors: store.settings.maxErrors
+        maxErrors: store.settings.maxErrors,
+        mode: store.game.mode
     };
 };
 
