@@ -22,6 +22,8 @@ export class ToolbarComponent extends React.Component<ToolbarProps> {
     };
 
     render(): JSX.Element {
+        const annotationsColor = this.props.mode === GameModeType.Annotate ? 'on' : 'off';
+
         return (
             <div id="toolbar">
                 <ToolbarButton
@@ -41,6 +43,7 @@ export class ToolbarComponent extends React.Component<ToolbarProps> {
                     onClick={this.onNotesClick}
                     fontAwesomeClass="fas fa-pencil-alt"
                     text="Notes"
+                    color={annotationsColor}
                 />
             </div>
         );
