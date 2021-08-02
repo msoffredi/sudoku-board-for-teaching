@@ -3,7 +3,6 @@ import {
     AnnotationsType,
     CellCoordinatesType,
     CellGroupValuesType,
-    CellModeType,
     CellValueType,
     SudokuNumbersType
 } from "../../types";
@@ -20,21 +19,17 @@ export class CellGroup extends React.Component<CellGroupProps> {
     renderGroup(): JSX.Element[] {
         return this.props.values.map(
             (element: AnnotationsType | CellValueType, index: number) => {
-                let mode;
                 let value = null;
                 let annotations = null;
 
                 if (typeof element == 'object' && Array.isArray(element)) {
-                    mode = CellModeType.Annotate;
                     annotations = element;
                 } else {
-                    mode = CellModeType.Edit;
                     value = element;
                 }
 
                 return <Cell
                     key={index}
-                    mode={mode}
                     value={value}
                     annotations={annotations}
                     group={this.props.group}
