@@ -96,9 +96,9 @@ class GameComponent extends React.Component<GameProps> {
         num: SudokuNumbersType,
         updatedBoard: SudokuValuesType
     ): SudokuValuesType => {
-
         const coordinates = this.props.selectedCell.coordinates;
-        const newValues = updatedBoard.map(
+
+        return updatedBoard.map(
             (group: CellGroupValuesType, groupIndex: number): CellGroupValuesType => {
 
                 return group.map(
@@ -123,8 +123,6 @@ class GameComponent extends React.Component<GameProps> {
                 ) as CellGroupValuesType;
             }
         ) as SudokuValuesType;
-
-        return newValues;
     }
 
     private selectNumberInAnnotateMode = (num: SudokuNumbersType): void => {
