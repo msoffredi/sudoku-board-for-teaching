@@ -23,10 +23,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # DEBUG
-      - name: List build directory content
-        run: ls build
-      
       # Build 
       - name: Build production artifacts
         run: yarn build
