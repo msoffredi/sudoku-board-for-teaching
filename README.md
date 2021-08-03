@@ -2,6 +2,10 @@
 
 For more information please visit our [Wiki](https://github.com/msoffredi/sudoku-board-for-teaching/wiki).
 
+## License
+
+This project is released under the [MIT License](https://github.com/msoffredi/sudoku-board-for-teaching/blob/main/LICENSE).
+
 ## Available Scripts
 
 This is a standard React-based application using `yarn` as packet manager. In the root project folder, you can run:
