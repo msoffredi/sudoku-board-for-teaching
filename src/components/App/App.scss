@@ -15,3 +15,9 @@
     text-align: center;
     margin-bottom: 1rem;
 }
+
+@media (max-width: 600px) {
+    #title {
+        font-size: 1.1rem;
+    }
+}
