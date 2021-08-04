@@ -4,13 +4,15 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import { reducers } from './reducers';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction';
 import React from 'react';
 import { App } from './components';
 
 const store = createStore(
     reducers,
-    composeWithDevTools(applyMiddleware(thunk))
+    /* preloadedState, */ composeWithDevTools(
+        applyMiddleware(thunk)
+    )
 );
 
 ReactDOM.render(
