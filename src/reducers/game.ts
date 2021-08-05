@@ -5,6 +5,7 @@ import {
     SetGameModeAction, 
     SetGameSolutionAction, 
     SetGameStatusAction, 
+    SetGameTimeAction, 
     SetGameUpdatedBoardAction 
 } from "../actions";
 import { CellGroupValuesType, GameModeType, GameStatusType, SudokuSolutionType, SudokuValuesType } from "../types";
@@ -80,6 +81,17 @@ const modeReducer =
         return GameModeType.Edit;
     };
 
+const timeReducer =
+    (state: Date | undefined, action: SetGameTimeAction): Date => {
+        if (action.type === ActionTypes.SetGameTime) {
+            return action.payload;
+        } else if (state) {
+            return state;
+        }
+
+        return new Date(new Date().setHours(0, 0, 0, 0));
+    };
+
 export interface GameState {
     selectedCell: SelectedCellState;
     updatedBoard: SudokuValuesType;
@@ -87,6 +99,7 @@ export interface GameState {
     errorCounter: number;
     status: GameStatusType;
     mode: GameModeType;
+    time: Date;
 }
 
 export const gameReducer = combineReducers<GameState>({
@@ -95,5 +108,6 @@ export const gameReducer = combineReducers<GameState>({
     solution: solutionReducer,
     errorCounter: errorCounterReducer,
     status: statusReducer,
-    mode: modeReducer
+    mode: modeReducer,
+    time: timeReducer
 });

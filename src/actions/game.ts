@@ -93,3 +93,15 @@ export const setGameMode = (mode: GameModeType): SetGameModeAction => {
         payload: mode
     };
 };
+
+export interface SetGameTimeAction {
+    type: ActionTypes.SetGameTime;
+    payload: Date;
+}
+
+export const setGameTime = (time: Date): SetGameTimeAction => {
+    return {
+        type: ActionTypes.SetGameTime,
+        payload: time
+    };
+};
