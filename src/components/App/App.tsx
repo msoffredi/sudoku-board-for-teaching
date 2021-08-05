@@ -5,6 +5,7 @@ import { GameDataType, GameStatusType } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
 import { setGameStatus } from '../../actions';
+import { TimerHelper } from '../../utils';
 
 const games = {
     easy1: [
@@ -46,12 +47,10 @@ const solutions = {
 };
 
 const game = {
-    // start: easy1,
     start: games.easy1,
     solution: solutions.solutionEasy1
 } as GameDataType;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
 }
@@ -96,11 +95,15 @@ class AppComponent extends React.Component<AppProps> {
     }
 
     renderWinningOverlay(): JSX.Element {
-        if (this.props.gameStatus === GameStatusType.Finished) {
+        const { gameStatus, gameErrors, gameTime } = this.props;
+        const time = TimerHelper.formatTimer(gameTime);
+
+        if (gameStatus === GameStatusType.Finished) {
             return (
                 <Overlay
                     text={`You Won! 
-                        You completed the sudoku with ${this.props.gameErrors} errors! 
+                        You completed the sudoku in with ${gameErrors} errors! 
+                        Your total time was: ${time}
                         Click anywhere to start a new game.`}
                     onClick={() => window.location.reload()}
                 />
@@ -128,12 +131,16 @@ class AppComponent extends React.Component<AppProps> {
 interface AppStateToProps {
     gameStatus: GameStatusType;
     gameErrors: number;
+    gameTime: Date;
 }
 
 const mapStateToProps = (store: StoreState,): AppStateToProps => {
+    const { status, errorCounter, time } = store.game;
+
     return {
-        gameStatus: store.game.status,
-        gameErrors: store.game.errorCounter
+        gameStatus: status,
+        gameErrors: errorCounter,
+        gameTime: time
     };
 };
 

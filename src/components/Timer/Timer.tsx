@@ -2,10 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import { StoreState } from "../../reducers";
 import { GameStatusType } from "../../types";
+import { setGameTime } from "../../actions";
 import './Timer.scss';
+import { TimerHelper } from "../../utils";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface TimerProps extends TimerStateToProps { }
+interface TimerProps extends TimerStateToProps {
+    setGameTime: typeof setGameTime
+}
 
 interface TimerState {
     timer: Date;
@@ -29,49 +32,38 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
     }
 
     tick = (): void => {
-        if (this.props.gameStatus === GameStatusType.On) {
-            const timer = new Date(this.state.timer);
-            timer.setSeconds(timer.getSeconds() + 1);
+        const { timer } = this.state;
 
-            this.setState({
-                timer
-            });
+        if (this.props.gameStatus === GameStatusType.On) {
+            const newTimer = new Date(timer);
+            newTimer.setSeconds(timer.getSeconds() + 1);
+
+            this.setState({ timer: newTimer });
+        } else if (timer !== this.props.gameTime) {
+            this.props.setGameTime(timer);
         }
     };
 
-    renderTime(): string {
-        const timer = this.state.timer;
-        let time = '';
-
-        if (timer.getHours()) {
-            time = timer.getHours() + ':';
-        }
-
-        const minutes = ((timer.getMinutes() < 10 && time !== '')
-            ? '0'
-            : '') + timer.getMinutes();
-        const seconds = (timer.getSeconds() < 10 ? '0' : '') + timer.getSeconds();
-
-        time = `${time}${minutes}:${seconds}`;
-
-        return time;
-    }
-
     render(): JSX.Element {
-        return <span id="timer">{this.renderTime()}</span>;
+        return <span id="timer">{TimerHelper.formatTimer(this.state.timer)}</span>;
     }
 }
 
 interface TimerStateToProps {
     gameStatus: GameStatusType;
+    gameTime: Date;
 }
 
 const mapStateToProps = (store: StoreState): TimerStateToProps => {
+    const { status, time } = store.game;
+
     return {
-        gameStatus: store.game.status
+        gameStatus: status,
+        gameTime: time
     };
 };
 
 export const Timer = connect(
-    mapStateToProps
+    mapStateToProps,
+    { setGameTime }
 )(TimerComponent);
