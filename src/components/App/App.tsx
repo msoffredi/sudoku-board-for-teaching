@@ -47,12 +47,10 @@ const solutions = {
 };
 
 const game = {
-    // start: easy1,
     start: games.easy1,
     solution: solutions.solutionEasy1
 } as GameDataType;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
 }
