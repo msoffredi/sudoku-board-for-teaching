@@ -115,15 +115,31 @@ class AppComponent extends React.Component<AppProps> {
 
     render(): JSX.Element {
         return (
-            <main className="container-center">
-                {this.renderPauseOverlay()}
-                {this.renderLostOverlay()}
-                {this.renderWinningOverlay()}
-                <div >
-                    <h1 id="title">Sudoku board for teaching</h1>
-                    <Game game={game} />
+            <div>
+                <header id="top-bar">
+                    <div id="logo-container">
+                        <div id="icon">S</div>
+                        <span>Sudoku BFT</span>
+                    </div>
+                    <div id="menu-container">
+                        <i className="fas fa-bars"></i>
+                        <input id="menu-icon" type="checkbox" />
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </div>
+                </header>
+                <div className="container-center">
+                    {this.renderPauseOverlay()}
+                    {this.renderLostOverlay()}
+                    {this.renderWinningOverlay()}
+                    <div >
+                        <Game game={game} />
+                    </div>
                 </div>
-            </main>
+            </div>
         );
     }
 }
