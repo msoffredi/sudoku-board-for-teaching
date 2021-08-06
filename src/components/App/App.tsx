@@ -119,7 +119,7 @@ class AppComponent extends React.Component<AppProps> {
                 <header id="top-bar">
                     <div id="logo-container">
                         <div id="icon">S</div>
-                        <span>Sudoku</span>
+                        <span>Sudoku BFT</span>
                     </div>
                     <div id="menu-container">
                         <i className="fas fa-bars"></i>
