@@ -123,6 +123,12 @@ class AppComponent extends React.Component<AppProps> {
                     </div>
                     <div id="menu-container">
                         <i className="fas fa-bars"></i>
+                        <input id="menu-icon" type="checkbox" />
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a href="#">About</a></li>
+                        </ul>
                     </div>
                 </header>
                 <div className="container-center">
