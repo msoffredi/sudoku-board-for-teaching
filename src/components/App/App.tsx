@@ -4,8 +4,10 @@ import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
-import { setGameStatus } from '../../actions';
+import { setGameStatus, setSettings } from '../../actions';
 import { TimerHelper } from '../../utils';
+import { Menu } from '../Menu/Menu';
+import { Settings } from '../Settings/Settings';
 
 const games = {
     easy1: [
@@ -53,9 +55,16 @@ const game = {
 
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
+    setSettings: typeof setSettings;
 }
 
-class AppComponent extends React.Component<AppProps> {
+interface AppState {
+    settings: boolean;
+}
+
+class AppComponent extends React.Component<AppProps, AppState> {
+    state = { settings: false };
+
     unpauseGame = (): void => {
         let newStatus = this.props.gameStatus;
 
@@ -113,24 +122,36 @@ class AppComponent extends React.Component<AppProps> {
         return <></>;
     }
 
+    onMenuSettingsClick = () => {
+        this.setState({ settings: true });
+    };
+
+    closeModals = () => {
+        this.setState({ settings: false });
+    }
+
     render(): JSX.Element {
+        const emptyFunc = () => null;
+
+        const menuItems = [
+            { onClick: emptyFunc, text: 'Home', selected: false },
+            { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
+            { onClick: emptyFunc, text: 'About', selected: false }
+        ];
+
+        const settingsPage = this.state.settings
+            ? <Settings closeEvent={this.closeModals} /> : null;
+
         return (
-            <div>
+            <div id="app">
                 <header id="top-bar">
                     <div id="logo-container">
                         <div id="icon">S</div>
                         <span>Sudoku BFT</span>
                     </div>
-                    <div id="menu-container">
-                        <i className="fas fa-bars"></i>
-                        <input id="menu-icon" type="checkbox" />
-                        <ul>
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Settings</a></li>
-                            <li><a href="#">About</a></li>
-                        </ul>
-                    </div>
+                    <Menu menuItems={menuItems} />
                 </header>
+                {settingsPage}
                 <div className="container-center">
                     {this.renderPauseOverlay()}
                     {this.renderLostOverlay()}
@@ -162,5 +183,5 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
 
 export const App = connect(
     mapStateToProps,
-    { setGameStatus }
+    { setGameStatus, setSettings }
 )(AppComponent);
