@@ -3,11 +3,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { StoreState } from "../../reducers";
 import { SettingsType } from "../../types";
-import { setSetting } from "../../actions/settings";
+import { setSettings } from "../../actions";
 import './Settings.scss';
 
 interface SettingsProps extends SettingsStateToProps {
-    setSetting: typeof setSetting;
+    closeEvent: () => void;
+    setSettings: typeof setSettings;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -30,7 +31,7 @@ class SettingsComponent extends React.Component<SettingsProps, SettingsState> {
         }
 
         this.setState(newState);
-        this.props.setSetting(newState);
+        this.props.setSettings(newState);
     };
 
     render(): JSX.Element {
@@ -79,6 +80,7 @@ class SettingsComponent extends React.Component<SettingsProps, SettingsState> {
                             onChange={this.onChange}
                         />
                     </div>
+                    <button onClick={this.props.closeEvent}>Close</button>
                 </FormGroup>
             </div>
         );
@@ -97,5 +99,5 @@ const mapStateToProps = (store: StoreState): SettingsStateToProps => {
 
 export const Settings = connect(
     mapStateToProps,
-    { setSetting }
+    { setSettings }
 )(SettingsComponent);

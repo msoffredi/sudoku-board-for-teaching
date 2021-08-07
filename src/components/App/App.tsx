@@ -4,7 +4,7 @@ import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
-import { setGameStatus } from '../../actions';
+import { setGameStatus, setSettings } from '../../actions';
 import { TimerHelper } from '../../utils';
 import { Menu } from '../Menu/Menu';
 import { Settings } from '../Settings/Settings';
@@ -55,6 +55,7 @@ const game = {
 
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
+    setSettings: typeof setSettings;
 }
 
 interface AppState {
@@ -125,6 +126,10 @@ class AppComponent extends React.Component<AppProps, AppState> {
         this.setState({ settings: true });
     };
 
+    closeModals = () => {
+        this.setState({ settings: false });
+    }
+
     render(): JSX.Element {
         const emptyFunc = () => null;
 
@@ -134,7 +139,8 @@ class AppComponent extends React.Component<AppProps, AppState> {
             { onClick: emptyFunc, text: 'About', selected: false }
         ];
 
-        const settingsPage = this.state.settings ? <Settings /> : null;
+        const settingsPage = this.state.settings
+            ? <Settings closeEvent={this.closeModals} /> : null;
 
         return (
             <div id="app">
@@ -177,5 +183,5 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
 
 export const App = connect(
     mapStateToProps,
-    { setGameStatus }
+    { setGameStatus, setSettings }
 )(AppComponent);

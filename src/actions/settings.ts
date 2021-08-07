@@ -6,7 +6,7 @@ export interface SetSettingsAction {
     payload: SettingsType;
 }
 
-export const setSetting = (settings: SettingsType): SetSettingsAction => {
+export const setSettings = (settings: SettingsType): SetSettingsAction => {
     return {
         type: ActionTypes.SetSettings,
         payload: settings
