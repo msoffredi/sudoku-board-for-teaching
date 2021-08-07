@@ -1,0 +1,68 @@
+@import '../../styles/colors';
+
+#menu-container {
+    display: flex;
+    float: right;
+
+    @media only screen and (min-width: 601px) {
+        i,
+        #menu-icon {
+            display: none;
+        }
+    }
+
+    ul {
+        display: flex;
+
+        li {
+            display: flex;
+            list-style: none;
+            color: $color-dark-gray;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.4rem;
+            cursor: pointer;
+
+            &:hover,
+            &.selected {
+                background-color: $color-light-highlight;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        ul {
+            position: absolute;
+            flex-direction: column;
+            top: -10rem;
+            right: 0;
+            background-color: white;
+            z-index: 1;
+            border: $color-gray 1px solid;
+
+            li {
+                padding-right: 0.6rem;
+            }
+        }
+
+        i {
+            font-size: 0.7rem;
+            margin: 0.25rem 0.4rem;
+        }
+
+        #menu-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            width: 0.7rem;
+            height: 0.7rem;
+            margin: 0.25rem 0.35rem;
+            cursor: pointer;
+            z-index: 1;
+
+            &:checked + ul {
+                top: 1.2rem;
+            }
+        }
+    }
+}

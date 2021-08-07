@@ -24,7 +24,6 @@ export class InfobarComponent extends React.Component<InfobarProps> {
                     <Timer />
                 </div>
                 <div id="errors">Errors: {this.renderErrors()}</div>
-                <div id="settings"><i className="fas fa-cog"></i></div>
             </div>
         );
     }
