@@ -4,7 +4,7 @@ import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
-import { setGameStatus, setSettings } from '../../actions';
+import { setGameStatus, setSettings, setPage } from '../../actions';
 import { TimerHelper } from '../../utils';
 import { Menu } from '../Menu/Menu';
 import { Settings } from '../Settings/Settings';
@@ -57,6 +57,7 @@ const game = {
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
     setSettings: typeof setSettings;
+    setPage: typeof setPage;
 }
 
 interface AppState {
@@ -96,7 +97,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
             return (
                 <Overlay
                     text="You Lost :(, but don't worry, click anywhere for another chance!"
-                    onClick={() => window.location.reload()}
+                    onClick={this.backToHome}
                 />
             );
         }
@@ -104,18 +105,23 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return <></>;
     }
 
+    backToHome = () => {
+        this.props.setPage(Pages.Home);
+    };
+
     renderWinningOverlay(): JSX.Element {
         const { gameStatus, gameErrors, gameTime } = this.props;
-        const time = TimerHelper.formatTimer(gameTime);
 
         if (gameStatus === GameStatusType.Finished) {
+            const time = TimerHelper.formatTimer(gameTime);
+
             return (
                 <Overlay
                     text={`You Won! 
                         You completed the sudoku in with ${gameErrors} errors! 
                         Your total time was: ${time}
                         Click anywhere to start a new game.`}
-                    onClick={() => window.location.reload()}
+                    onClick={this.backToHome}
                 />
             );
         }
@@ -189,5 +195,5 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
 
 export const App = connect(
     mapStateToProps,
-    { setGameStatus, setSettings }
+    { setGameStatus, setSettings, setPage }
 )(AppComponent);
