@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.scss';
 import { Game, Overlay } from '../.';
-import { GameDataType, GameStatusType } from '../../types';
+import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
 import { setGameStatus, setSettings } from '../../actions';
 import { TimerHelper } from '../../utils';
 import { Menu } from '../Menu/Menu';
 import { Settings } from '../Settings/Settings';
+import { Home } from '../Home/Home';
 
 const games = {
     easy1: [
@@ -153,12 +154,15 @@ class AppComponent extends React.Component<AppProps, AppState> {
                 </header>
                 {settingsPage}
                 <div className="container-center">
-                    {this.renderPauseOverlay()}
-                    {this.renderLostOverlay()}
-                    {this.renderWinningOverlay()}
-                    <div >
-                        <Game game={game} />
-                    </div>
+                    {this.props.navigation === Pages.Home
+                        ? <Home />
+                        : <div>
+                            {this.renderPauseOverlay()}
+                            {this.renderLostOverlay()}
+                            {this.renderWinningOverlay()}
+                            <Game game={game} />
+                        </div>
+                    }
                 </div>
             </div>
         );
@@ -169,6 +173,7 @@ interface AppStateToProps {
     gameStatus: GameStatusType;
     gameErrors: number;
     gameTime: Date;
+    navigation: Pages;
 }
 
 const mapStateToProps = (store: StoreState,): AppStateToProps => {
@@ -177,7 +182,8 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
     return {
         gameStatus: status,
         gameErrors: errorCounter,
-        gameTime: time
+        gameTime: time,
+        navigation: store.navigation
     };
 };
 
