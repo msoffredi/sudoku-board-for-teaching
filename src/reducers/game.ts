@@ -21,75 +21,65 @@ const emptySudoku: SudokuValuesType = [
 ];
 
 const updatedBoardReducer = (
-    state: SudokuValuesType | undefined, 
+    state: SudokuValuesType = emptySudoku, 
     action: SetGameUpdatedBoardAction
     ): SudokuValuesType => {
 
         if (action.type === ActionTypes.SetGameUpdatedBoard) {
-            return action.payload;
-        } else if (state) {
-            return state;
+            return JSON.parse(JSON.stringify(action.payload));
         }
 
-        return emptySudoku;
+        return state;
     };
 
 const solutionReducer = (
-    state: SudokuSolutionType | null | undefined, 
+    state: SudokuSolutionType | null = null, 
     action: SetGameSolutionAction
     ): SudokuSolutionType | null => {
 
         if (action.type === ActionTypes.SetGameSolution) {
-            return action.payload;
-        } else if (state) {
-            return state;
+            return JSON.parse(JSON.stringify(action.payload));
         }
 
-        return null;
+        return state;
     };
 
 const errorCounterReducer =
-    (state: number | undefined, action: SetGameErrorCounterAction): number => {
+    (state = 0, action: SetGameErrorCounterAction): number => {
         if (action.type === ActionTypes.SetGameErrorCounter) {
             return action.payload;
-        } else if (state) {
-            return state;
         }
 
-        return 0;
+        return state;
     };
 
 const statusReducer =
-    (state: GameStatusType | undefined, action: SetGameStatusAction): GameStatusType => {
+    (state: GameStatusType = GameStatusType.Off, action: SetGameStatusAction): GameStatusType => {
         if (action.type === ActionTypes.SetGameStatus) {
             return action.payload;
-        } else if (state) {
-            return state;
         }
 
-        return GameStatusType.Off;
+        return state;
     };
 
 const modeReducer = 
-    (state: GameModeType | undefined, action: SetGameModeAction): GameModeType => {
+    (state: GameModeType = GameModeType.Edit, action: SetGameModeAction): GameModeType => {
         if (action.type === ActionTypes.SetGameMode) {
             return action.payload;
-        } else if (state) {
-            return state;
         }
 
-        return GameModeType.Edit;
+        return state;
     };
 
+const timerStart = new Date(new Date().setHours(0, 0, 0, 0));
+
 const timeReducer =
-    (state: Date | undefined, action: SetGameTimeAction): Date => {
+    (state: Date = timerStart, action: SetGameTimeAction): Date => {
         if (action.type === ActionTypes.SetGameTime) {
-            return action.payload;
-        } else if (state) {
-            return state;
+            return Object.assign({}, action.payload);
         }
 
-        return new Date(new Date().setHours(0, 0, 0, 0));
+        return state;
     };
 
 export interface GameState {
