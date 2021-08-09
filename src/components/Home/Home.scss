@@ -1,0 +1,27 @@
+@import '../../styles/colors';
+
+.button {
+    width: auto;
+    height: auto;
+    padding: 0.5rem 0.8rem;
+    border: $color-gray 2px solid;
+    border-radius: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
+    color: $color-dark-gray;
+
+    &:hover {
+        background-color: $color-light-highlight;
+    }
+
+    h3 {
+        font-size: 1rem;
+        color: $color-wrong;
+        margin-bottom: 0.3rem;
+    }
+
+    p {
+        font-size: 0.7rem;
+    }
+}
