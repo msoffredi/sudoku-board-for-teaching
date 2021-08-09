@@ -21,7 +21,7 @@ describe('App tests', () => {
 
     test('renders learn react link', () => {
         const result = render(<Provider store={store}><App /></Provider>);
-        const gameContainerElement = result.container.querySelector('#game-container');
-        expect(gameContainerElement).toBeInTheDocument();
+        const appElement = result.container.querySelector('#app');
+        expect(appElement).toBeInTheDocument();
     });
 });

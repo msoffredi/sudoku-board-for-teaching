@@ -15,21 +15,17 @@ export const defaultSettings: SettingsType = {
 
 export const settingsReducer = 
     (state: SettingsType | undefined, action: SetSettingsAction): SettingsType => {
+        state = state || defaultSettings;
+        
         if (action.type === ActionTypes.SetSettings) {
-            let settings = Object.assign({}, action.payload);
+            const settings = Object.assign(state, action.payload);
 
             if (settings.maxErrors < 0 || settings.maxErrors > 255) {
-                if (state) {
-                    settings = Object.assign(settings, { maxErrors: state.maxErrors });
-                } else {
-                    settings = Object.assign(settings, { maxErrors: defaultSettings.maxErrors });
-                }
+                settings.maxErrors = defaultSettings.maxErrors;
             }
 
             return settings;
-        } else if (state) {
-            return state;
         }
 
-        return defaultSettings;
+        return state;
     };

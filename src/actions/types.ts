@@ -10,5 +10,8 @@ export enum ActionTypes {
     SetGameTime = 'SET_GAME_TIME',
 
     // Settings
-    SetSettings = 'SET_SETTINGS'
+    SetSettings = 'SET_SETTINGS',
+
+    // Navigation
+    SetPage = 'SET_PAGE'
 }

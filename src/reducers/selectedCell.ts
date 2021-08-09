@@ -10,28 +10,24 @@ const selectedCellCoordinatesReducer = (
         state: SelectedCellType | undefined, 
         action: SetSelectedCellCoordinatesAction
     ): SelectedCellType => {
+        state = state || null;
 
         if (action.type === ActionTypes.SetSelectedCellCoordinates) {
-            return { 
-                group: action.payload.group,
-                cell: action.payload.cell,
-            };
-        } else if (state) {
-            return state;
+            return Object.assign({}, action.payload);
         }
 
-        return null;
+        return state;
     };
 
 const selectedCellValueReducer = 
     (state: CellValueType | undefined, action: SetSelectedCellValueAction): CellValueType => {
+        state = state || null;
+        
         if (action.type === ActionTypes.SetSelectedCellValue) {
             return action.payload;
-        } else if (state) {
-            return state;
         }
 
-        return null;
+        return state;
     };
 
 export interface SelectedCellState {
