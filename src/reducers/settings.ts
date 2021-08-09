@@ -14,7 +14,9 @@ export const defaultSettings: SettingsType = {
 };
 
 export const settingsReducer = 
-    (state: SettingsType = defaultSettings, action: SetSettingsAction): SettingsType => {
+    (state: SettingsType | undefined, action: SetSettingsAction): SettingsType => {
+        state = state || defaultSettings;
+        
         if (action.type === ActionTypes.SetSettings) {
             const settings = Object.assign(state, action.payload);
 

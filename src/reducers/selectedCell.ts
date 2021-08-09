@@ -7,9 +7,10 @@ import {
 import { CellValueType, SelectedCellType } from "../types";
 
 const selectedCellCoordinatesReducer = (
-        state: SelectedCellType = null, 
+        state: SelectedCellType | undefined, 
         action: SetSelectedCellCoordinatesAction
     ): SelectedCellType => {
+        state = state || null;
 
         if (action.type === ActionTypes.SetSelectedCellCoordinates) {
             return Object.assign({}, action.payload);
@@ -19,7 +20,9 @@ const selectedCellCoordinatesReducer = (
     };
 
 const selectedCellValueReducer = 
-    (state: CellValueType = null, action: SetSelectedCellValueAction): CellValueType => {
+    (state: CellValueType | undefined, action: SetSelectedCellValueAction): CellValueType => {
+        state = state || null;
+        
         if (action.type === ActionTypes.SetSelectedCellValue) {
             return action.payload;
         }

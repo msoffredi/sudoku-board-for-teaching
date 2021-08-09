@@ -21,9 +21,10 @@ const emptySudoku: SudokuValuesType = [
 ];
 
 const updatedBoardReducer = (
-    state: SudokuValuesType = emptySudoku, 
+    state: SudokuValuesType | undefined, 
     action: SetGameUpdatedBoardAction
     ): SudokuValuesType => {
+        state = state || emptySudoku;
 
         if (action.type === ActionTypes.SetGameUpdatedBoard) {
             return JSON.parse(JSON.stringify(action.payload));
@@ -33,9 +34,10 @@ const updatedBoardReducer = (
     };
 
 const solutionReducer = (
-    state: SudokuSolutionType | null = null, 
+    state: SudokuSolutionType | null | undefined, 
     action: SetGameSolutionAction
     ): SudokuSolutionType | null => {
+        state = state || null;
 
         if (action.type === ActionTypes.SetGameSolution) {
             return JSON.parse(JSON.stringify(action.payload));
@@ -45,7 +47,9 @@ const solutionReducer = (
     };
 
 const errorCounterReducer =
-    (state = 0, action: SetGameErrorCounterAction): number => {
+    (state: number | undefined, action: SetGameErrorCounterAction): number => {
+        state = state || 0;
+
         if (action.type === ActionTypes.SetGameErrorCounter) {
             return action.payload;
         }
@@ -54,7 +58,9 @@ const errorCounterReducer =
     };
 
 const statusReducer =
-    (state: GameStatusType = GameStatusType.Off, action: SetGameStatusAction): GameStatusType => {
+    (state: GameStatusType | undefined, action: SetGameStatusAction): GameStatusType => {
+        state = state || GameStatusType.Off;
+
         if (action.type === ActionTypes.SetGameStatus) {
             return action.payload;
         }
@@ -63,7 +69,9 @@ const statusReducer =
     };
 
 const modeReducer = 
-    (state: GameModeType = GameModeType.Edit, action: SetGameModeAction): GameModeType => {
+    (state: GameModeType| undefined, action: SetGameModeAction): GameModeType => {
+        state = state || GameModeType.Edit;
+
         if (action.type === ActionTypes.SetGameMode) {
             return action.payload;
         }
@@ -74,7 +82,9 @@ const modeReducer =
 const timerStart = new Date(new Date().setHours(0, 0, 0, 0));
 
 const timeReducer =
-    (state: Date = timerStart, action: SetGameTimeAction): Date => {
+    (state: Date | undefined, action: SetGameTimeAction): Date => {
+        state = state || timerStart;
+
         if (action.type === ActionTypes.SetGameTime) {
             return Object.assign({}, action.payload);
         }
