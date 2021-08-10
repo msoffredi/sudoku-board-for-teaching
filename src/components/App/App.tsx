@@ -8,6 +8,8 @@ import { setGameStatus, setPage } from '../../actions';
 import { TimerHelper } from '../../utils';
 import { Home } from '../Home/Home';
 import { TopBar } from '../TopBar/TopBar';
+import { Menu } from '../Menu/Menu';
+import { About } from '../About/About';
 
 const games = {
     easy1: [
@@ -58,7 +60,17 @@ interface AppProps extends AppStateToProps {
     setPage: typeof setPage;
 }
 
-class AppComponent extends React.Component<AppProps> {
+interface AppState {
+    settings: boolean;
+    about: boolean;
+}
+
+class AppComponent extends React.Component<AppProps, AppState> {
+    state = {
+        settings: false,
+        about: false
+    };
+
     unpauseGame = (): void => {
         let newStatus = this.props.gameStatus;
 
@@ -121,10 +133,29 @@ class AppComponent extends React.Component<AppProps> {
         return <></>;
     }
 
+    onMenuSettingsClick = (): void => {
+        this.setState({ settings: true });
+    };
+
+    onMenuAboutClick = (): void => {
+        this.setState({ about: true });
+    };
+
     render(): JSX.Element {
+        const emptyFunc = () => null;
+
+        const menuItems = [
+            { onClick: emptyFunc, text: 'Home', selected: false },
+            { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
+            { onClick: this.onMenuAboutClick, text: 'About', selected: this.state.about }
+        ];
+
         return (
             <div id="app">
-                <TopBar />
+                <TopBar>
+                    <Menu menuItems={menuItems} />
+                </TopBar>
+                {this.state.about ? <About /> : null}
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
                         ? <Home />
