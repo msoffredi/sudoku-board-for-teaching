@@ -4,11 +4,10 @@ import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
-import { setGameStatus, setSettings, setPage } from '../../actions';
+import { setGameStatus, setPage } from '../../actions';
 import { TimerHelper } from '../../utils';
-import { Menu } from '../Menu/Menu';
-import { Settings } from '../Settings/Settings';
 import { Home } from '../Home/Home';
+import { TopBar } from '../TopBar/TopBar';
 
 const games = {
     easy1: [
@@ -56,17 +55,10 @@ const game = {
 
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
-    setSettings: typeof setSettings;
     setPage: typeof setPage;
 }
 
-interface AppState {
-    settings: boolean;
-}
-
-class AppComponent extends React.Component<AppProps, AppState> {
-    state = { settings: false };
-
+class AppComponent extends React.Component<AppProps> {
     unpauseGame = (): void => {
         let newStatus = this.props.gameStatus;
 
@@ -129,36 +121,10 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return <></>;
     }
 
-    onMenuSettingsClick = () => {
-        this.setState({ settings: true });
-    };
-
-    closeModals = () => {
-        this.setState({ settings: false });
-    }
-
     render(): JSX.Element {
-        const emptyFunc = () => null;
-
-        const menuItems = [
-            { onClick: emptyFunc, text: 'Home', selected: false },
-            { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
-            { onClick: emptyFunc, text: 'About', selected: false }
-        ];
-
-        const settingsPage = this.state.settings
-            ? <Settings closeEvent={this.closeModals} /> : null;
-
         return (
             <div id="app">
-                <header id="top-bar">
-                    <div id="logo-container">
-                        <div id="icon">S</div>
-                        <span>Sudoku BFT</span>
-                    </div>
-                    <Menu menuItems={menuItems} />
-                </header>
-                {settingsPage}
+                <TopBar />
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
                         ? <Home />
@@ -195,5 +161,5 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
 
 export const App = connect(
     mapStateToProps,
-    { setGameStatus, setSettings, setPage }
+    { setGameStatus, setPage }
 )(AppComponent);

@@ -4,43 +4,6 @@
     position: relative;
 }
 
-#top-bar {
-    display: flex;
-    justify-content: space-between;
-    height: 1.2rem;
-    background-color: $color-light;
-    width: 100vw;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    #logo-container {
-        display: flex;
-        float: left;
-
-        #icon {
-            display: flex;
-            width: 1rem;
-            height: 1rem;
-            border: #777 0.1rem solid;
-            border-radius: 0.2rem;
-            justify-content: center;
-            color: $color-wrong;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-weight: bold;
-            line-height: 0.76rem;
-            font-size: 0.8rem;
-            margin: 0.1rem;
-        }
-
-        span {
-            font-size: 0.8rem;
-            font-weight: bold;
-            margin-top: 0.1rem;
-        }
-    }
-}
-
 .container-center {
     display: flex;
     width: 100vw;
