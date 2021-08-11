@@ -35,4 +35,19 @@
             margin-top: 0.15rem;
         }
     }
+
+    a {
+        display: inline-block;
+        padding: 0.2rem 0.3rem;
+        text-decoration: none;
+        font-size: 0.6rem;
+        color: $color-dark-gray;
+
+        &:visited {
+            color: $color-dark-gray;
+        }
+        &:hover {
+            color: $color-edit;
+        }
+    }
 }

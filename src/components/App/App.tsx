@@ -109,7 +109,15 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return <></>;
     }
 
-    backToHome = () => {
+    backToHome = (e?: Event) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        if (this.props.gameStatus === GameStatusType.On) {
+            this.props.setGameStatus(GameStatusType.Off);
+        }
+
         this.props.setPage(Pages.Home);
     };
 
@@ -141,6 +149,12 @@ class AppComponent extends React.Component<AppProps, AppState> {
         this.setState({ about: !this.state.about });
     };
 
+    renderLinkBack = (): JSX.Element => {
+        return (
+            <a onClick={() => this.backToHome()} href="#">Home &gt;</a>
+        );
+    };
+
     render(): JSX.Element {
         const emptyFunc = () => null;
 
@@ -150,11 +164,13 @@ class AppComponent extends React.Component<AppProps, AppState> {
             { onClick: this.onAboutClick, text: 'About', selected: this.state.about }
         ];
 
+        const menu = this.props.gameStatus !== GameStatusType.On
+            ? <Menu menuItems={menuItems} />
+            : this.renderLinkBack();
+
         return (
             <div id="app">
-                <TopBar>
-                    <Menu menuItems={menuItems} />
-                </TopBar>
+                <TopBar>{menu}</TopBar>
                 {this.state.about ? <About closeEvent={this.onAboutClick} /> : null}
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
