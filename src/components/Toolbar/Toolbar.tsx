@@ -33,17 +33,17 @@ export class ToolbarComponent extends React.Component<ToolbarProps> {
                     text="Erase"
                 />
                 <ToolbarButton
-                    id="pause-button"
-                    onClick={this.props.onPauseClick}
-                    fontAwesomeClass="far fa-pause-circle"
-                    text="Pause"
-                />
-                <ToolbarButton
                     id="annotations"
                     onClick={this.onNotesClick}
                     fontAwesomeClass="fas fa-pencil-alt"
                     text="Notes"
                     color={annotationsColor}
+                />
+                <ToolbarButton
+                    id="pause-button"
+                    onClick={this.props.onPauseClick}
+                    fontAwesomeClass="far fa-pause-circle"
+                    text="Pause"
                 />
             </div>
         );

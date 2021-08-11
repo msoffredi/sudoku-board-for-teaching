@@ -193,9 +193,9 @@ class GameComponent extends React.Component<GameProps> {
     render(): JSX.Element {
         return (
             <div id="game-container">
+                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.pauseGame} />
                 <Infobar />
                 <Sudoku values={this.props.game.start} />
-                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.pauseGame} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );

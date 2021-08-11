@@ -19,11 +19,11 @@ export class InfobarComponent extends React.Component<InfobarProps> {
     render(): JSX.Element {
         return (
             <div id="info">
+                <div id="errors">Errors: {this.renderErrors()}</div>
                 <div id="timer">
                     <i className="far fa-clock"></i>
                     <Timer />
                 </div>
-                <div id="errors">Errors: {this.renderErrors()}</div>
             </div>
         );
     }
