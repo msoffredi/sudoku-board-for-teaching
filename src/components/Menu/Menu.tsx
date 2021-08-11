@@ -16,7 +16,15 @@ export class Menu extends React.Component<MenuProps> {
         const items = this.props.menuItems.map((item: MenuItem): JSX.Element => {
             const itemClass = item.selected ? 'selected' : '';
 
-            return <li className={itemClass} key={item.text} onClick={item.onClick}>{item.text}</li>;
+            return (
+                <li
+                    className={itemClass}
+                    key={item.text}
+                    onClick={item.onClick}
+                >
+                    {item.text}
+                </li>
+            );
         });
 
         return (

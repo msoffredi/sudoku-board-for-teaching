@@ -4,11 +4,12 @@ import { Game, Overlay } from '../.';
 import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
-import { setGameStatus, setSettings, setPage } from '../../actions';
+import { setGameStatus, setPage } from '../../actions';
 import { TimerHelper } from '../../utils';
-import { Menu } from '../Menu/Menu';
-import { Settings } from '../Settings/Settings';
 import { Home } from '../Home/Home';
+import { TopBar } from '../TopBar/TopBar';
+import { Menu } from '../Menu/Menu';
+import { About } from '../About/About';
 
 const games = {
     easy1: [
@@ -56,16 +57,19 @@ const game = {
 
 interface AppProps extends AppStateToProps {
     setGameStatus: typeof setGameStatus;
-    setSettings: typeof setSettings;
     setPage: typeof setPage;
 }
 
 interface AppState {
     settings: boolean;
+    about: boolean;
 }
 
 class AppComponent extends React.Component<AppProps, AppState> {
-    state = { settings: false };
+    state = {
+        settings: false,
+        about: false
+    };
 
     unpauseGame = (): void => {
         let newStatus = this.props.gameStatus;
@@ -129,13 +133,13 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return <></>;
     }
 
-    onMenuSettingsClick = () => {
+    onMenuSettingsClick = (): void => {
         this.setState({ settings: true });
     };
 
-    closeModals = () => {
-        this.setState({ settings: false });
-    }
+    onAboutClick = (): void => {
+        this.setState({ about: !this.state.about });
+    };
 
     render(): JSX.Element {
         const emptyFunc = () => null;
@@ -143,22 +147,15 @@ class AppComponent extends React.Component<AppProps, AppState> {
         const menuItems = [
             { onClick: emptyFunc, text: 'Home', selected: false },
             { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
-            { onClick: emptyFunc, text: 'About', selected: false }
+            { onClick: this.onAboutClick, text: 'About', selected: this.state.about }
         ];
-
-        const settingsPage = this.state.settings
-            ? <Settings closeEvent={this.closeModals} /> : null;
 
         return (
             <div id="app">
-                <header id="top-bar">
-                    <div id="logo-container">
-                        <div id="icon">S</div>
-                        <span>Sudoku BFT</span>
-                    </div>
+                <TopBar>
                     <Menu menuItems={menuItems} />
-                </header>
-                {settingsPage}
+                </TopBar>
+                {this.state.about ? <About closeEvent={this.onAboutClick} /> : null}
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
                         ? <Home />
@@ -195,5 +192,5 @@ const mapStateToProps = (store: StoreState,): AppStateToProps => {
 
 export const App = connect(
     mapStateToProps,
-    { setGameStatus, setSettings, setPage }
+    { setGameStatus, setPage }
 )(AppComponent);

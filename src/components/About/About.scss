@@ -1,0 +1,21 @@
+@import '../../styles/colors';
+
+#about {
+    width: auto;
+    height: auto;
+    border: $color-dark-gray 1px solid;
+    border-radius: 0.2rem;
+    text-align: center;
+    padding: 0.4rem 0.6rem 0.6rem;
+    margin: 0 2rem;
+
+    h3 {
+        font-size: 0.7rem;
+    }
+
+    p {
+        font-size: 0.5rem;
+        line-height: 1.4;
+        margin-top: 0.5rem;
+    }
+}
