@@ -137,8 +137,8 @@ class AppComponent extends React.Component<AppProps, AppState> {
         this.setState({ settings: true });
     };
 
-    onMenuAboutClick = (): void => {
-        this.setState({ about: true });
+    onAboutClick = (): void => {
+        this.setState({ about: !this.state.about });
     };
 
     render(): JSX.Element {
@@ -147,7 +147,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
         const menuItems = [
             { onClick: emptyFunc, text: 'Home', selected: false },
             { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
-            { onClick: this.onMenuAboutClick, text: 'About', selected: this.state.about }
+            { onClick: this.onAboutClick, text: 'About', selected: this.state.about }
         ];
 
         return (
@@ -155,7 +155,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
                 <TopBar>
                     <Menu menuItems={menuItems} />
                 </TopBar>
-                {this.state.about ? <About /> : null}
+                {this.state.about ? <About closeEvent={this.onAboutClick} /> : null}
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
                         ? <Home />

@@ -2,7 +2,34 @@ import React from "react";
 import { PageContainer } from "../PageContainer/PageContainer";
 import './About.scss';
 
-export class About extends React.Component {
+interface AboutProps {
+    closeEvent: () => void;
+}
+
+interface AboutState {
+    open: boolean;
+}
+
+export class About extends React.Component<AboutProps, AboutState> {
+    state = { open: false };
+
+    closePage = (): void => {
+        // This avoids the first trigger when we clicked on the menu
+        if (this.state.open) {
+            this.props.closeEvent();
+        } else {
+            this.setState({ open: true });
+        }
+    };
+
+    componentDidMount(): void {
+        document.body.addEventListener('click', this.closePage);
+    }
+
+    componentWillUnmount(): void {
+        document.body.removeEventListener('click', this.closePage);
+    }
+
     render(): JSX.Element {
         return (
             <PageContainer>
