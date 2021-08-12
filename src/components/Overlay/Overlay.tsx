@@ -3,7 +3,7 @@ import './Overlay.scss';
 
 interface OverlayProps {
     text: string;
-    onClick: () => void;
+    onClick: (e?: Event) => void;
 }
 
 export class Overlay extends React.Component<OverlayProps> {
