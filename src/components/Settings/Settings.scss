@@ -1,17 +1,16 @@
 @import '../../styles/colors';
 
 #settings {
-    position: absolute;
-    top: 1.2rem;
-    right: 0;
-    border: $color-dark 1px solid;
-    background-color: white;
-    padding: 0.4rem;
-    z-index: 2;
+    width: auto;
+    height: auto;
+    border: $color-dark-gray 1px solid;
+    border-radius: 0.2rem;
+    text-align: left;
+    padding: 0.4rem 0.4rem 0.6rem 0.6rem;
+    margin: 0 2rem;
 
     @media only screen and (max-width: 600px) {
-        top: 3.5rem;
-        right: 1.3rem;
+        margin: 0 1rem;
     }
 
     .MuiFormControlLabel-root
@@ -20,7 +19,11 @@
         font-size: 0.5rem;
         display: inline-block;
         width: auto;
-        padding-right: 0.2rem;
+        padding-right: 0.1rem;
+
+        @media only screen and (max-width: 600px) {
+            font-size: 0.6rem;
+        }
     }
 
     input[name='max-errors'] {
@@ -31,14 +34,11 @@
         padding: 0.17rem;
         border: $color-dark 1px solid;
         border-radius: 0.1rem;
-    }
 
-    button {
-        width: fit-content;
-        padding: 0.17rem 0.3rem;
-        margin-top: 0.5rem;
-        border: $color-dark 1px solid;
-        border-radius: 0.15rem;
-        cursor: pointer;
+        @media only screen and (max-width: 600px) {
+            height: 0.9rem;
+            font-size: 0.6rem;
+            padding: 0.2rem;
+        }
     }
 }
