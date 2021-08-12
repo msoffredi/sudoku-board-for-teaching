@@ -10,6 +10,7 @@ import { Home } from '../Home/Home';
 import { TopBar } from '../TopBar/TopBar';
 import { Menu } from '../Menu/Menu';
 import { About } from '../About/About';
+import { Settings } from '../Settings/Settings';
 
 const games = {
     easy1: [
@@ -141,8 +142,8 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return <></>;
     }
 
-    onMenuSettingsClick = (): void => {
-        this.setState({ settings: true });
+    onSettingsClick = (): void => {
+        this.setState({ settings: !this.state.settings });
     };
 
     onAboutClick = (): void => {
@@ -160,7 +161,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
 
         const menuItems = [
             { onClick: emptyFunc, text: 'Home', selected: false },
-            { onClick: this.onMenuSettingsClick, text: 'Settings', selected: this.state.settings },
+            { onClick: this.onSettingsClick, text: 'Settings', selected: this.state.settings },
             { onClick: this.onAboutClick, text: 'About', selected: this.state.about }
         ];
 
@@ -171,6 +172,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
         return (
             <div id="app">
                 <TopBar>{menu}</TopBar>
+                {this.state.settings ? <Settings closeEvent={this.onSettingsClick} /> : null}
                 {this.state.about ? <About closeEvent={this.onAboutClick} /> : null}
                 <div className="container-center">
                     {this.props.navigation === Pages.Home
