@@ -157,10 +157,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
     };
 
     render(): JSX.Element {
-        const emptyFunc = () => null;
-
         const menuItems = [
-            { onClick: emptyFunc, text: 'Home', selected: false },
             { onClick: this.onSettingsClick, text: 'Settings', selected: this.state.settings },
             { onClick: this.onAboutClick, text: 'About', selected: this.state.about }
         ];
