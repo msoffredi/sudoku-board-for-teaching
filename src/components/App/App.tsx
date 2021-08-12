@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.scss';
-import { Game, Overlay } from '../.';
+import { Game } from '../.';
 import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
 import { setGameStatus, setPage } from '../../actions';
-import { TimerHelper } from '../../utils';
+// import { TimerHelper } from '../../utils';
 import { Home } from '../Home/Home';
 import { TopBar } from '../TopBar/TopBar';
 import { Menu } from '../Menu/Menu';
@@ -72,44 +72,6 @@ class AppComponent extends React.Component<AppProps, AppState> {
         about: false
     };
 
-    unpauseGame = (): void => {
-        let newStatus = this.props.gameStatus;
-
-        if (newStatus === GameStatusType.Paused) {
-            newStatus = GameStatusType.On;
-        }
-
-        if (newStatus !== this.props.gameStatus) {
-            this.props.setGameStatus(newStatus);
-        }
-    };
-
-    renderPauseOverlay(): JSX.Element {
-        if (this.props.gameStatus === GameStatusType.Paused) {
-            return (
-                <Overlay
-                    text="Click anywhere to get back to the game"
-                    onClick={this.unpauseGame}
-                />
-            );
-        }
-
-        return <></>;
-    }
-
-    renderLostOverlay(): JSX.Element {
-        if (this.props.gameStatus === GameStatusType.Lost) {
-            return (
-                <Overlay
-                    text="You Lost :(, but don't worry, click anywhere for another chance!"
-                    onClick={this.backToHome}
-                />
-            );
-        }
-
-        return <></>;
-    }
-
     backToHome = (e?: Event) => {
         if (e) {
             e.preventDefault();
@@ -122,25 +84,25 @@ class AppComponent extends React.Component<AppProps, AppState> {
         this.props.setPage(Pages.Home);
     };
 
-    renderWinningOverlay(): JSX.Element {
-        const { gameStatus, gameErrors, gameTime } = this.props;
+    // renderWinningOverlay(): JSX.Element {
+    //     const { gameStatus, gameErrors, gameTime } = this.props;
 
-        if (gameStatus === GameStatusType.Finished) {
-            const time = TimerHelper.formatTimer(gameTime);
+    //     if (gameStatus === GameStatusType.Finished) {
+    //         const time = TimerHelper.formatTimer(gameTime);
 
-            return (
-                <Overlay
-                    text={`You Won! 
-                        You completed the sudoku in with ${gameErrors} errors! 
-                        Your total time was: ${time}
-                        Click anywhere to start a new game.`}
-                    onClick={this.backToHome}
-                />
-            );
-        }
+    //         return (
+    //             <Overlay
+    //                 text={`You Won! 
+    //                     You completed the sudoku in with ${gameErrors} errors! 
+    //                     Your total time was: ${time}
+    //                     Click anywhere to start a new game.`}
+    //                 onClick={this.backToHome}
+    //             />
+    //         );
+    //     }
 
-        return <></>;
-    }
+    //     return <></>;
+    // }
 
     onSettingsClick = (): void => {
         this.setState({ settings: !this.state.settings });
@@ -175,9 +137,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
                     {this.props.navigation === Pages.Home
                         ? <Home />
                         : <div>
-                            {this.renderPauseOverlay()}
-                            {this.renderLostOverlay()}
-                            {this.renderWinningOverlay()}
+                            {/* {this.renderWinningOverlay()} */}
                             <Game game={game} />
                         </div>
                     }
