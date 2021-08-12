@@ -11,7 +11,17 @@ interface MenuProps {
     menuItems: MenuItem[];
 }
 
-export class Menu extends React.Component<MenuProps> {
+interface MenuState {
+    open: boolean;
+}
+
+export class Menu extends React.Component<MenuProps, MenuState> {
+    state = { open: false };
+
+    onMenuClick = (): void => {
+        this.setState({ open: !this.state.open });
+    };
+
     render(): JSX.Element {
         const items = this.props.menuItems.map((item: MenuItem): JSX.Element => {
             const itemClass = item.selected ? 'selected' : '';
@@ -30,7 +40,12 @@ export class Menu extends React.Component<MenuProps> {
         return (
             <div id="menu-container">
                 <i className="fas fa-bars"></i>
-                <input id="menu-icon" type="checkbox" />
+                <input
+                    id="menu-icon"
+                    type="checkbox"
+                    checked={this.state.open}
+                    onChange={this.onMenuClick}
+                />
                 <ul>{items}</ul>
             </div>
         );
