@@ -26,12 +26,21 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
     }
 
     componentWillUnmount(): void {
+        this.clearTimer();
+    }
+
+    clearTimer(): void {
         if (this.timerId) {
             clearInterval(this.timerId);
         }
     }
 
     tick = (): void => {
+        if (this.props.gameStatus === GameStatusType.Finished) {
+            this.clearTimer();
+            return;
+        }
+
         const { timer } = this.state;
 
         if (this.props.gameStatus === GameStatusType.On) {

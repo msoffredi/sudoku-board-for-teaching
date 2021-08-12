@@ -6,7 +6,8 @@ import {
     setGameUpdatedBoard,
     setGameSolution,
     setGameErrorCounter,
-    setGameStatus
+    setGameStatus,
+    setPage
 } from "../../actions";
 import {
     AnnotationsType,
@@ -15,6 +16,7 @@ import {
     GameDataType,
     GameModeType,
     GameStatusType,
+    Pages,
     SelectedCellType,
     SudokuNumbersType,
     SudokuValuesType
@@ -22,10 +24,11 @@ import {
 import {
     Infobar,
     NumBar,
+    Overlay,
     Sudoku,
     Toolbar
 } from "../.";
-import { SudokuHelper } from "../../utils";
+import { SudokuHelper, TimerHelper } from "../../utils";
 
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
@@ -36,6 +39,7 @@ interface GameProps extends GameStateToProps {
     setGameSolution: typeof setGameSolution;
     setGameErrorCounter: typeof setGameErrorCounter;
     setGameStatus: typeof setGameStatus;
+    setPage: typeof setPage;
 }
 
 class GameComponent extends React.Component<GameProps> {
@@ -178,10 +182,12 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameUpdatedBoard(newValues);
     };
 
-    pauseGame = (): void => {
+    togglePauseGame = (): void => {
         let newStatus = this.props.status;
 
-        if (newStatus === GameStatusType.On) {
+        if (newStatus === GameStatusType.Paused) {
+            newStatus = GameStatusType.On;
+        } else {
             newStatus = GameStatusType.Paused;
         }
 
@@ -190,10 +196,71 @@ class GameComponent extends React.Component<GameProps> {
         }
     };
 
+    renderPauseOverlay(): JSX.Element {
+        if (this.props.status === GameStatusType.Paused) {
+            return (
+                <Overlay
+                    text="Click anywhere to get back to the game"
+                    onClick={this.togglePauseGame}
+                />
+            );
+        }
+
+        return <></>;
+    }
+
+    renderLostOverlay(): JSX.Element {
+        if (this.props.status === GameStatusType.Lost) {
+            return (
+                <Overlay
+                    text="You Lost :(, but don't worry, click anywhere for another chance!"
+                    onClick={this.backToHome}
+                />
+            );
+        }
+
+        return <></>;
+    }
+
+    backToHome = (e?: Event) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        if (this.props.status === GameStatusType.On) {
+            this.props.setGameStatus(GameStatusType.Off);
+        }
+
+        this.props.setPage(Pages.Home);
+    };
+
+    renderWinningOverlay(): JSX.Element {
+        const { status, errorCounter, time } = this.props;
+
+        if (status === GameStatusType.Finished) {
+            const formattedTime = TimerHelper.formatTimer(time);
+
+            return (
+                <Overlay
+                    text={`You Won! 
+                        You completed the sudoku in with ${errorCounter} errors! 
+                        Your total time was: ${formattedTime}
+                        Click anywhere to start a new game.`}
+                    onClick={this.backToHome}
+                />
+            );
+        }
+
+        return <></>;
+    }
+
     render(): JSX.Element {
         return (
             <div id="game-container">
-                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.pauseGame} />
+                {this.renderPauseOverlay()}
+                {this.renderLostOverlay()}
+                {this.renderWinningOverlay()}
+                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.togglePauseGame} />
                 <Infobar />
                 <Sudoku values={this.props.game.start} />
                 <NumBar cellOnClick={this.selectNumber} />
@@ -212,16 +279,19 @@ interface GameStateToProps {
     status: GameStatusType;
     maxErrors: number;
     mode: GameModeType;
+    time: Date;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
+    const { selectedCell, updatedBoard, errorCounter, status, mode, time } = store.game;
     return {
-        selectedCell: store.game.selectedCell,
-        updatedBoard: store.game.updatedBoard,
-        errorCounter: store.game.errorCounter,
-        status: store.game.status,
+        selectedCell,
+        updatedBoard,
+        errorCounter,
+        status,
         maxErrors: store.settings.maxErrors,
-        mode: store.game.mode
+        mode,
+        time
     };
 };
 
@@ -232,6 +302,7 @@ export const Game = connect(
         setGameUpdatedBoard,
         setGameSolution,
         setGameErrorCounter,
-        setGameStatus
+        setGameStatus,
+        setPage
     }
 )(GameComponent);
