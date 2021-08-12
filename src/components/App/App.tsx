@@ -84,26 +84,6 @@ class AppComponent extends React.Component<AppProps, AppState> {
         this.props.setPage(Pages.Home);
     };
 
-    // renderWinningOverlay(): JSX.Element {
-    //     const { gameStatus, gameErrors, gameTime } = this.props;
-
-    //     if (gameStatus === GameStatusType.Finished) {
-    //         const time = TimerHelper.formatTimer(gameTime);
-
-    //         return (
-    //             <Overlay
-    //                 text={`You Won! 
-    //                     You completed the sudoku in with ${gameErrors} errors! 
-    //                     Your total time was: ${time}
-    //                     Click anywhere to start a new game.`}
-    //                 onClick={this.backToHome}
-    //             />
-    //         );
-    //     }
-
-    //     return <></>;
-    // }
-
     onSettingsClick = (): void => {
         this.setState({ settings: !this.state.settings });
     };
