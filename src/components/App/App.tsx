@@ -5,7 +5,6 @@ import { GameDataType, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
 import { setGameStatus, setPage } from '../../actions';
-// import { TimerHelper } from '../../utils';
 import { Home } from '../Home/Home';
 import { TopBar } from '../TopBar/TopBar';
 import { Menu } from '../Menu/Menu';
@@ -117,7 +116,6 @@ class AppComponent extends React.Component<AppProps, AppState> {
                     {this.props.navigation === Pages.Home
                         ? <Home />
                         : <div>
-                            {/* {this.renderWinningOverlay()} */}
                             <Game game={game} />
                         </div>
                     }
