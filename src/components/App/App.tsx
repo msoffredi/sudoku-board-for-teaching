@@ -51,7 +51,8 @@ const solutions = {
 };
 
 const game = {
-    start: games.easy1,
+    // start: games.easy1,
+    start: games.almostFinished1,
     solution: solutions.solutionEasy1
 } as GameDataType;
 

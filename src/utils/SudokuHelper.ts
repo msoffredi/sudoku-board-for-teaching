@@ -1,4 +1,4 @@
-import { CellCoordinatesType, SelectedCellType } from "../types";
+import { AnnotationsType, CellCoordinatesType, CellGroupValuesType, CellValueType, SelectedCellType, SudokuNumbersType, SudokuValuesType } from "../types";
 
 export class SudokuHelper {
     public static isCellHighlighted(
@@ -89,4 +89,31 @@ export class SudokuHelper {
 
             return false;    
         }
+
+        /**
+         * Given a provided board with a game in progress, this method will return
+         * a list of unique sudoku numbers (1-9) that still have cells to discover 
+         * (in other words that we have less than 9 of them in the entire board).
+         * 
+         * If a number is no longer playable/available we will returm null in its
+         * position instead
+         * 
+         * @param board Updated board to evaluate
+         */
+    public static getIncompleteNumbers(board: SudokuValuesType): CellValueType[] {
+        const numbersOccurrences = [0,0,0,0,0,0,0,0,0];
+
+        board.forEach((group: CellGroupValuesType) => {
+            group.forEach((cell: AnnotationsType | CellValueType) => {
+                if (typeof cell === 'number' && cell) {
+                    numbersOccurrences[cell-1]++;
+                }
+            });
+        });
+
+        return numbersOccurrences.map(
+            (num: number, index: number): (SudokuNumbersType | null) => {
+                return num < 9 ? index+1 as SudokuNumbersType : null;
+            });
+    }
 }
