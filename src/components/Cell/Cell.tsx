@@ -74,9 +74,11 @@ class CellComponent extends React.Component<CellProps, CellState> {
             highlightClass = 'same-number';
         }
         // If this is a cell within the highlight zones...
-        else if (SudokuHelper.isCellHighlighted(
-            { cell: this.props.cell, group: this.props.group },
-            selectedCell.coordinates)) {
+        else if (this.props.settings.highlightAreas
+            && SudokuHelper.isCellHighlighted(
+                { cell: this.props.cell, group: this.props.group },
+                selectedCell.coordinates)
+        ) {
 
             highlightClass = 'highlighted';
         }
