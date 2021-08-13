@@ -27,5 +27,10 @@
         background-color: $color-light;
         color: $color-cell-selected;
         color: $color-edit;
+
+        &.empty {
+            cursor: default;
+            background-color: inherit;
+        }
     }
 }

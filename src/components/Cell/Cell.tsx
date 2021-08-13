@@ -10,6 +10,7 @@ import {
     CellValueType,
     GameModeType,
     SelectedCellType,
+    SettingsType,
     SudokuNumbersType,
     SudokuSolutionType
 } from "../../types";
@@ -66,13 +67,18 @@ class CellComponent extends React.Component<CellProps, CellState> {
             highlightClass = 'selected';
         }
         // If this is a cell with same number as the selected one...
-        else if (this.props.value && this.props.value === this.props.selectedCell.value) {
+        else if (this.props.settings.highlightIdenticalNumbers
+            && this.props.value
+            && this.props.value === this.props.selectedCell.value
+        ) {
             highlightClass = 'same-number';
         }
         // If this is a cell within the highlight zones...
-        else if (SudokuHelper.isCellHighlighted(
-            { cell: this.props.cell, group: this.props.group },
-            selectedCell.coordinates)) {
+        else if (this.props.settings.highlightAreas
+            && SudokuHelper.isCellHighlighted(
+                { cell: this.props.cell, group: this.props.group },
+                selectedCell.coordinates)
+        ) {
 
             highlightClass = 'highlighted';
         }
@@ -126,13 +132,17 @@ interface CellStateToProps {
     };
     solution: SudokuSolutionType | null;
     mode: GameModeType;
+    settings: SettingsType;
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
+    const { selectedCell, solution, mode } = store.game;
+
     return {
-        selectedCell: store.game.selectedCell,
-        solution: store.game.solution,
-        mode: store.game.mode
+        selectedCell: selectedCell,
+        solution: solution,
+        mode: mode,
+        settings: store.settings
     };
 };
 

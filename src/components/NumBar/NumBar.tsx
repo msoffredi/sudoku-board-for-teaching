@@ -1,22 +1,28 @@
 import React from "react";
-import { SudokuNumbersType } from "../../types";
+import { connect } from "react-redux";
+import { StoreState } from "../../reducers";
+import { CellValueType, SettingsType, SudokuNumbersType, SudokuValuesType } from "../../types";
+import { SudokuHelper } from "../../utils";
 import './NumBar.scss';
 
-interface NumBarProps {
+interface NumBarProps extends NumBarStateToProps {
     cellOnClick: (num: SudokuNumbersType) => void;
 }
 
-export class NumBar extends React.Component<NumBarProps> {
+class NumBarComponent extends React.Component<NumBarProps> {
     generateNumbers = (): JSX.Element[] => {
-        const numbers: SudokuNumbersType[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        return numbers.map((num: SudokuNumbersType) => {
-            return (
+        const numbers: CellValueType[] = this.props.settings.hideUsedNumbers
+            ? SudokuHelper.getIncompleteNumbers(this.props.updatedBoard)
+            : [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        return numbers.map((num: CellValueType, index: number) => {
+            return num ?
                 <div
-                    key={num}
+                    key={index}
                     className="num-cell"
                     onClick={() => this.props.cellOnClick(num)}
                 >{num}</div>
-            );
+                : <div key={index} className="num-cell empty"></div>;
         });
     };
 
@@ -28,3 +34,17 @@ export class NumBar extends React.Component<NumBarProps> {
         );
     }
 }
+
+interface NumBarStateToProps {
+    updatedBoard: SudokuValuesType;
+    settings: SettingsType;
+}
+
+const mapStateToProps = (store: StoreState): NumBarStateToProps => {
+    return {
+        updatedBoard: store.game.updatedBoard,
+        settings: store.settings
+    };
+};
+
+export const NumBar = connect(mapStateToProps)(NumBarComponent);

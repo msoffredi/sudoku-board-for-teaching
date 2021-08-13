@@ -377,3 +377,6 @@ test-report.xml
 
 # Local info not pushed to the repo
 /local
+
+#VSCode
+/.vscode
