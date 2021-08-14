@@ -13,5 +13,8 @@ export enum ActionTypes {
     SetSettings = 'SET_SETTINGS',
 
     // Navigation
-    SetPage = 'SET_PAGE'
+    SetPage = 'SET_PAGE',
+
+    // Games
+    LoadGames = 'LOAD_GAMES'
 }
