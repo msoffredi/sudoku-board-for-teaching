@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { StoreState } from "../../reducers";
 import {
+    setSelectedCellCoordinates,
     setSelectedCellValue,
     setGameUpdatedBoard,
     setGameSolution,
@@ -40,14 +41,23 @@ interface GameProps extends GameStateToProps {
     setGameErrorCounter: typeof setGameErrorCounter;
     setGameStatus: typeof setGameStatus;
     setPage: typeof setPage;
+    setSelectedCellCoordinates: typeof setSelectedCellCoordinates;
 }
 
-class GameComponent extends React.Component<GameProps> {
+interface GameState {
+    game: GameDataType;
+}
+
+class GameComponent extends React.Component<GameProps, GameState> {
+    state = { game: this.props.game };
+
     componentDidMount() {
         this.props.setGameUpdatedBoard(this.props.game.start);
         this.props.setGameSolution(this.props.game.solution);
         this.props.setGameStatus(GameStatusType.On);
         this.props.setGameErrorCounter(0);
+        this.props.setSelectedCellValue(null);
+        this.props.setSelectedCellCoordinates(null);
     }
 
     selectNumber = (num: SudokuNumbersType): void => {
@@ -62,7 +72,7 @@ class GameComponent extends React.Component<GameProps> {
         const coordinates = this.props.selectedCell.coordinates;
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -70,7 +80,7 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setSelectedCellValue(num);
 
         // If new value does not match solution, and new value is different than previous...
-        if (this.props.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num
+        if (this.state.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num
             && this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1] !== num) {
 
             // Update error count
@@ -92,7 +102,7 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameUpdatedBoard(this.removeRelevantAnnotations(num, newValues));
 
         // Validate if the game is completed successfully
-        if (JSON.stringify(newValues) === JSON.stringify(this.props.game.solution)) {
+        if (JSON.stringify(newValues) === JSON.stringify(this.state.game.solution)) {
             this.props.setGameStatus(GameStatusType.Finished);
         }
     };
@@ -134,7 +144,7 @@ class GameComponent extends React.Component<GameProps> {
         const coordinates = this.props.selectedCell.coordinates;
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -172,7 +182,7 @@ class GameComponent extends React.Component<GameProps> {
          */
         if (!coordinates
             || !this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1]
-            || this.props.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+            || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
 
             return;
         }
@@ -263,7 +273,7 @@ class GameComponent extends React.Component<GameProps> {
                 {this.renderWinningOverlay()}
                 <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.togglePauseGame} />
                 <Infobar />
-                <Sudoku values={this.props.game.start} />
+                <Sudoku values={this.state.game.start} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
@@ -304,6 +314,7 @@ export const Game = connect(
         setGameSolution,
         setGameErrorCounter,
         setGameStatus,
-        setPage
+        setPage,
+        setSelectedCellCoordinates
     }
 )(GameComponent);

@@ -10,11 +10,11 @@ import { ActionTypes } from "./types";
 
 export interface SetSelectedCellCoordinatesAction {
     type: ActionTypes.SetSelectedCellCoordinates;
-    payload: CellCoordinatesType;
+    payload: CellCoordinatesType | null;
 }
 
 export const setSelectedCellCoordinates = 
-    (coordinates: CellCoordinatesType): SetSelectedCellCoordinatesAction => {
+    (coordinates: CellCoordinatesType | null): SetSelectedCellCoordinatesAction => {
 
     return {
         type: ActionTypes.SetSelectedCellCoordinates,
