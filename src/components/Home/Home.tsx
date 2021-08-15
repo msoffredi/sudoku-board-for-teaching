@@ -1,16 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setPage } from "../../actions";
+import { setPage, loadGames } from "../../actions";
 import { StoreState } from "../../reducers";
-import { Pages } from "../../types";
+import { GameDataType, Pages } from "../../types";
 import './Home.scss';
 
 interface HomeProps extends HomeStateToProps {
     setPage: typeof setPage;
+    loadGames: () => void;
 }
 
 class HomeComponent extends React.Component<HomeProps> {
+    loadGames(): void {
+        if (!this.props.games.length) {
+            this.props.loadGames();
+        }
+    }
+
     onNewGameClick = () => {
+        this.loadGames();
+        // We could set page to error if no puzzles are loaded
         this.props.setPage(Pages.Game);
     };
 
@@ -28,15 +37,17 @@ class HomeComponent extends React.Component<HomeProps> {
 
 interface HomeStateToProps {
     navigation: Pages;
+    games: GameDataType[];
 }
 
 const mapStateToProps = (store: StoreState): HomeStateToProps => {
     return {
-        navigation: store.navigation
+        navigation: store.navigation,
+        games: store.games
     };
 };
 
 export const Home = connect(
     mapStateToProps,
-    { setPage }
+    { setPage, loadGames }
 )(HomeComponent);

@@ -13,6 +13,10 @@ const selectedCellCoordinatesReducer = (
         state = state || null;
 
         if (action.type === ActionTypes.SetSelectedCellCoordinates) {
+            if (action.payload === null) {
+                return null;
+            }
+            
             return Object.assign({}, action.payload);
         }
 

@@ -19,6 +19,7 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
     timerId: NodeJS.Timeout | null = null;
 
     componentDidMount(): void {
+        this.props.setGameTime(this.state.timer);
         this.timerId = setInterval(
             () => this.tick(),
             1000
@@ -36,12 +37,13 @@ class TimerComponent extends React.Component<TimerProps, TimerState> {
     }
 
     tick = (): void => {
+        const { timer } = this.state;
+
         if (this.props.gameStatus === GameStatusType.Finished) {
             this.clearTimer();
+            this.props.setGameTime(timer);
             return;
         }
-
-        const { timer } = this.state;
 
         if (this.props.gameStatus === GameStatusType.On) {
             const newTimer = new Date(timer);
