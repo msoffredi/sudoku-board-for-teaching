@@ -7,7 +7,7 @@ import './Home.scss';
 
 interface HomeProps extends HomeStateToProps {
     setPage: typeof setPage;
-    loadGames: typeof loadGames;
+    loadGames: () => void;
 }
 
 class HomeComponent extends React.Component<HomeProps> {
@@ -19,6 +19,7 @@ class HomeComponent extends React.Component<HomeProps> {
 
     onNewGameClick = () => {
         this.loadGames();
+        // We could set page to error if no puzzles are loaded
         this.props.setPage(Pages.Game);
     };
 

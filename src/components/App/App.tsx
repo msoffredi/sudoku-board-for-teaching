@@ -107,18 +107,16 @@ class AppComponent extends React.Component<AppProps, AppState> {
             ? <Menu menuItems={menuItems} />
             : this.renderLinkBack();
 
-        const game = this.props.games[Math.floor(Math.random() * this.props.games.length)];
-
         return (
             <div id="app">
                 <TopBar>{menu}</TopBar>
                 {this.state.settings ? <Settings closeEvent={this.onSettingsClick} /> : null}
                 {this.state.about ? <About closeEvent={this.onAboutClick} /> : null}
                 <div className="container-center">
-                    {this.props.navigation === Pages.Home
+                    {this.props.navigation === Pages.Home || !this.props.games.length
                         ? <Home />
                         : <div>
-                            <Game game={game} />
+                            <Game game={this.props.games[Math.floor(Math.random() * this.props.games.length)]} />
                         </div>
                     }
                 </div>

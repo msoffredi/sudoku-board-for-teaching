@@ -32,7 +32,7 @@
     "redux-devtools-extension": "^2.13.9"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "coverage": "react-scripts test --watchAll=false --coverage --testResultsProcessor ./node_modules/jest-sonar-reporter/index.js"

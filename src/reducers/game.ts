@@ -27,7 +27,7 @@ const updatedBoardReducer = (
         state = state || emptySudoku;
 
         if (action.type === ActionTypes.SetGameUpdatedBoard) {
-            return JSON.parse(JSON.stringify(action.payload));
+            return action.payload;
         }
 
         return state;
@@ -40,7 +40,7 @@ const solutionReducer = (
         state = state || null;
 
         if (action.type === ActionTypes.SetGameSolution) {
-            return JSON.parse(JSON.stringify(action.payload));
+            return action.payload;
         }
 
         return state;
@@ -86,7 +86,7 @@ const timeReducer =
         state = state || timerStart;
 
         if (action.type === ActionTypes.SetGameTime) {
-            return Object.assign({}, action.payload);
+            return action.payload;
         }
 
         return state;

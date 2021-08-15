@@ -47,6 +47,7 @@ class GameComponent extends React.Component<GameProps> {
         this.props.setGameUpdatedBoard(this.props.game.start);
         this.props.setGameSolution(this.props.game.solution);
         this.props.setGameStatus(GameStatusType.On);
+        this.props.setGameErrorCounter(0);
     }
 
     selectNumber = (num: SudokuNumbersType): void => {
