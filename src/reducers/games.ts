@@ -6,7 +6,7 @@ export const gamesReducer =
         gamesState = gamesState || { data: [], status: GamesStatus.Null, message: '' };
 
         if (action.type === ActionTypes.LoadGames) {
-            return Object.assign(gamesState, action.payload);
+            return action.payload;
         }
 
         return gamesState;

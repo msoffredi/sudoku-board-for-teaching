@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import { Game } from '../.';
-import { GameDataType, GameStatusType, Pages } from '../../types';
+import { GameRow, GameStatusType, Pages } from '../../types';
 import { StoreState } from '../../reducers';
 import { connect } from 'react-redux';
 import { setGameStatus, setPage } from '../../actions';
@@ -86,10 +86,10 @@ interface AppStateToProps {
     gameErrors: number;
     gameTime: Date;
     navigation: Pages;
-    games: GameDataType[];
+    games: GameRow[];
 }
 
-const mapStateToProps = (store: StoreState,): AppStateToProps => {
+const mapStateToProps = (store: StoreState): AppStateToProps => {
     const { status, errorCounter, time } = store.game;
 
     return {

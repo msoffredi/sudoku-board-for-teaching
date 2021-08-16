@@ -1,5 +1,5 @@
-import { GameDataType, Games, GamesStatus } from "../types";
-import { ActionTypes } from "./types";
+import { APIGameRow, GameRow, Games, GamesStatus } from "../types";
+import { ActionTypes } from ".";
 import axios from 'axios';
 import { Dispatch } from "redux";
 
@@ -10,15 +10,21 @@ export interface LoadGamesAction {
 
 export const loadGames = () => {
     return async (dispatch: Dispatch): Promise<void> => {
-        let data: GameDataType[] = [];
-        let status = GamesStatus.Success;
+        let data: GameRow[] = [];
         let message = '';
+        let status = GamesStatus.Success;
 
         try {
-            const response = await axios.get<GameDataType[]>(
+            const response = await axios.get<APIGameRow[]>(
                 process.env['REACT_APP_API_URL'] as string
             );
-            data = response.data;
+            data = response.data.map((row: APIGameRow): GameRow => {
+                return {
+                    puzzle: JSON.parse(row.puzzle),
+                    solution: JSON.parse(row.solution),
+                    id: row.id
+                };
+            });
         } catch (error) {
             status = GamesStatus.Error;
             message = error.message;

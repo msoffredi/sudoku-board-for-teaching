@@ -14,7 +14,7 @@ import {
     AnnotationsType,
     CellGroupValuesType,
     CellValueType,
-    GameDataType,
+    GameRow,
     GameModeType,
     GameStatusType,
     Pages,
@@ -34,7 +34,7 @@ import { SudokuHelper, TimerHelper } from "../../utils";
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
 interface GameProps extends GameStateToProps {
-    game: GameDataType;
+    game: GameRow;
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
@@ -45,14 +45,14 @@ interface GameProps extends GameStateToProps {
 }
 
 interface GameState {
-    game: GameDataType;
+    game: GameRow;
 }
 
 class GameComponent extends React.Component<GameProps, GameState> {
     state = { game: this.props.game };
 
     componentDidMount() {
-        this.props.setGameUpdatedBoard(this.props.game.start);
+        this.props.setGameUpdatedBoard(this.props.game.puzzle);
         this.props.setGameSolution(this.props.game.solution);
         this.props.setGameStatus(GameStatusType.On);
         this.props.setGameErrorCounter(0);
@@ -72,7 +72,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
         const coordinates = this.props.selectedCell.coordinates;
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -144,7 +144,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
         const coordinates = this.props.selectedCell.coordinates;
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -182,7 +182,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
          */
         if (!coordinates
             || !this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1]
-            || this.state.game.start[coordinates.group - 1][coordinates.cell - 1]) {
+            || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
 
             return;
         }
@@ -273,7 +273,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
                 {this.renderWinningOverlay()}
                 <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.togglePauseGame} />
                 <Infobar />
-                <Sudoku values={this.state.game.start} />
+                <Sudoku values={this.state.game.puzzle} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
