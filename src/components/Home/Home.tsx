@@ -43,7 +43,7 @@ interface HomeStateToProps {
 const mapStateToProps = (store: StoreState): HomeStateToProps => {
     return {
         navigation: store.navigation,
-        games: store.games
+        games: store.games.data
     };
 };
 

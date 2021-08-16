@@ -1,12 +1,12 @@
 import { ActionTypes, LoadGamesAction } from "../actions";
-import { GameDataType } from "../types";
+import { Games, GamesStatus } from "../types";
 
 export const gamesReducer = 
-    (gamesState: GameDataType[] | undefined, action: LoadGamesAction): GameDataType[] => {
-        gamesState = gamesState || [];
+    (gamesState: Games | undefined, action: LoadGamesAction): Games => {
+        gamesState = gamesState || { data: [], status: GamesStatus.Null, message: '' };
 
         if (action.type === ActionTypes.LoadGames) {
-            return JSON.parse(JSON.stringify(action.payload));
+            return Object.assign(gamesState, action.payload);
         }
 
         return gamesState;
