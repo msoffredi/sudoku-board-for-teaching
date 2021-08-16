@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setPage, loadGames } from "../../actions";
 import { StoreState } from "../../reducers";
-import { GameDataType, Pages } from "../../types";
+import { GameRow, Pages } from "../../types";
 import './Home.scss';
 
 interface HomeProps extends HomeStateToProps {
@@ -37,7 +37,7 @@ class HomeComponent extends React.Component<HomeProps> {
 
 interface HomeStateToProps {
     navigation: Pages;
-    games: GameDataType[];
+    games: GameRow[];
 }
 
 const mapStateToProps = (store: StoreState): HomeStateToProps => {
