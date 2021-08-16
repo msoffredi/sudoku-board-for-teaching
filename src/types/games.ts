@@ -11,3 +11,15 @@ export interface GameRow {
     solution: SudokuSolutionType;
     id: string;
 }
+
+export enum GamesStatus {
+    Success = 'success',
+    Error = 'error',
+    Null = 'null',
+}
+
+export interface Games {
+    data: GameRow[];
+    status: GamesStatus;
+    message: string;
+}

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { GameRow, Pages, SettingsType } from "../types";
+import { Games, Pages, SettingsType } from "../types";
 import { gameReducer, GameState } from "./game";
 import { gamesReducer } from "./games";
 import { navigationReducer } from "./navigation";
@@ -9,7 +9,7 @@ export interface StoreState {
     game: GameState;
     settings: SettingsType;
     navigation: Pages;
-    games: GameRow[];
+    games: Games;
 }
 
 export const reducers = combineReducers<StoreState>({

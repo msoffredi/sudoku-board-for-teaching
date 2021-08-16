@@ -1,16 +1,18 @@
-import { APIGameRow, GameRow } from "../types";
+import { APIGameRow, GameRow, Games, GamesStatus } from "../types";
 import { ActionTypes } from ".";
 import axios from 'axios';
 import { Dispatch } from "redux";
 
 export interface LoadGamesAction {
     type: ActionTypes.LoadGames;
-    payload: GameRow[];
+    payload: Games;
 }
 
 export const loadGames = () => {
     return async (dispatch: Dispatch): Promise<void> => {
         let data: GameRow[] = [];
+        let message = '';
+        let status = GamesStatus.Success;
 
         try {
             const response = await axios.get<APIGameRow[]>(
@@ -24,12 +26,13 @@ export const loadGames = () => {
                 };
             });
         } catch (error) {
-            console.log(error);
+            status = GamesStatus.Error;
+            message = error.message;
         }
 
         dispatch<LoadGamesAction>({
             type: ActionTypes.LoadGames,
-            payload: data
+            payload: { data, status, message }
         });
     };
 };

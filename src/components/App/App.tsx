@@ -97,7 +97,7 @@ const mapStateToProps = (store: StoreState): AppStateToProps => {
         gameErrors: errorCounter,
         gameTime: time,
         navigation: store.navigation,
-        games: store.games
+        games: store.games.data
     };
 };
 

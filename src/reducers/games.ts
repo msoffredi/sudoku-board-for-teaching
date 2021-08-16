@@ -1,9 +1,9 @@
 import { ActionTypes, LoadGamesAction } from "../actions";
-import { GameRow } from "../types";
+import { Games, GamesStatus } from "../types";
 
 export const gamesReducer = 
-    (gamesState: GameRow[] | undefined, action: LoadGamesAction): GameRow[] => {
-        gamesState = gamesState || [];
+    (gamesState: Games | undefined, action: LoadGamesAction): Games => {
+        gamesState = gamesState || { data: [], status: GamesStatus.Null, message: '' };
 
         if (action.type === ActionTypes.LoadGames) {
             return action.payload;
