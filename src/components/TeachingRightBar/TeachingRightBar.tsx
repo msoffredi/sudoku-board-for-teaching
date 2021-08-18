@@ -1,13 +1,13 @@
 import React from 'react';
-import './TeachingTopBar.scss';
+import './TeachingRightBar.scss';
 
-export class TeachingTopBar extends React.Component {
+export class TeachingRightBar extends React.Component {
     renderArrows(): JSX.Element[] {
         const arrows: JSX.Element[] = [];
 
         for (let i = 1; i < 10; i++) {
-            arrows.push(<div key={`top-arrow${i}`}>
-                <i className="fas fa-caret-down"></i>
+            arrows.push(<div key={`right-arrow${i}`}>
+                <i className="fas fa-caret-left"></i>
             </div>);
         }
 
@@ -16,7 +16,7 @@ export class TeachingTopBar extends React.Component {
 
     render(): JSX.Element {
         return (
-            <div className="teaching-arrows teaching-top-bar">
+            <div className="teaching-arrows teaching-right-bar">
                 {this.renderArrows()}
             </div>
         );

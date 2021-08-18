@@ -1,18 +1,11 @@
-@import '../../styles/colors';
+@import '../../styles/teaching-bars';
 
-.teaching-arrows {
-    display: flex;
-    justify-content: center;
+.teaching-arrows.teaching-top-bar {
+    width: 13.85rem;
 
     & > div {
         width: 1.5rem;
         height: 1.2rem;
-        text-align: center;
         margin-right: 1px;
-
-        & > i {
-            cursor: pointer;
-            color: $color-wrong;
-        }
     }
 }

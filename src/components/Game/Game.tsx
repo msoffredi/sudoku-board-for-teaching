@@ -29,9 +29,11 @@ import {
     Overlay,
     Sudoku,
     Toolbar,
-    TeachingTopBar
+    TeachingTopBar,
+    TeachingRightBar
 } from "../";
 import { SudokuHelper, TimerHelper } from "../../utils";
+import './Game.scss';
 
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
@@ -301,7 +303,10 @@ class GameComponent extends React.Component<GameProps, GameState> {
                 />
                 {this.state.gameType === Pages.Game ? <Infobar /> : null}
                 {this.state.gameType === Pages.Teach ? <TeachingTopBar /> : null}
-                <Sudoku values={this.props.games.data[this.state.gameIndex].puzzle} />
+                <div className="arrange-horizontal">
+                    <Sudoku values={this.props.games.data[this.state.gameIndex].puzzle} />
+                    {this.state.gameType === Pages.Teach ? <TeachingRightBar /> : null}
+                </div>
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );

@@ -42,7 +42,7 @@ class HomeComponent extends React.Component<HomeProps> {
                     <h3>New Game</h3>
                     <p>Click to play a new sudoku game</p>
                 </div>
-                <div className={`button ${inactive}`} onClick={this.onNewTeachClick}>
+                <div className={`button ${inactive} desktop-only`} onClick={this.onNewTeachClick}>
                     <h3>New Teaching Game</h3>
                     <p>Click to open a new sudoku game for teaching</p>
                 </div>

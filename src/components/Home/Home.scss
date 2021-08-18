@@ -35,4 +35,10 @@
             color: $color-light-gray;
         }
     }
+
+    @media screen and (max-width: 600px) {
+        &.desktop-only {
+            display: none;
+        }
+    }
 }
