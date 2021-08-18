@@ -3,7 +3,7 @@ import { ActionTypes } from ".";
 import axios from 'axios';
 import { Dispatch } from "redux";
 
-export interface LoadGamesAction {
+interface LoadGamesAction {
     type: ActionTypes.LoadGames;
     payload: Games;
 }
@@ -37,3 +37,17 @@ export const loadGames = () => {
         });
     };
 };
+
+interface SetGamesAction {
+    type: ActionTypes.SetGames;
+    payload: GameRow[];
+}
+
+export const setGames = (games: GameRow[]): SetGamesAction => {
+    return {
+        type: ActionTypes.SetGames,
+        payload: games
+    };
+};
+
+export type GamesActions = LoadGamesAction | SetGamesAction;

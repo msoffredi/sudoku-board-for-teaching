@@ -8,7 +8,8 @@ import {
     setGameSolution,
     setGameErrorCounter,
     setGameStatus,
-    setPage
+    setPage,
+    setGames
 } from "../../actions";
 import {
     AnnotationsType,
@@ -43,10 +44,10 @@ interface GameProps extends GameStateToProps {
     setGameStatus: typeof setGameStatus;
     setPage: typeof setPage;
     setSelectedCellCoordinates: typeof setSelectedCellCoordinates;
+    setGames: typeof setGames;
 }
 
 interface GameState {
-    // game: GameRow;
     gameIndex: number;
 }
 
@@ -55,7 +56,6 @@ class GameComponent extends React.Component<GameProps, GameState> {
         super(props);
 
         this.state = {
-            // game: Object.assign({}, this.props.games.data[this.props.game])
             gameIndex: this.props.game
         };
     }
@@ -256,6 +256,11 @@ class GameComponent extends React.Component<GameProps, GameState> {
         }
 
         this.props.setPage(Pages.Home);
+
+        // Remove game from list
+        const games = [...this.props.games.data];
+        games.splice(this.state.gameIndex, 1);
+        this.props.setGames(games);
     };
 
     renderWinningOverlay(): JSX.Element {
@@ -330,6 +335,7 @@ export const Game = connect(
         setGameErrorCounter,
         setGameStatus,
         setPage,
-        setSelectedCellCoordinates
+        setSelectedCellCoordinates,
+        setGames
     }
 )(GameComponent);

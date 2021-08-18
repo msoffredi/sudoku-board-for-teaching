@@ -16,5 +16,6 @@ export enum ActionTypes {
     SetPage = 'SET_PAGE',
 
     // Games
-    LoadGames = 'LOAD_GAMES'
+    LoadGames = 'LOAD_GAMES',
+    SetGames = 'SET_GAMES'
 }
