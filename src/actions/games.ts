@@ -13,10 +13,11 @@ export const loadGames = () => {
         let data: GameRow[] = [];
         let message = '';
         let status = GamesStatus.Success;
+        const start = Math.ceil(Math.random()*9999);
 
         try {
             const response = await axios.get<APIGameRow[]>(
-                process.env['REACT_APP_API_URL'] as string
+                `${process.env['REACT_APP_API_URL']}/${start}`
             );
             data = response.data.map((row: APIGameRow): GameRow => {
                 return {

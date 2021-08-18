@@ -72,7 +72,7 @@ class AppComponent extends React.Component<AppProps, AppState> {
                     {this.props.navigation === Pages.Home || !this.props.games.length
                         ? <Home />
                         : <div>
-                            <Game game={this.props.games[Math.floor(Math.random() * this.props.games.length)]} />
+                            <Game game={Math.floor(Math.random() * this.props.games.length)} />
                         </div>
                     }
                 </div>
