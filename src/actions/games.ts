@@ -3,7 +3,7 @@ import { ActionTypes } from ".";
 import axios from 'axios';
 import { Dispatch } from "redux";
 
-export interface LoadGamesAction {
+interface LoadGamesAction {
     type: ActionTypes.LoadGames;
     payload: Games;
 }
@@ -13,10 +13,11 @@ export const loadGames = () => {
         let data: GameRow[] = [];
         let message = '';
         let status = GamesStatus.Success;
+        const start = Math.ceil(Math.random()*9999);
 
         try {
             const response = await axios.get<APIGameRow[]>(
-                process.env['REACT_APP_API_URL'] as string
+                `${process.env['REACT_APP_API_URL']}/${start}`
             );
             data = response.data.map((row: APIGameRow): GameRow => {
                 return {
@@ -36,3 +37,17 @@ export const loadGames = () => {
         });
     };
 };
+
+interface SetGamesAction {
+    type: ActionTypes.SetGames;
+    payload: GameRow[];
+}
+
+export const setGames = (games: GameRow[]): SetGamesAction => {
+    return {
+        type: ActionTypes.SetGames,
+        payload: games
+    };
+};
+
+export type GamesActions = LoadGamesAction | SetGamesAction;

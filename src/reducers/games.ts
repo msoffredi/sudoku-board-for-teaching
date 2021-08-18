@@ -1,13 +1,16 @@
-import { ActionTypes, LoadGamesAction } from "../actions";
+import { ActionTypes, GamesActions } from "../actions";
 import { Games, GamesStatus } from "../types";
 
 export const gamesReducer = 
-    (gamesState: Games | undefined, action: LoadGamesAction): Games => {
+    (gamesState: Games | undefined, action: GamesActions): Games => {
         gamesState = gamesState || { data: [], status: GamesStatus.Null, message: '' };
 
-        if (action.type === ActionTypes.LoadGames) {
-            return action.payload;
-        }
-
-        return gamesState;
+        switch (action.type) {
+            case ActionTypes.LoadGames:
+                return action.payload;
+            case ActionTypes.SetGames:
+                return Object.assign(gamesState, { data: action.payload });
+            default:
+                return gamesState;
+            }
     };

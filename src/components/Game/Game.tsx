@@ -8,19 +8,21 @@ import {
     setGameSolution,
     setGameErrorCounter,
     setGameStatus,
-    setPage
+    setPage,
+    setGames
 } from "../../actions";
 import {
     AnnotationsType,
     CellGroupValuesType,
     CellValueType,
-    GameRow,
+    // GameRow,
     GameModeType,
     GameStatusType,
     Pages,
     SelectedCellType,
     SudokuNumbersType,
-    SudokuValuesType
+    SudokuValuesType,
+    Games
 } from "../../types";
 import {
     Infobar,
@@ -34,7 +36,7 @@ import { SudokuHelper, TimerHelper } from "../../utils";
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
 interface GameProps extends GameStateToProps {
-    game: GameRow;
+    game: number;
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
@@ -42,18 +44,26 @@ interface GameProps extends GameStateToProps {
     setGameStatus: typeof setGameStatus;
     setPage: typeof setPage;
     setSelectedCellCoordinates: typeof setSelectedCellCoordinates;
+    setGames: typeof setGames;
 }
 
 interface GameState {
-    game: GameRow;
+    gameIndex: number;
 }
 
 class GameComponent extends React.Component<GameProps, GameState> {
-    state = { game: this.props.game };
+    constructor(props: GameProps) {
+        super(props);
+
+        this.state = {
+            gameIndex: this.props.game
+        };
+    }
 
     componentDidMount() {
-        this.props.setGameUpdatedBoard(this.props.game.puzzle);
-        this.props.setGameSolution(this.props.game.solution);
+        const game = this.props.games.data[this.state.gameIndex];
+        this.props.setGameUpdatedBoard(game.puzzle);
+        this.props.setGameSolution(game.solution);
         this.props.setGameStatus(GameStatusType.On);
         this.props.setGameErrorCounter(0);
         this.props.setSelectedCellValue(null);
@@ -70,9 +80,10 @@ class GameComponent extends React.Component<GameProps, GameState> {
 
     private selectNumberInNormalMode = (num: SudokuNumbersType): void => {
         const coordinates = this.props.selectedCell.coordinates;
+        const game = this.props.games.data[this.state.gameIndex];
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -80,7 +91,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
         this.props.setSelectedCellValue(num);
 
         // If new value does not match solution, and new value is different than previous...
-        if (this.state.game.solution[coordinates.group - 1][coordinates.cell - 1] !== num
+        if (game.solution[coordinates.group - 1][coordinates.cell - 1] !== num
             && this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1] !== num) {
 
             // Update error count
@@ -102,7 +113,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
         this.props.setGameUpdatedBoard(this.removeRelevantAnnotations(num, newValues));
 
         // Validate if the game is completed successfully
-        if (JSON.stringify(newValues) === JSON.stringify(this.state.game.solution)) {
+        if (JSON.stringify(newValues) === JSON.stringify(game.solution)) {
             this.props.setGameStatus(GameStatusType.Finished);
         }
     };
@@ -142,9 +153,10 @@ class GameComponent extends React.Component<GameProps, GameState> {
 
     private selectNumberInAnnotateMode = (num: SudokuNumbersType): void => {
         const coordinates = this.props.selectedCell.coordinates;
+        const game = this.props.games.data[this.state.gameIndex];
 
         // If no selected cell, or not an editable cell
-        if (!coordinates || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
+        if (!coordinates || game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
             return;
         }
 
@@ -171,6 +183,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
 
     eraseCell = (): void => {
         const coordinates = this.props.selectedCell.coordinates;
+        const game = this.props.games.data[this.state.gameIndex];
 
         /**
          * We do nothing is:
@@ -182,7 +195,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
          */
         if (!coordinates
             || !this.props.updatedBoard[coordinates.group - 1][coordinates.cell - 1]
-            || this.state.game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
+            || game.puzzle[coordinates.group - 1][coordinates.cell - 1]) {
 
             return;
         }
@@ -243,6 +256,11 @@ class GameComponent extends React.Component<GameProps, GameState> {
         }
 
         this.props.setPage(Pages.Home);
+
+        // Remove game from list
+        const games = [...this.props.games.data];
+        games.splice(this.state.gameIndex, 1);
+        this.props.setGames(games);
     };
 
     renderWinningOverlay(): JSX.Element {
@@ -273,7 +291,7 @@ class GameComponent extends React.Component<GameProps, GameState> {
                 {this.renderWinningOverlay()}
                 <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.togglePauseGame} />
                 <Infobar />
-                <Sudoku values={this.state.game.puzzle} />
+                <Sudoku values={this.props.games.data[this.state.gameIndex].puzzle} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
         );
@@ -291,6 +309,7 @@ interface GameStateToProps {
     maxErrors: number;
     mode: GameModeType;
     time: Date;
+    games: Games;
 }
 
 const mapStateToProps = (store: StoreState): GameStateToProps => {
@@ -302,7 +321,8 @@ const mapStateToProps = (store: StoreState): GameStateToProps => {
         status,
         maxErrors: store.settings.maxErrors,
         mode,
-        time
+        time,
+        games: store.games
     };
 };
 
@@ -315,6 +335,7 @@ export const Game = connect(
         setGameErrorCounter,
         setGameStatus,
         setPage,
-        setSelectedCellCoordinates
+        setSelectedCellCoordinates,
+        setGames
     }
 )(GameComponent);
