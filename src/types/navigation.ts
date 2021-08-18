@@ -1,4 +1,5 @@
 export enum Pages {
     Home = 'home',
-    Game = 'game'
+    Game = 'game',
+    Teach = 'teach'
 }

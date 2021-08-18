@@ -10,6 +10,7 @@
     cursor: pointer;
     box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.2);
     color: $color-dark-gray;
+    margin: 1rem;
 
     &:hover {
         background-color: $color-light-highlight;
@@ -23,5 +24,15 @@
 
     p {
         font-size: 0.7rem;
+    }
+
+    &.inactive {
+        cursor: default;
+        color: $color-light-hover;
+        border-color: $color-light-gray;
+
+        h3 {
+            color: $color-light-gray;
+        }
     }
 }
