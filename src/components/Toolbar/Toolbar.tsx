@@ -2,17 +2,24 @@ import React from "react";
 import { connect } from "react-redux";
 import { ToolbarButton } from "..";
 import { StoreState } from "../../reducers";
-import { GameModeType } from "../../types";
+import { GameModeType, Pages } from "../../types";
 import { setGameMode } from "../../actions";
 import './Toolbar.scss';
 
 interface ToolbarProps extends ToolbarStateToProps {
+    gameType: Pages;
     onEraseClick: () => void;
     onPauseClick: () => void;
     setGameMode: typeof setGameMode;
 }
 
-export class ToolbarComponent extends React.Component<ToolbarProps> {
+interface ToolbarState {
+    gameType: Pages;
+}
+
+export class ToolbarComponent extends React.Component<ToolbarProps, ToolbarState> {
+    state = { gameType: this.props.gameType };
+
     onNotesClick = (): void => {
         if (this.props.mode === GameModeType.Edit) {
             this.props.setGameMode(GameModeType.Annotate);
@@ -39,12 +46,20 @@ export class ToolbarComponent extends React.Component<ToolbarProps> {
                     text="Notes"
                     color={annotationsColor}
                 />
-                <ToolbarButton
-                    id="pause-button"
-                    onClick={this.props.onPauseClick}
-                    fontAwesomeClass="far fa-pause-circle"
-                    text="Pause"
-                />
+                {this.state.gameType === Pages.Game
+                    ? <ToolbarButton
+                        id="pause-button"
+                        onClick={this.props.onPauseClick}
+                        fontAwesomeClass="far fa-pause-circle"
+                        text="Pause"
+                    />
+                    : <ToolbarButton
+                        id="spacer-button"
+                        onClick={() => { return; }}
+                        fontAwesomeClass=""
+                        text=""
+                        color="no-pointer"
+                    />}
             </div>
         );
     }

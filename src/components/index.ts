@@ -9,3 +9,4 @@ export * from './Sudoku/Sudoku';
 export * from './Timer/Timer';
 export * from './Toolbar/Toolbar';
 export * from './ToolbarButton/ToolbarButton';
+export * from './TeachingTopBar/TeachingTopBar';

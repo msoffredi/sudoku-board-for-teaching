@@ -15,7 +15,6 @@ import {
     AnnotationsType,
     CellGroupValuesType,
     CellValueType,
-    // GameRow,
     GameModeType,
     GameStatusType,
     Pages,
@@ -29,14 +28,16 @@ import {
     NumBar,
     Overlay,
     Sudoku,
-    Toolbar
-} from "../.";
+    Toolbar,
+    TeachingTopBar
+} from "../";
 import { SudokuHelper, TimerHelper } from "../../utils";
 
 const emptyAnnotations = [null, null, null, null, null, null, null, null, null];
 
 interface GameProps extends GameStateToProps {
-    game: number;
+    gameIndex: number;
+    gameType: Pages;
     setSelectedCellValue: typeof setSelectedCellValue;
     setGameUpdatedBoard: typeof setGameUpdatedBoard;
     setGameSolution: typeof setGameSolution;
@@ -49,14 +50,18 @@ interface GameProps extends GameStateToProps {
 
 interface GameState {
     gameIndex: number;
+    gameType: Pages;
 }
 
 class GameComponent extends React.Component<GameProps, GameState> {
     constructor(props: GameProps) {
         super(props);
 
+        const { gameIndex, gameType } = this.props;
+
         this.state = {
-            gameIndex: this.props.game
+            gameIndex,
+            gameType
         };
     }
 
@@ -289,8 +294,13 @@ class GameComponent extends React.Component<GameProps, GameState> {
                 {this.renderPauseOverlay()}
                 {this.renderLostOverlay()}
                 {this.renderWinningOverlay()}
-                <Toolbar onEraseClick={this.eraseCell} onPauseClick={this.togglePauseGame} />
-                <Infobar />
+                <Toolbar
+                    onEraseClick={this.eraseCell}
+                    onPauseClick={this.togglePauseGame}
+                    gameType={this.state.gameType}
+                />
+                {this.state.gameType === Pages.Game ? <Infobar /> : null}
+                {this.state.gameType === Pages.Teach ? <TeachingTopBar /> : null}
                 <Sudoku values={this.props.games.data[this.state.gameIndex].puzzle} />
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
