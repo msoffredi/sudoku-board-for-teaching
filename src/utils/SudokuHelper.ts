@@ -116,4 +116,43 @@ export class SudokuHelper {
                 return num < 9 ? index+1 as SudokuNumbersType : null;
             });
     }
+
+    /**
+     * This function will convert a cell identified by a group number and a cell number 
+     * into a column, row pair of coordinates. A group is a collection of 9 cells and 
+     * there should be 9 groups in a sudoku game.
+     * 
+     * Columns are 1-9, left to right
+     * Rows are 1-9, top to bottom
+     * 
+     * @param cell 1-9 cell position being 1 top-left, 9 bottom-right
+     * @param group 1-9 group position being 1 top-left, 9 bottom-right
+     * 
+     * @returns Array with 2 elements: column and row coordinates of the cell
+     */
+    public static cellGroupToColRow(
+        cell: SudokuNumbersType, 
+        group: SudokuNumbersType
+    ): [SudokuNumbersType, SudokuNumbersType] {
+        
+        /**
+         *  c6 g5 => c6 r5
+         * 
+         *  row = Math.floor((g-1)/3)*3 + Math.floor((c-1)/3) + 1
+         *  row = 3 + 1 + 1
+         * 
+         * 
+         *  col = ((g-1)%3)*3 + (c-1)%3 + 1
+         *  col = ((5-1)%3)*3 + (6-1)%3 + 1
+         *  col = 3 + 2 + 1 = 6
+         * 
+         *  c2 g6 => c8 r4
+         *  col = 6 + 1 + 1 = 8
+         *  row = 3 + 0 + 1 = 4
+         */ 
+        return [
+            ((group-1)%3)*3 + (cell-1)%3 + 1 as SudokuNumbersType,
+            Math.floor((group-1)/3)*3 + Math.floor((cell-1)/3) + 1 as SudokuNumbersType
+        ];
+    }
 }

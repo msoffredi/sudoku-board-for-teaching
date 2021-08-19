@@ -9,13 +9,15 @@ import {
     CellCoordinatesType,
     CellValueType,
     GameModeType,
+    Pages,
     SelectedCellType,
     SettingsType,
     SudokuNumbersType,
-    SudokuSolutionType
+    SudokuSolutionType,
+    TeachingState
 } from "../../types";
 
-type HighlightClassType = '' | 'same-number' | 'selected' | 'highlighted';
+type HighlightClassType = '' | 'same-number' | 'selected' | 'highlighted' | 'teaching';
 type ColorClassType = '' | 'wrong' | 'edit';
 
 interface ConditionalContent {
@@ -57,19 +59,28 @@ class CellComponent extends React.Component<CellProps, CellState> {
 
     getConditionalContent(): ConditionalContent {
         const { cell, group, selectedCell } = this.props;
+        const coordinates = selectedCell.coordinates;
         let highlightClass: HighlightClassType = '';
         let colorClass: ColorClassType = '';
 
         // If this is the selected cell...
-        if (cell === selectedCell.coordinates?.cell
-            && group === selectedCell.coordinates?.group) {
+        if (cell === coordinates?.cell
+            && group === coordinates?.group) {
 
             highlightClass = 'selected';
+        }
+        // If this is a cell highlighted by teaching arrows
+        else if (this.props.navigation === Pages.Teach) {
+            const [cellCol, cellRow] = SudokuHelper.cellGroupToColRow(cell, group);
+
+            if (this.props.teaching.columns[cellCol] || this.props.teaching.rows[cellRow]) {
+                highlightClass = 'teaching';
+            }
         }
         // If this is a cell with same number as the selected one...
         else if (this.props.settings.highlightIdenticalNumbers
             && this.props.value
-            && this.props.value === this.props.selectedCell.value
+            && this.props.value === selectedCell.value
         ) {
             highlightClass = 'same-number';
         }
@@ -77,7 +88,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
         else if (this.props.settings.highlightAreas
             && SudokuHelper.isCellHighlighted(
                 { cell: this.props.cell, group: this.props.group },
-                selectedCell.coordinates)
+                coordinates)
         ) {
 
             highlightClass = 'highlighted';
@@ -133,6 +144,8 @@ interface CellStateToProps {
     solution: SudokuSolutionType | null;
     mode: GameModeType;
     settings: SettingsType;
+    teaching: TeachingState;
+    navigation: Pages;
 }
 
 const mapStateToProps = (store: StoreState): CellStateToProps => {
@@ -142,7 +155,9 @@ const mapStateToProps = (store: StoreState): CellStateToProps => {
         selectedCell: selectedCell,
         solution: solution,
         mode: mode,
-        settings: store.settings
+        settings: store.settings,
+        teaching: store.teaching,
+        navigation: store.navigation
     };
 };
 

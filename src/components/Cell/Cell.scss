@@ -51,4 +51,8 @@
         @extend %cell-highlight;
         cursor: pointer;
     }
+
+    &.teaching {
+        background-color: $color-teaching-highlight;
+    }
 }
