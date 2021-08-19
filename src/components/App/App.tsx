@@ -71,12 +71,10 @@ class AppComponent extends React.Component<AppProps, AppState> {
                 <div className="container-center">
                     {this.props.navigation === Pages.Home || !this.props.games.length
                         ? <Home />
-                        :
-                        <Game
+                        : <Game
                             gameIndex={Math.floor(Math.random() * this.props.games.length)}
                             gameType={this.props.navigation}
                         />
-
                     }
                 </div>
             </div>

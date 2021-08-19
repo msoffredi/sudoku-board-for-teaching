@@ -12,6 +12,10 @@
         & > i {
             cursor: pointer;
             color: $color-wrong;
+
+            &.arrow-selected {
+                color: $color-light-gray;
+            }
         }
     }
 }

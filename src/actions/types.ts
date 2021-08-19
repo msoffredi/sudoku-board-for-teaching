@@ -17,5 +17,9 @@ export enum ActionTypes {
 
     // Games
     LoadGames = 'LOAD_GAMES',
-    SetGames = 'SET_GAMES'
+    SetGames = 'SET_GAMES',
+
+    // Teaching
+    SetTeachingColumn = 'SET_TEACHING_COLUMN',
+    SetTeachingRow = 'SET_TEACHING_ROW'
 }
