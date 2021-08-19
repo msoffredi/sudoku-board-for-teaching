@@ -6,7 +6,7 @@ interface ToolbarProps {
     text: string;
     id: string;
     fontAwesomeClass: string;
-    color?: 'off' | 'on';
+    color?: 'off' | 'on' | 'no-pointer';
 }
 
 export class ToolbarButton extends React.Component<ToolbarProps> {

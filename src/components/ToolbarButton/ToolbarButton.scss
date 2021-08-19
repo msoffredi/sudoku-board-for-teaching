@@ -3,6 +3,7 @@
 div.toolbar-button {
     padding: 0.2rem;
     border-radius: 0.2rem;
+    width: 2.13rem;
 
     i {
         display: block;
@@ -29,6 +30,10 @@ div.toolbar-button {
         &:hover {
             color: $color-edit;
             cursor: pointer;
+        }
+
+        &.no-pointer {
+            cursor: default;
         }
     }
 }

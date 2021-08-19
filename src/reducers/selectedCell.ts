@@ -10,7 +10,7 @@ const selectedCellCoordinatesReducer = (
         state: SelectedCellType | undefined, 
         action: SetSelectedCellCoordinatesAction
     ): SelectedCellType => {
-        state = state || null;
+        state = state ?? null;
 
         if (action.type === ActionTypes.SetSelectedCellCoordinates) {
             if (action.payload === null) {
@@ -25,7 +25,7 @@ const selectedCellCoordinatesReducer = (
 
 const selectedCellValueReducer = 
     (state: CellValueType | undefined, action: SetSelectedCellValueAction): CellValueType => {
-        state = state || null;
+        state = state ?? null;
         
         if (action.type === ActionTypes.SetSelectedCellValue) {
             return action.payload;

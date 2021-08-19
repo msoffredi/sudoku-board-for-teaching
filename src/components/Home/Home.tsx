@@ -11,24 +11,40 @@ interface HomeProps extends HomeStateToProps {
 }
 
 class HomeComponent extends React.Component<HomeProps> {
-    loadGames(): void {
+    componentDidMount() {
         if (!this.props.games.length) {
             this.props.loadGames();
         }
     }
 
-    onNewGameClick = () => {
-        this.loadGames();
-        // We could set page to error if no puzzles are loaded
-        this.props.setPage(Pages.Game);
+    onNewGameClick = (event: React.MouseEvent): void => {
+        this.homeButtonClick(event, Pages.Game);
     };
 
+    onNewTeachClick = (event: React.MouseEvent): void => {
+        this.homeButtonClick(event, Pages.Teach);
+    };
+
+    private homeButtonClick(event: React.MouseEvent, page: Pages): void {
+        event.preventDefault();
+
+        if (this.props.games.length) {
+            this.props.setPage(page);
+        }
+    }
+
     render(): JSX.Element {
+        const inactive = this.props.games.length ? '' : 'inactive';
+
         return (
             <div>
-                <div className="button" onClick={this.onNewGameClick}>
+                <div className={`button ${inactive}`} onClick={this.onNewGameClick}>
                     <h3>New Game</h3>
                     <p>Click to play a new sudoku game</p>
+                </div>
+                <div className={`button ${inactive} desktop-only`} onClick={this.onNewTeachClick}>
+                    <h3>New Teaching Game</h3>
+                    <p>Click to open a new sudoku game for teaching</p>
                 </div>
             </div>
         );

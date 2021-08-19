@@ -24,7 +24,7 @@ const updatedBoardReducer = (
     state: SudokuValuesType | undefined, 
     action: SetGameUpdatedBoardAction
     ): SudokuValuesType => {
-        state = state || emptySudoku;
+        state = state ?? emptySudoku;
 
         if (action.type === ActionTypes.SetGameUpdatedBoard) {
             return action.payload;
@@ -37,7 +37,7 @@ const solutionReducer = (
     state: SudokuSolutionType | null | undefined, 
     action: SetGameSolutionAction
     ): SudokuSolutionType | null => {
-        state = state || null;
+        state = state ?? null;
 
         if (action.type === ActionTypes.SetGameSolution) {
             return action.payload;
@@ -48,7 +48,7 @@ const solutionReducer = (
 
 const errorCounterReducer =
     (state: number | undefined, action: SetGameErrorCounterAction): number => {
-        state = state || 0;
+        state = state ?? 0;
 
         if (action.type === ActionTypes.SetGameErrorCounter) {
             return action.payload;
@@ -59,7 +59,7 @@ const errorCounterReducer =
 
 const statusReducer =
     (state: GameStatusType | undefined, action: SetGameStatusAction): GameStatusType => {
-        state = state || GameStatusType.Off;
+        state = state ?? GameStatusType.Off;
 
         if (action.type === ActionTypes.SetGameStatus) {
             return action.payload;
@@ -70,7 +70,7 @@ const statusReducer =
 
 const modeReducer = 
     (state: GameModeType| undefined, action: SetGameModeAction): GameModeType => {
-        state = state || GameModeType.Edit;
+        state = state ?? GameModeType.Edit;
 
         if (action.type === ActionTypes.SetGameMode) {
             return action.payload;
@@ -83,7 +83,7 @@ const timerStart = new Date(new Date().setHours(0, 0, 0, 0));
 
 const timeReducer =
     (state: Date | undefined, action: SetGameTimeAction): Date => {
-        state = state || timerStart;
+        state = state ?? timerStart;
 
         if (action.type === ActionTypes.SetGameTime) {
             return action.payload;

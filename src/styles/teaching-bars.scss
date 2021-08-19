@@ -1,0 +1,21 @@
+@import './colors';
+
+.teaching-arrows {
+    display: flex;
+    justify-content: center;
+
+    & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > i {
+            cursor: pointer;
+            color: $color-wrong;
+
+            &.arrow-selected {
+                color: $color-light-gray;
+            }
+        }
+    }
+}

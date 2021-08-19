@@ -1,0 +1,11 @@
+@import '../../styles/teaching-bars';
+
+.teaching-arrows.teaching-top-bar {
+    width: 13.85rem;
+
+    & > div {
+        width: 1.5rem;
+        height: 1.2rem;
+        margin-right: 1px;
+    }
+}
