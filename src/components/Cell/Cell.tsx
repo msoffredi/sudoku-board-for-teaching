@@ -62,6 +62,7 @@ class CellComponent extends React.Component<CellProps, CellState> {
         const coordinates = selectedCell.coordinates;
         let highlightClass: HighlightClassType = '';
         let colorClass: ColorClassType = '';
+        const [cellCol, cellRow] = SudokuHelper.cellGroupToColRow(cell, group);
 
         // If this is the selected cell...
         if (cell === coordinates?.cell
@@ -70,12 +71,10 @@ class CellComponent extends React.Component<CellProps, CellState> {
             highlightClass = 'selected';
         }
         // If this is a cell highlighted by teaching arrows
-        else if (this.props.navigation === Pages.Teach) {
-            const [cellCol, cellRow] = SudokuHelper.cellGroupToColRow(cell, group);
+        else if (this.props.navigation === Pages.Teach
+            && this.props.teaching.columns[cellCol] || this.props.teaching.rows[cellRow]) {
 
-            if (this.props.teaching.columns[cellCol] || this.props.teaching.rows[cellRow]) {
-                highlightClass = 'teaching';
-            }
+            highlightClass = 'teaching';
         }
         // If this is a cell with same number as the selected one...
         else if (this.props.settings.highlightIdenticalNumbers
