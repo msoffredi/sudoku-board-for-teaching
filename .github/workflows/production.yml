@@ -1,12 +1,8 @@
-name: Production Build
+# This is the production pipeline to build the artifacts and deploy them to AWS
+name: Production Build and Deploy
 on:
     push:
         branches: [main]
-    # pull_request:
-    #   branches: [ main ]
-
-    workflow_dispatch:
-
 jobs:
     build:
         runs-on: ubuntu-latest
