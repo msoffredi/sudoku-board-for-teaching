@@ -17,17 +17,18 @@ export const defaultSettings: SettingsType = {
 export const settingsReducer = 
     (state: SettingsType | undefined, action: SetSettingsAction): SettingsType => {
         const cookies = new Cookies();
-        let settings = state ? Object.assign({}, state) : cookies.settings;
+        state = state ?? cookies.settings;
         
         if (action.type === ActionTypes.SetSettings) {
-            settings = Object.assign(settings, action.payload);
+            const settings = {...state, ...action.payload};
 
             if (settings.maxErrors < 0 || settings.maxErrors > 255) {
                 settings.maxErrors = defaultSettings.maxErrors;
             }
 
             cookies.settings = settings;
+            return settings;
         }
 
-        return settings;
+        return state;
     };

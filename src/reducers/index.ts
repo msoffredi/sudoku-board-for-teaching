@@ -23,8 +23,8 @@ export const reducers = combineReducers<StoreState>({
 });
 
 export * from './game';
-export * from './selectedCell';
-export * from './navigation';
-export * from './settings';
 export * from './games';
+export * from './navigation';
+export * from './selectedCell';
+export * from './settings';
 export * from './teaching';

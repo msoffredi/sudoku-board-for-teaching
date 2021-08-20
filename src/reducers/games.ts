@@ -9,7 +9,7 @@ export const gamesReducer =
             case ActionTypes.LoadGames:
                 return action.payload;
             case ActionTypes.SetGames:
-                return Object.assign({}, gamesState, { data: action.payload });
+                return {...gamesState, data: action.payload };
             default:
                 return gamesState;
             }

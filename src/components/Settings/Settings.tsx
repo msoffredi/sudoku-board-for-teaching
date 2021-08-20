@@ -55,9 +55,9 @@ class SettingsComponent extends React.Component<SettingsProps, SettingsState> {
         let newState;
 
         if (e.target.name === "max-errors") {
-            newState = Object.assign(settings, { maxErrors: Number(e.target.value) });
+            newState = { ...settings, maxErrors: Number(e.target.value) };
         } else {
-            newState = Object.assign(settings, { [e.target.name]: e.target.checked });
+            newState = { ...settings, [e.target.name]: e.target.checked };
         }
 
         this.setState({ settings: newState });
