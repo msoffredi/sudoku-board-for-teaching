@@ -14,25 +14,34 @@ const defaultTeachingBar = {
 };
 
 const defaultTeachingState: TeachingState = {
-    columns: Object.assign({}, defaultTeachingBar),
-    rows: Object.assign({}, defaultTeachingBar)
+    columns: {...defaultTeachingBar},
+    rows: {...defaultTeachingBar}
 };
 
 export const teachingReducer = 
     (teachingState: TeachingState | undefined, action: TeachingActions): TeachingState => {
         teachingState = teachingState ?? defaultTeachingState;
-        const newState = Object.assign({}, teachingState);
 
         switch (action.type) {
             case ActionTypes.SetTeachingColumn:
-                newState.columns[action.payload] = !teachingState.columns[action.payload];
-                return newState;
+                return {
+                    ...teachingState, 
+                    columns: {
+                        ...teachingState.columns, 
+                        [action.payload]: !teachingState.columns[action.payload]
+                    }
+                };
 
-                case ActionTypes.SetTeachingRow:
-                    newState.rows[action.payload] = !teachingState.rows[action.payload];
-                    return newState;
-    
-                default: 
+            case ActionTypes.SetTeachingRow:
+                return {
+                    ...teachingState, 
+                    rows: {
+                        ...teachingState.rows, 
+                        [action.payload]: !teachingState.rows[action.payload]
+                    }
+                };
+
+            default: 
                 return teachingState;
         }
     };

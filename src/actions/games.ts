@@ -8,16 +8,18 @@ interface LoadGamesAction {
     payload: Games;
 }
 
+const puzzlesTotal = 10000;
+
 export const loadGames = () => {
     return async (dispatch: Dispatch): Promise<void> => {
         let data: GameRow[] = [];
         let message = '';
         let status = GamesStatus.Success;
-        const start = Math.ceil(Math.random()*9999);
+        const start = Math.ceil(Math.random()*(puzzlesTotal-1));
 
         try {
             const response = await axios.get<APIGameRow[]>(
-                `${process.env['REACT_APP_API_URL']}/${start}`
+                `${process.env['REACT_APP_API_URL']}/puzzles?start=${start}`
             );
             data = response.data.map((row: APIGameRow): GameRow => {
                 return {
