@@ -291,6 +291,9 @@ class GameComponent extends React.Component<GameProps, GameState> {
     }
 
     render(): JSX.Element {
+        const { id, puzzle } = this.props.games.data[this.state.gameIndex];
+        const { gameType } = this.state;
+
         return (
             <div id="game-container">
                 {this.renderPauseOverlay()}
@@ -299,13 +302,16 @@ class GameComponent extends React.Component<GameProps, GameState> {
                 <Toolbar
                     onEraseClick={this.eraseCell}
                     onPauseClick={this.togglePauseGame}
-                    gameType={this.state.gameType}
+                    gameType={gameType}
                 />
-                {this.state.gameType === Pages.Game ? <Infobar /> : null}
-                {this.state.gameType === Pages.Teach ? <TeachingTopBar /> : null}
+                {gameType === Pages.Game
+                    ? <Infobar gameId={id} />
+                    : null
+                }
+                {gameType === Pages.Teach ? <TeachingTopBar /> : null}
                 <div className="arrange-horizontal">
-                    <Sudoku values={this.props.games.data[this.state.gameIndex].puzzle} />
-                    {this.state.gameType === Pages.Teach ? <TeachingRightBar /> : null}
+                    <Sudoku values={puzzle} />
+                    {gameType === Pages.Teach ? <TeachingRightBar /> : null}
                 </div>
                 <NumBar cellOnClick={this.selectNumber} />
             </div>
