@@ -9,9 +9,14 @@
 
     & > div {
         width: 4.5rem;
+        text-align: center;
     }
 
-    #timer {
+    :first-child {
+        text-align: left;
+    }
+
+    :last-child {
         text-align: right;
     }
 }

@@ -4,8 +4,9 @@ import { Timer } from "..";
 import { StoreState } from "../../reducers";
 import './Infobar.scss';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface InfobarProps extends InfobarStateToProps { }
+interface InfobarProps extends InfobarStateToProps {
+    gameId: string
+}
 
 export class InfobarComponent extends React.Component<InfobarProps> {
     renderErrors(): string {
@@ -19,8 +20,9 @@ export class InfobarComponent extends React.Component<InfobarProps> {
     render(): JSX.Element {
         return (
             <div id="info">
-                <div id="errors">Errors: {this.renderErrors()}</div>
-                <div id="timer">
+                <div>Errors: {this.renderErrors()}</div>
+                <div>#{this.props.gameId}</div>
+                <div>
                     <i className="far fa-clock"></i>
                     <Timer />
                 </div>
