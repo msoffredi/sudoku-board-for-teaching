@@ -2,7 +2,8 @@ import _Cookies from 'universal-cookie';
 import { defaultSettings } from '../reducers/settings';
 import { SettingsType } from '../types';
 
-const cookiesName = '_ssbt';
+export const cookiesName = '_ssbt';
+export const cookiePath = '/';
 
 interface CookiesType {
     settings: SettingsType;
@@ -35,6 +36,6 @@ export class Cookies {
     }
 
     private save(): void {
-        this.cookies.set(cookiesName, this.data, { path: '/' });
+        this.cookies.set(cookiesName, this.data, { path: cookiePath });
     }
 }
